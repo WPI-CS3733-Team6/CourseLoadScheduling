@@ -42,7 +42,7 @@ public class InstructorCourseLinkRegistered extends Model {
 		COLUMN_TYPE_MAP.put(Columns.DELETED, JDBCType.BOOLEAN);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP);	
-	}
+	};
 	
 	//attributes
 	

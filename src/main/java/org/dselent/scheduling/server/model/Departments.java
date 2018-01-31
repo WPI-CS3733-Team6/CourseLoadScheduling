@@ -39,7 +39,7 @@ public class Departments extends Model {
 		COLUMN_TYPE_MAP.put(Columns.DEPT_NAME, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP);
-	}
+	};
 	
 	//attributes
 	
