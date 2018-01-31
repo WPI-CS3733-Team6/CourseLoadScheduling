@@ -1,6 +1,7 @@
 package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,10 +45,10 @@ public class CourseDepartmentLink extends Model{
 	//attributes
 
 	private Integer id;
-	private String courseId;
-	private String deptId;
-	private Instant createdAt;
-	private Instant updatedAt;
+	private Integer courseId;
+	private Integer deptId;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 	
 	public static JDBCType getColumnType(Columns column)
 	{
@@ -77,28 +78,28 @@ public class CourseDepartmentLink extends Model{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCourseId() {
+	public Integer getCourseId() {
 		return courseId;
 	}
-	public void setCourseId(String courseId) {
+	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
-	public String getDeptId() {
+	public Integer getDeptId() {
 		return deptId;
 	}
-	public void setDeptId(String deptId) {
+	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
 	}
-	public Instant getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Instant getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Instant updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 	@Override
