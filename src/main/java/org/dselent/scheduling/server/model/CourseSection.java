@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CourseSection {
+public class CourseSection extends Model{
 	
 	//table name
 	public static final String TABLE_NAME = "instructors";
