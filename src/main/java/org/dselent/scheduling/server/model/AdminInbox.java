@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dselent.scheduling.server.model.User.Columns;
+
 public class AdminInbox extends Model{
 	// table name
 	public static final String TABLE_NAME = "admin_inbox";
@@ -56,11 +58,36 @@ public class AdminInbox extends Model{
 	private String subjectLine;
 	private String content;
 	private Boolean status;
-	private Instant createdAt;
-	private Instant updatedAt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
+	
+	// methods
+	
+	public static JDBCType getColumnType(Columns column){
+		return COLUMN_TYPE_MAP.get(column);
+	}
+	
+	public static String getColumnName(Columns column)
+	{
+		return column.toString().toLowerCase();
+	}
+	
+	public static List<String> getColumnNameList()
+	{
+		List<String> columnNameList = new ArrayList<>();
+		
+		for(Columns column : COLUMN_LIST)
+		{
+			columnNameList.add(getColumnName(column));
+		}
+		
+		return columnNameList;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -94,16 +121,16 @@ public class AdminInbox extends Model{
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-	public Instant getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Instant getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Instant updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 	@Override
