@@ -11,7 +11,7 @@ import java.util.Map;
 public class CourseSection extends Model{
 	
 	//table name
-	public static final String TABLE_NAME = "instructors";
+	public static final String TABLE_NAME = "course_sections";
 	
 	//column names
 	public static enum Columns

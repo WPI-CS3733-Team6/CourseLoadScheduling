@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CourseSchedule extends Model{
 	//table name
-	public static final String TABLE_NAME = "instructors";
+	public static final String TABLE_NAME = "course_schedule";
 
 	//column names
 	public static enum Columns
