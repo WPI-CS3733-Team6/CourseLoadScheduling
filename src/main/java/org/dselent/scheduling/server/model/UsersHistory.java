@@ -73,7 +73,7 @@ public class UsersHistory extends Model
 	private String salt;
 	private Integer userStateId;
 	private Integer userRole;
-	private Instant createdAt;
+	private Timestamp createdAt;
 
 	// methods
 	
@@ -195,11 +195,11 @@ public class UsersHistory extends Model
 		this.userRole = userRole;
 	}
 
-	public Instant getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 

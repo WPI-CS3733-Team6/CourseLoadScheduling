@@ -51,8 +51,8 @@ public class UsersRolesLink extends Model
 	private Integer id;
 	private Integer userId;
 	private Integer roleId;
-	private Instant createdAt;
-	private Instant updatedAt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 	private Boolean deleted;
 
 	// methods
@@ -103,19 +103,19 @@ public class UsersRolesLink extends Model
 		this.roleId = roleId;
 	}
 
-	public Instant getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Instant getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Instant updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
