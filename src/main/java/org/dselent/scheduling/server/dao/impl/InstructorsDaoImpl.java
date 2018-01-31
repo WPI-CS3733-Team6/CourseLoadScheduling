@@ -1,3 +1,4 @@
+/*
 package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.dselent.scheduling.server.dao.InstructorsDao;
-import org.dselent.scheduling.server.extractor.InstructorExtractor;	//Does not yet exist
+import org.dselent.scheduling.server.extractor.InstructorExtractor;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.miscellaneous.QueryStringBuilder;
 import org.dselent.scheduling.server.model.Instructor;
@@ -19,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+*/
 
 /*
  * @Repository annotation
@@ -27,6 +29,8 @@ import org.springframework.stereotype.Repository;
  * Useful link
  * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
  */
+
+/*
 @Repository
 public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements InstructorsDao
 {
@@ -214,3 +218,4 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 		}
 	}
 }
+*/

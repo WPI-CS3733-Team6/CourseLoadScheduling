@@ -1,4 +1,5 @@
-package org.dselent.scheduling.server.dao.impl;
+/*
+ * package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -19,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+*/
 
 /*
  * @Repository annotation
@@ -27,6 +29,8 @@ import org.springframework.stereotype.Repository;
  * Useful link
  * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
  */
+
+/*
 @Repository
 public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
 {
@@ -293,3 +297,5 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
 		}
 	}
 }
+
+*/

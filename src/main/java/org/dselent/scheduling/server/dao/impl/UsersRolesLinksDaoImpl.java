@@ -1,4 +1,4 @@
-package org.dselent.scheduling.server.dao.impl;
+/*package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -212,3 +212,5 @@ public class UsersRolesLinksDaoImpl extends BaseDaoImpl<UsersRolesLink> implemen
 		}
 	}
 }
+
+*/
