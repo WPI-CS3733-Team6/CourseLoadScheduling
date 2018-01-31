@@ -18,7 +18,7 @@ public class UserState extends Model
 	public static enum Columns
 	{
 		ID,
-		STATE,
+		DELETED,
 		CREATED_AT,
 		UPDATED_AT
 	}
@@ -37,7 +37,7 @@ public class UserState extends Model
 		}
 		
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.STATE, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.DELETED, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 	};
@@ -45,7 +45,7 @@ public class UserState extends Model
 	// attributes
 	
 	private Integer id;
-	private String state;
+	private String deleted;
 	private Instant createdAt;
 	private Instant updatedAt;
 
@@ -87,12 +87,12 @@ public class UserState extends Model
 
 	public String getState()
 	{
-		return state;
+		return deleted;
 	}
 
 	public void setState(String state)
 	{
-		this.state = state;
+		this.deleted = state;
 	}
 
 	public Instant getCreatedAt()
@@ -138,7 +138,7 @@ public class UserState extends Model
 		int result = 1;
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + ((deleted == null) ? 0 : deleted.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
@@ -181,14 +181,14 @@ public class UserState extends Model
 		{
 			return false;
 		}
-		if (state == null)
+		if (deleted == null)
 		{
-			if (other.state != null)
+			if (other.deleted != null)
 			{
 				return false;
 			}
 		}
-		else if (!state.equals(other.state))
+		else if (!deleted.equals(other.deleted))
 		{
 			return false;
 		}
@@ -213,7 +213,7 @@ public class UserState extends Model
 		builder.append("UserStates [id=");
 		builder.append(id);
 		builder.append(", state=");
-		builder.append(state);
+		builder.append(deleted);
 		builder.append(", createdAt=");
 		builder.append(createdAt);
 		builder.append(", updatedAt=");
