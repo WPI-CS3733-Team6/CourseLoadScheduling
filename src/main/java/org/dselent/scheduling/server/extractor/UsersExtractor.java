@@ -29,14 +29,23 @@ public class UsersExtractor extends Extractor<List<User>>
 			result.setFirstName(rs.getString(User.getColumnName(User.Columns.FIRST_NAME)));
 			result.setLastName(rs.getString(User.getColumnName(User.Columns.LAST_NAME)));
 			result.setEmail(rs.getString(User.getColumnName(User.Columns.EMAIL)));
+			result.setPhoneNum(rs.getInt(User.getColumnName(User.Columns.PHONE_NUM)));
+			
+			if(rs.wasNull()) {
+				result.setPhoneNum(null);
+			}
+			
+			result.setSecondaryEmail(rs.getString(User.getColumnName(User.Columns.SECONDARY_EMAIL)));
 			result.setEncryptedPassword(rs.getString(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD)));
 			result.setSalt(rs.getString(User.getColumnName(User.Columns.SALT)));
 			
 			result.setUserStateId(rs.getInt(User.getColumnName(User.Columns.USER_STATE_ID)));
+			result.setUserRole(rs.getInt(User.getColumnName(User.Columns.USER_ROLE)));
 			
 			if(rs.wasNull())
 			{
 				result.setUserStateId(null);
+				result.setUserRole(null);
 			}
 			
 			result.setCreatedAt(rs.getTimestamp(User.getColumnName(User.Columns.CREATED_AT)));
