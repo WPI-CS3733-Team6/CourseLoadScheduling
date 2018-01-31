@@ -29,7 +29,7 @@ public class UsersExtractor extends Extractor<List<User>>
 			result.setFirstName(rs.getString(User.getColumnName(User.Columns.FIRST_NAME)));
 			result.setLastName(rs.getString(User.getColumnName(User.Columns.LAST_NAME)));
 			result.setEmail(rs.getString(User.getColumnName(User.Columns.EMAIL)));
-			result.setPhoneNum(rs.getInt(User.getColumnName(User.Columns.PHONE_NUM)));
+			result.setPhoneNum(rs.getLong(User.getColumnName(User.Columns.PHONE_NUM)));
 			
 			if(rs.wasNull()) {
 				result.setPhoneNum(null);
