@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dselent.scheduling.server.model.User.Columns;
+
 public class CourseSection extends Model{
 	
 	//table name
@@ -59,6 +61,29 @@ public class CourseSection extends Model{
 	private Boolean deleted;
 	private Instant createdAt;
 	private Instant updatedAt;
+	
+	public static JDBCType getColumnType(Columns column)
+	{
+		return COLUMN_TYPE_MAP.get(column);
+	}
+	
+	public static String getColumnName(Columns column)
+	{
+		return column.toString().toLowerCase();
+	}
+	
+	public static List<String> getColumnNameList()
+	{
+		List<String> columnNameList = new ArrayList<>();
+		
+		for(Columns column : COLUMN_LIST)
+		{
+			columnNameList.add(getColumnName(column));
+		}
+		
+		return columnNameList;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

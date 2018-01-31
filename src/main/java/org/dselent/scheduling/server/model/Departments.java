@@ -50,6 +50,28 @@ public class Departments extends Model {
 	
 	//methods
 	
+	public static JDBCType getColumnType(Columns column)
+	{
+		return COLUMN_TYPE_MAP.get(column);
+	}
+	
+	public static String getColumnName(Columns column)
+	{
+		return column.toString().toLowerCase();
+	}
+	
+	public static List<String> getColumnNameList()
+	{
+		List<String> columnNameList = new ArrayList<>();
+		
+		for(Columns column : COLUMN_LIST)
+		{
+			columnNameList.add(getColumnName(column));
+		}
+		
+		return columnNameList;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
