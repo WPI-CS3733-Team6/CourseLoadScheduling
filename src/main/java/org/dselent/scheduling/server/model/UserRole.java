@@ -19,8 +19,7 @@ public class UserRole extends Model
 		ID,
 		ROLE_NAME,
 		CREATED_AT,
-		UPDATED_AT,
-		DELETED
+		UPDATED_AT
 	}
 
 	// enum list
@@ -40,7 +39,6 @@ public class UserRole extends Model
 		COLUMN_TYPE_MAP.put(Columns.ROLE_NAME, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
-		COLUMN_TYPE_MAP.put(Columns.DELETED, JDBCType.BOOLEAN);
 	};
 	
 	// attributes
@@ -49,8 +47,7 @@ public class UserRole extends Model
 	private String roleName;
 	private Instant createdAt;
 	private Instant updatedAt;
-	private Boolean deleted;
-
+	
 	// methods
 	
 	public static JDBCType getColumnType(Columns column)
@@ -132,16 +129,6 @@ public class UserRole extends Model
 			this.updatedAt = updatedAt.toInstant();
 		}
 	}
-	
-	public Boolean isDeleted()
-	{
-		return deleted;
-	}
-	
-	public void setDeleted(Boolean deleted)
-	{
-		this.deleted = deleted;
-	}
 
 	@Override
 	public int hashCode()
@@ -149,7 +136,6 @@ public class UserRole extends Model
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result + ((deleted == null) ? 0 : deleted.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
@@ -183,17 +169,7 @@ public class UserRole extends Model
 		{
 			return false;
 		}
-		if (deleted == null)
-		{
-			if (other.deleted != null)
-			{
-				return false;
-			}
-		}
-		else if (!deleted.equals(other.deleted))
-		{
-			return false;
-		}
+		
 		if (id == null)
 		{
 			if (other.id != null)
@@ -242,8 +218,6 @@ public class UserRole extends Model
 		builder.append(createdAt);
 		builder.append(", updatedAt=");
 		builder.append(updatedAt);
-		builder.append(", deleted=");
-		builder.append(deleted);
 		builder.append("]");
 		return builder.toString();
 	}

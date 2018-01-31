@@ -20,8 +20,7 @@ public class UserState extends Model
 		ID,
 		STATE,
 		CREATED_AT,
-		UPDATED_AT,
-		DELETED
+		UPDATED_AT
 	}
 	
 	// enum list
@@ -41,7 +40,6 @@ public class UserState extends Model
 		COLUMN_TYPE_MAP.put(Columns.STATE, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
-		COLUMN_TYPE_MAP.put(Columns.DELETED, JDBCType.BOOLEAN);
 	};
 	
 	// attributes
@@ -50,7 +48,6 @@ public class UserState extends Model
 	private String state;
 	private Instant createdAt;
 	private Instant updatedAt;
-	private Boolean deleted;
 
 	// methods
 	
@@ -133,16 +130,6 @@ public class UserState extends Model
 			this.updatedAt = updatedAt.toInstant();
 		}
 	}
-	
-	public Boolean isDeleted()
-	{
-		return deleted;
-	}
-	
-	public void setDeleted(Boolean deleted)
-	{
-		this.deleted = deleted;
-	}
 
 	@Override
 	public int hashCode()
@@ -150,7 +137,6 @@ public class UserState extends Model
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result + ((deleted == null) ? 0 : deleted.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
@@ -181,17 +167,6 @@ public class UserState extends Model
 			}
 		}
 		else if (!createdAt.equals(other.createdAt))
-		{
-			return false;
-		}
-		if (deleted == null)
-		{
-			if (other.deleted != null)
-			{
-				return false;
-			}
-		}
-		else if (!deleted.equals(other.deleted))
 		{
 			return false;
 		}
@@ -243,8 +218,6 @@ public class UserState extends Model
 		builder.append(createdAt);
 		builder.append(", updatedAt=");
 		builder.append(updatedAt);
-		builder.append(", deleted=");
-		builder.append(deleted);
 		builder.append("]");
 		return builder.toString();
 	}

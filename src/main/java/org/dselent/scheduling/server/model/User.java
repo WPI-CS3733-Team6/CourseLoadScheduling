@@ -22,8 +22,11 @@ public class User extends Model
 		FIRST_NAME,
 		LAST_NAME,
 		EMAIL,
+		PHONE_NUM,
+		SECONDARY_EMAIL,
 		ENCRYPTED_PASSWORD,
 		SALT,
+		USER_ROLE,
 		USER_STATE_ID,
 		CREATED_AT,
 		UPDATED_AT
@@ -35,7 +38,7 @@ public class User extends Model
 	// type mapping
 	private static final Map<Columns, JDBCType> COLUMN_TYPE_MAP = new HashMap<>();
 	
-	static
+	static 
 	{
 		for(Columns key : Columns.values())
 		{
@@ -46,8 +49,12 @@ public class User extends Model
 		COLUMN_TYPE_MAP.put(Columns.USER_NAME, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.FIRST_NAME, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.LAST_NAME, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.EMAIL, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.PHONE_NUM, JDBCType.BIGINT);
+		COLUMN_TYPE_MAP.put(Columns.SECONDARY_EMAIL, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.ENCRYPTED_PASSWORD, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.SALT, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.USER_ROLE, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.USER_STATE_ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
@@ -60,8 +67,11 @@ public class User extends Model
 	private String firstName;
 	private String lastName;
 	private String email;
+	private Long phoneNum; //not sure if correct type for this
+	private String secondaryEmail;
 	private String encryptedPassword;
 	private String salt;
+	private Integer userRole;
 	private Integer userStateId;
 	private Instant createdAt;
 	private Instant updatedAt;
@@ -142,7 +152,27 @@ public class User extends Model
 	{
 		this.email = email;
 	}
+	
+	public long getPhoneNum()
+	{
+		return phoneNum;
+	}
+	
+	public void setPhoneNum(long phoneNum)
+	{
+		this.phoneNum = phoneNum;
+	}
 
+	public String getSecondaryEmail()
+	{
+		return secondaryEmail;
+	}
+	
+	public void setSecondaryEmail(String secondaryEmail)
+	{
+		this.secondaryEmail = secondaryEmail;
+	}
+	
 	public String getEncryptedPassword()
 	{
 		return encryptedPassword;
@@ -161,6 +191,16 @@ public class User extends Model
 	public void setSalt(String salt)
 	{
 		this.salt = salt;
+	}
+	
+	public int getUserRole()
+	{
+		return userRole;
+	}
+
+	public void setUserRole(int userRole)
+	{
+		this.userRole = userRole;
 	}
 
 	public Integer getUserStateId()
@@ -210,7 +250,7 @@ public class User extends Model
 	}
 
 	@Override
-	public int hashCode()
+	public int hashCode() //not sure what order to put the new columns in here, probably random though
 	{
 		final int prime = 31;
 		int result = 1;
@@ -224,6 +264,9 @@ public class User extends Model
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		result = prime * result + ((userStateId == null) ? 0 : userStateId.hashCode());
+		result = prime * result + ((userRole == null) ? 0 : userRole.hashCode());
+		result = prime * result + ((phoneNum == null) ? 0 : phoneNum.hashCode());
+		result = prime * result + ((secondaryEmail == null) ? 0 : secondaryEmail.hashCode());
 		return result;
 	}
 
@@ -353,6 +396,39 @@ public class User extends Model
 		{
 			return false;
 		}
+		if (phoneNum == null)
+		{
+			if (other.phoneNum != null)
+			{
+				return false;
+			}
+		}
+		else if (!phoneNum.equals(other.phoneNum))
+		{
+			return false;
+		}
+		if (secondaryEmail == null)
+		{
+			if (other.secondaryEmail != null)
+			{
+				return false;
+			}
+		}
+		else if (!secondaryEmail.equals(other.secondaryEmail))
+		{
+			return false;
+		}
+		if (userRole == null)
+		{
+			if (other.userRole != null)
+			{
+				return false;
+			}
+		}
+		else if (!userRole.equals(other.userRole))
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -371,10 +447,16 @@ public class User extends Model
 		builder.append(lastName);
 		builder.append(", email=");
 		builder.append(email);
+		builder.append(", phoneNum=");
+		builder.append(phoneNum);
+		builder.append(", secondaryEmail=");
+		builder.append(secondaryEmail);
 		builder.append(", encryptedPassword=");
 		builder.append(encryptedPassword);
 		builder.append(", salt=");
 		builder.append(salt);
+		builder.append(", userRole=");
+		builder.append(userRole);
 		builder.append(", userStateId=");
 		builder.append(userStateId);
 		builder.append(", createdAt=");
