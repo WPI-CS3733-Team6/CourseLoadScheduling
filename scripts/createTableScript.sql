@@ -95,9 +95,12 @@ CREATE TABLE users_history
 	first_name varchar(255) NOT NULL,
 	last_name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL,
+	phone_num bigint NOT NULL,
+	secondary_email varchar(255),
 	encrypted_password varchar(255) NOT NULL,
 	salt varchar(255) NOT NULL,
 	user_state_id integer NOT NULL REFERENCES user_states(id),
+	user_role integer NOT NULL,
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
