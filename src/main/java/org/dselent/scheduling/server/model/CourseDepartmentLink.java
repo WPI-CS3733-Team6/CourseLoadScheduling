@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CourseDepartmentLink {
+public class CourseDepartmentLink extends Model{
 	//table name
 	public static final String TABLE_NAME = "course_department_link";
 
