@@ -92,7 +92,7 @@ public class Instructor extends Model{
 		return reqCourses;
 	}
 
-	public void reqCourses(int reqCourses)
+	public void setReqCourses(int reqCourses)
 	{
 		this.reqCourses = reqCourses;
 	}
