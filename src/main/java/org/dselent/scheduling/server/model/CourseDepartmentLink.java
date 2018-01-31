@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.dselent.scheduling.server.model.CourseInformation.Columns;
-
 public class CourseDepartmentLink {
 	//table name
 	public static final String TABLE_NAME = "course_department_link";
