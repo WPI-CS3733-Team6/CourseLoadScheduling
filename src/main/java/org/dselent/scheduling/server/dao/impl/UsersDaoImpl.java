@@ -177,6 +177,14 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
     	{
     		parameters.addValue(parameterName, userModel.getEmail());
     	}
+    	else if(insertColumnName.equals(User.getColumnName(User.Columns.PHONE_NUM)))
+    	{
+    		parameters.addValue(parameterName, userModel.getPhoneNum());
+    	}
+    	else if(insertColumnName.equals(User.getColumnName(User.Columns.SECONDARY_EMAIL)))
+    	{
+    		parameters.addValue(parameterName, userModel.getSecondaryEmail());
+    	}
     	else if(insertColumnName.equals(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD)))
     	{
     		parameters.addValue(parameterName, userModel.getEncryptedPassword());
@@ -184,6 +192,10 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
     	else if(insertColumnName.equals(User.getColumnName(User.Columns.SALT)))
     	{
     		parameters.addValue(parameterName, userModel.getSalt());
+    	}
+    	else if(insertColumnName.equals(User.getColumnName(User.Columns.USER_ROLE)))
+    	{
+    		parameters.addValue(parameterName, userModel.getUserRole());
     	}
     	else if(insertColumnName.equals(User.getColumnName(User.Columns.USER_STATE_ID)))
     	{
@@ -227,6 +239,14 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
     	{
     		userModel.setEmail((String) keyMap.get(keyHolderColumnName));
     	}
+    	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.PHONE_NUM)))
+    	{
+    		userModel.setPhoneNum((Integer) keyMap.get(keyHolderColumnName));
+    	}
+    	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.SECONDARY_EMAIL)))
+    	{
+    		userModel.setSecondaryEmail((String) keyMap.get(keyHolderColumnName));
+    	}
     	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD)))
     	{
     		userModel.setEncryptedPassword((String) keyMap.get(keyHolderColumnName));
@@ -234,6 +254,9 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
     	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.SALT)))
     	{
     		userModel.setSalt((String) keyMap.get(keyHolderColumnName));
+    	}
+    	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.USER_ROLE))){
+    		userModel.setUserRole((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.USER_STATE_ID)))
     	{
