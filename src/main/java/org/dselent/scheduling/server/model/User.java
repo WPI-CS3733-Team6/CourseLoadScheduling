@@ -66,7 +66,7 @@ public class User extends Model
 	private String userName;
 	private String firstName;
 	private String lastName;
-	private Integer phoneNum;
+	private Long phoneNum;
 	private String email;
 	private String secondaryEmail;
 	private String encryptedPassword;
@@ -217,11 +217,11 @@ public class User extends Model
 		}
 	}
 	
-	public Integer getPhoneNum() {
+	public Long getPhoneNum() {
 		return phoneNum;
 	}
 
-	public void setPhoneNum(Integer phoneNum) {
+	public void setPhoneNum(Long phoneNum) {
 		this.phoneNum = phoneNum;
 	}
 
