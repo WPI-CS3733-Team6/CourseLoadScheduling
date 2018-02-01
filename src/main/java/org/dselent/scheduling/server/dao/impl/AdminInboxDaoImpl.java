@@ -27,7 +27,6 @@ import org.springframework.stereotype.Repository;
  * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
  */
 
-
 @Repository
 public class AdminInboxDaoImpl extends BaseDaoImpl<AdminInbox> implements AdminInboxDao
 {
@@ -64,6 +63,28 @@ public class AdminInboxDaoImpl extends BaseDaoImpl<AdminInbox> implements AdminI
 		
 	}
 	
+	@Override
+	public int markAsRead(int id, boolean newStatus) {
+	    
+		List<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		
+		List<Object> objectList = new ArrayList<Object>();
+		objectList.add(newStatus);
+		
+		for(QueryTerm queryTerm : queryTermList)
+		{
+			objectList.add(queryTerm.getValue());
+		}
+		
+	    Object[] parameters = objectList.toArray();
+		 
+		String queryTemplate = QueryStringBuilder.generateUpdateString(AdminInbox.TABLE_NAME, AdminInbox.getColumnName(AdminInbox.Columns.STATUS), queryTermList);
+	    
+	    int rowsAffected = jdbcTemplate.update(queryTemplate, parameters);
+	    
+		return rowsAffected;
+
+	}
 	
 	@Override
 	public List<AdminInbox> select(List<String> selectColumnNameList, List<QueryTerm> queryTermList, List<Pair<String, ColumnOrder>> orderByList) throws SQLException
