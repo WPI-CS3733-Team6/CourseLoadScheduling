@@ -138,7 +138,7 @@ CREATE TABLE users_roles_links
 CREATE TABLE instructors
 (
 	id serial PRIMARY KEY,
-	user_id integer UNIQUE NOT NULL REFERENCES users(id), --Use this as a reference
+	user_id integer UNIQUE NOT NULL REFERENCES users(id),
 	req_courses float NOT NULL
 );
 
@@ -171,8 +171,7 @@ CREATE TABLE course_information
 	course_name varchar(255) UNIQUE NOT NULL,
 	type varchar(255) NOT NULL,
 	level boolean NOT NULL,
-	num_sections integer NOT NULL,
-	UNIQUE(dept, course_num)
+	num_sections integer NOT NULL
 );
 
 
@@ -192,14 +191,15 @@ CREATE TABLE course_information
 CREATE TABLE course_sections
 (
 	id serial PRIMARY KEY,
-	course_num varchar(255) NOT NULL,
+	course_num integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
 	section_num integer NOT NULL, --automatically generated on the front end (user inputs amount of sections, app generates numbers for each one, ex: 01, 02, 03)
 	term varchar(5) NOT NULL,
 	expected_pop integer NOT NULL,
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-	FOREIGN KEY (course_num, dept) REFERENCES course_information (course_num, dept)
+	FOREIGN KEY (course_num) REFERENCES course_information (id) --I changed this from "course_information (course_num)"
+														--because the course_num is not unique (So, it can't be a FK)
 );
 
 
@@ -250,13 +250,13 @@ CREATE TABLE departments
 	dept_name varchar(255) UNIQUE NOT NULL,
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
-)
+);
 
 /*
 	course_department_link: This table links courses to their departments
 	@Param id: Primary key for the table
 	@Param course_id: the foreign key for a course, taken from course_information
-	@Param dept: the course's departments
+	@Param dept_id: the course's department
 	@Param created_at: timestamp
 	@Param updated_at: timestamp
 */
@@ -267,7 +267,7 @@ CREATE TABLE course_department_link
 	dept_id integer NOT NULL REFERENCES departments(id),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
-)
+);
 
 /*
 	course_frequencies: This table gives a value for the required amount of times a course must be run
@@ -284,7 +284,7 @@ CREATE TABLE course_frequencies
 	req_frequency integer NOT NULL,
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
-)
+);
 
 
 
@@ -301,7 +301,7 @@ CREATE TABLE course_frequencies
 CREATE TABLE instructor_course_link_registered
 (
 	id serial PRIMARY KEY,
-	instructor_id integer NOT NULL REFERENCES instructors(id), --HAS TO REFERENCE
+	instructor_id integer NOT NULL REFERENCES instructors(id),
 	section_id integer NOT NULL REFERENCES course_sections(id),
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
@@ -371,7 +371,7 @@ course_sections_history: This will keep record of a user's history.
 CREATE TABLE course_sections_history
 (
 	id serial PRIMARY KEY,
-	course_id integer NOT NULL REFERENCES course_sections(id) ON DELETE CASCADE, --HAS TO REFERENCE
+	course_id integer NOT NULL REFERENCES course_sections(id) ON DELETE CASCADE,
 	course_name varchar(255) NOT NULL,
 	course_num varchar(255) NOT NULL,
 	section_num integer NOT NULL,
