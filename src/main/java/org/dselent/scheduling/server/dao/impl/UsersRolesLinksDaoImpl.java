@@ -1,4 +1,4 @@
-/*package org.dselent.scheduling.server.dao.impl;
+package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -161,7 +161,7 @@ public class UsersRolesLinksDaoImpl extends BaseDaoImpl<UsersRolesLink> implemen
     	}
     	else if(insertColumnName.equals(UsersRolesLink.getColumnName(UsersRolesLink.Columns.DELETED)))
     	{
-    		parameters.addValue(parameterName, usersRolesLinkModel.isDeleted());
+    		parameters.addValue(parameterName, usersRolesLinkModel.getDeleted());
     	}
     	else
     	{
@@ -186,6 +186,10 @@ public class UsersRolesLinksDaoImpl extends BaseDaoImpl<UsersRolesLink> implemen
     	else if(keyHolderColumnName.equals(UsersRolesLink.getColumnName(UsersRolesLink.Columns.CREATED_AT)))
     	{
     		usersRolesLinkModel.setCreatedAt((Timestamp) keyMap.get(keyHolderColumnName));
+    	}
+    	else if(keyHolderColumnName.equals(UsersRolesLink.getColumnName(UsersRolesLink.Columns.UPDATED_AT)))
+    	{
+    		usersRolesLinkModel.setUpdatedAt((Timestamp) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(UsersRolesLink.getColumnName(UsersRolesLink.Columns.DELETED)))
     	{
@@ -212,5 +216,3 @@ public class UsersRolesLinksDaoImpl extends BaseDaoImpl<UsersRolesLink> implemen
 		}
 	}
 }
-
-*/
