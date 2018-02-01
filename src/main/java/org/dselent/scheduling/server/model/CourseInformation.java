@@ -79,56 +79,71 @@ public class CourseInformation extends Model {
 		
 		return columnNameList;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCourse_num() {
+
+	public String getCourseNum() {
 		return courseNum;
 	}
-	public void setCourse_num(String course_num) {
-		this.courseNum = course_num;
+
+	public void setCourseNum(String courseNum) {
+		this.courseNum = courseNum;
 	}
-	public String getCourse_name() {
+
+	public String getCourseName() {
 		return courseName;
 	}
-	public void setCourse_name(String course_name) {
-		this.courseName = course_name;
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public Boolean getLevel() {
 		return level;
 	}
+
 	public void setLevel(Boolean level) {
 		this.level = level;
 	}
+
 	public String getDept() {
 		return dept;
 	}
+
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public Integer getNum_sections() {
+
+	public Integer getNumSections() {
 		return numSections;
 	}
-	public void setNum_sections(Integer num_sections) {
-		this.numSections = num_sections;
+
+	public void setNumSections(Integer numSections) {
+		this.numSections = numSections;
 	}
-	public Integer getReq_frequency() {
+
+	public Integer getReqFrequency() {
 		return reqFrequency;
 	}
-	public void setReq_frequency(Integer req_frequency) {
-		this.reqFrequency = req_frequency;
+
+	public void setReqFrequency(Integer reqFrequency) {
+		this.reqFrequency = reqFrequency;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -143,7 +158,7 @@ public class CourseInformation extends Model {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -195,12 +210,13 @@ public class CourseInformation extends Model {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "CourseInformation [id=" + id + ", course_num=" + courseNum + ", course_name=" + courseName + ", type="
-				+ type + ", level=" + level + ", dept=" + dept + ", num_sections=" + numSections + ", req_frequency="
+		return "CourseInformation [id=" + id + ", courseNum=" + courseNum + ", courseName=" + courseName + ", type="
+				+ type + ", level=" + level + ", dept=" + dept + ", numSections=" + numSections + ", reqFrequency="
 				+ reqFrequency + "]";
 	}
+	
 	
 }
