@@ -2,7 +2,6 @@ package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +66,7 @@ public class UsersHistory extends Model
 	private String firstName;
 	private String lastName;
 	private String email;
-	private Long phone_num;
+	private Long phoneNum;
 	private String secondaryEmail;
 	private String encryptedPassword;
 	private String salt;
@@ -147,12 +146,12 @@ public class UsersHistory extends Model
 		this.email = email;
 	}
 
-	public Long getPhone_num() {
-		return phone_num;
+	public Long getPhoneNum() {
+		return phoneNum;
 	}
 
-	public void setPhone_num(Long phone_num) {
-		this.phone_num = phone_num;
+	public void setPhoneNum(Long phoneNum) {
+		this.phoneNum = phoneNum;
 	}
 
 	public String getSecondaryEmail() {
@@ -213,7 +212,7 @@ public class UsersHistory extends Model
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((phone_num == null) ? 0 : phone_num.hashCode());
+		result = prime * result + ((phoneNum == null) ? 0 : phoneNum.hashCode());
 		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
 		result = prime * result + ((secondaryEmail == null) ? 0 : secondaryEmail.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
@@ -262,10 +261,10 @@ public class UsersHistory extends Model
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (phone_num == null) {
-			if (other.phone_num != null)
+		if (phoneNum == null) {
+			if (other.phoneNum != null)
 				return false;
-		} else if (!phone_num.equals(other.phone_num))
+		} else if (!phoneNum.equals(other.phoneNum))
 			return false;
 		if (salt == null) {
 			if (other.salt != null)
@@ -303,7 +302,7 @@ public class UsersHistory extends Model
 	@Override
 	public String toString() {
 		return "UsersHistory [id=" + id + ", userId=" + userId + ", userName=" + userName + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", phone_num=" + phone_num + ", secondaryEmail="
+				+ ", lastName=" + lastName + ", email=" + email + ", phoneNum=" + phoneNum + ", secondaryEmail="
 				+ secondaryEmail + ", encryptedPassword=" + encryptedPassword + ", salt=" + salt + ", userStateId="
 				+ userStateId + ", userRole=" + userRole + ", createdAt=" + createdAt + "]";
 	}

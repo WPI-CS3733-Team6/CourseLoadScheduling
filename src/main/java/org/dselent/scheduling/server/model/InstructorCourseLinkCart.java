@@ -7,17 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-public class Departments extends Model {
+public class InstructorCourseLinkCart extends Model {
 	
 	//table name
-	public static final String TABLE_NAME = "departments";
+	public static final String TABLE_NAME = "instructor_course_link_cart";
 	
 	//column names
 	public static enum Columns {
 		ID,
-		DEPT_NAME,
+		INSTRUCTOR_ID,
+		SECTION_ID,
+		STATUS,
 		CREATED_AT,
 		UPDATED_AT
 	}
@@ -34,15 +34,19 @@ public class Departments extends Model {
 		}
 		
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.DEPT_NAME, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.INSTRUCTOR_ID, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.SECTION_ID, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.STATUS, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP);
-	};
+	}
 	
 	//attributes
 	
 	private Integer id;
-	private String deptName;
+	private Integer instructorId;
+	private Integer sectionId;
+	private Integer status;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	
@@ -76,11 +80,23 @@ public class Departments extends Model {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getDeptName() {
-		return deptName;
+	public Integer getInstructorId() {
+		return instructorId;
 	}
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
+	public void setInstructorId(Integer instructorId) {
+		this.instructorId = instructorId;
+	}
+	public Integer getSectionId() {
+		return sectionId;
+	}
+	public void setSectionId(Integer sectionId) {
+		this.sectionId = sectionId;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	public Timestamp getCreatedAt() {
 		return createdAt;
@@ -99,8 +115,10 @@ public class Departments extends Model {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result + ((deptName == null) ? 0 : deptName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((instructorId == null) ? 0 : instructorId.hashCode());
+		result = prime * result + ((sectionId == null) ? 0 : sectionId.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
@@ -112,21 +130,31 @@ public class Departments extends Model {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Departments other = (Departments) obj;
+		InstructorCourseLinkCart other = (InstructorCourseLinkCart) obj;
 		if (createdAt == null) {
 			if (other.createdAt != null)
 				return false;
 		} else if (!createdAt.equals(other.createdAt))
 			return false;
-		if (deptName == null) {
-			if (other.deptName != null)
-				return false;
-		} else if (!deptName.equals(other.deptName))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (instructorId == null) {
+			if (other.instructorId != null)
+				return false;
+		} else if (!instructorId.equals(other.instructorId))
+			return false;
+		if (sectionId == null) {
+			if (other.sectionId != null)
+				return false;
+		} else if (!sectionId.equals(other.sectionId))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		if (updatedAt == null) {
 			if (other.updatedAt != null)
@@ -137,8 +165,8 @@ public class Departments extends Model {
 	}
 	@Override
 	public String toString() {
-		return "Departments [id=" + id + ", deptName=" + deptName + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+		return "InstructorCourseLinkCart [id=" + id + ", instructorId=" + instructorId + ", sectionId=" + sectionId
+				+ ", status=" + status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	
 }

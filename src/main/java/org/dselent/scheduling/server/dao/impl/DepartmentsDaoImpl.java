@@ -1,44 +1,33 @@
 package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.dselent.scheduling.server.dao.InstructorsDao;
-import org.dselent.scheduling.server.extractor.InstructorExtractor;
+import org.dselent.scheduling.server.dao.DepartmentsDao;
+import org.dselent.scheduling.server.extractor.DepartmentsExtractor;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.miscellaneous.QueryStringBuilder;
-import org.dselent.scheduling.server.model.Instructor;
+import org.dselent.scheduling.server.model.Departments;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 
-
-/*
- * @Repository annotation
- * https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html
- * 
- * Useful link
- * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
- */
-
-
-@Repository
-public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements InstructorsDao
+public class DepartmentsDaoImpl extends BaseDaoImpl<Departments> implements DepartmentsDao
 {
 	@Override
-	public int insert(Instructor instructorsModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
+	public int insert(Departments DepartmentsModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
 	{
 		
 		validateColumnNames(insertColumnNameList);
 		validateColumnNames(keyHolderColumnNameList);
 
-		String queryTemplate = QueryStringBuilder.generateInsertString(Instructor.TABLE_NAME, insertColumnNameList);
+		String queryTemplate = QueryStringBuilder.generateInsertString(Departments.TABLE_NAME, insertColumnNameList);
 	    MapSqlParameterSource parameters = new MapSqlParameterSource();
 	    
 	    List<Map<String, Object>> keyList = new ArrayList<>();
@@ -46,10 +35,10 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 	    
 	    for(String insertColumnName : insertColumnNameList)
 	    {
-	    	addParameterMapValue(parameters, insertColumnName, instructorsModel);
+	    	addParameterMapValue(parameters, insertColumnName, DepartmentsModel);
 	    }
 	    // new way, but unfortunately unnecessary class creation is slow and wasteful (i.e. wrong)
-	    // insertColumnNames.forEach(insertColumnName -> addParameterMap(parameters, insertColumnName, instructorModel));
+	    // insertColumnNames.forEach(insertColumnName -> addParameterMap(parameters, insertColumnName, userModel));
 	    
 	    int rowsAffected = namedParameterJdbcTemplate.update(queryTemplate, parameters, keyHolder);
 	    
@@ -57,7 +46,7 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 	    
 	    for(String keyHolderColumnName : keyHolderColumnNameList)
 	    {
-	    	addObjectValue(keyMap, keyHolderColumnName, instructorsModel);
+	    	addObjectValue(keyMap, keyHolderColumnName, DepartmentsModel);
 	    }
 	    	    
 	    return rowsAffected;
@@ -66,10 +55,10 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 	
 	
 	@Override
-	public List<Instructor> select(List<String> selectColumnNameList, List<QueryTerm> queryTermList, List<Pair<String, ColumnOrder>> orderByList) throws SQLException
+	public List<Departments> select(List<String> selectColumnNameList, List<QueryTerm> queryTermList, List<Pair<String, ColumnOrder>> orderByList) throws SQLException
 	{
-		InstructorExtractor extractor = new InstructorExtractor();	//Dont yet exist
-		String queryTemplate = QueryStringBuilder.generateSelectString(Instructor.TABLE_NAME, selectColumnNameList, queryTermList, orderByList);
+		DepartmentsExtractor extractor = new DepartmentsExtractor();
+		String queryTemplate = QueryStringBuilder.generateSelectString(Departments.TABLE_NAME, selectColumnNameList, queryTermList, orderByList);
 
 		List<Object> objectList = new ArrayList<Object>();
 		
@@ -80,16 +69,16 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 		
 	    Object[] parameters = objectList.toArray();
 		 
-	    List<Instructor> InstructorList = jdbcTemplate.query(queryTemplate, extractor, parameters);
+	    List<Departments> DepartmentsList = jdbcTemplate.query(queryTemplate, extractor, parameters);
 	    
-	    return InstructorList;
+	    return DepartmentsList;
 	}
 
 	@Override
-	public Instructor findById(int id) throws SQLException
+	public Departments findById(int id) throws SQLException
 	{
-		String columnName = QueryStringBuilder.convertColumnName(Instructor.getColumnName(Instructor.Columns.ID), false);
-		List<String> selectColumnNames = Instructor.getColumnNameList();
+		String columnName = QueryStringBuilder.convertColumnName(Departments.getColumnName(Departments.Columns.ID), false);
+		List<String> selectColumnNames = Departments.getColumnNameList();
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm idTerm = new QueryTerm(columnName, ComparisonOperator.EQUAL, id, null);
@@ -99,22 +88,22 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 		Pair<String, ColumnOrder> order = new Pair<String, ColumnOrder>(columnName, ColumnOrder.ASC);
 		orderByList.add(order);
 		
-		List<Instructor> instructorsList = select(selectColumnNames, queryTermList, orderByList);
+		List<Departments> DepartmentsList = select(selectColumnNames, queryTermList, orderByList);
 	
-		Instructor instructor = null;
+		Departments Departments = null;
 	    
-	    if(!instructorsList.isEmpty())
+	    if(!DepartmentsList.isEmpty())
 	    {
-	    	instructor = instructorsList.get(0);
+	    	Departments = DepartmentsList.get(0);
 	    }
 	    
-	    return instructor;
+	    return Departments;
 	}
 	
 	@Override
 	public int update(String columnName, Object newValue, List<QueryTerm> queryTermList)
 	{
-		String queryTemplate = QueryStringBuilder.generateUpdateString(Instructor.TABLE_NAME, columnName, queryTermList);
+		String queryTemplate = QueryStringBuilder.generateUpdateString(Departments.TABLE_NAME, columnName, queryTermList);
 
 		List<Object> objectList = new ArrayList<Object>();
 		objectList.add(newValue);
@@ -134,7 +123,7 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 	@Override
 	public int delete(List<QueryTerm> queryTermList)
 	{
-		String queryTemplate = QueryStringBuilder.generateDeleteString(Instructor.TABLE_NAME, queryTermList);
+		String queryTemplate = QueryStringBuilder.generateDeleteString(Departments.TABLE_NAME, queryTermList);
 
 		List<Object> objectList = new ArrayList<Object>();
 		
@@ -150,7 +139,7 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 		return rowsAffected;
 	}
 
-	private void addParameterMapValue(MapSqlParameterSource parameters, String insertColumnName, Instructor instructorModel)
+	private void addParameterMapValue(MapSqlParameterSource parameters, String insertColumnName, Departments DepartmentsModel)
 	{
 		String parameterName = QueryStringBuilder.convertColumnName(insertColumnName, false);
     	
@@ -158,17 +147,21 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
     	// The getter must be distinguished unless the models are designed as simply a map of columns-values
     	// Would prefer not being that generic since it may end up leading to all code being collections of strings
 		
-    	if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.ID)))
+    	if(insertColumnName.equals(Departments.getColumnName(Departments.Columns.ID)))
     	{
-    		parameters.addValue(parameterName, instructorModel.getId());
+    		parameters.addValue(parameterName, DepartmentsModel.getId());
     	}
-    	else if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.USER_ID)))
+    	else if(insertColumnName.equals(Departments.getColumnName(Departments.Columns.DEPT_NAME)))
     	{
-    		parameters.addValue(parameterName, instructorModel.getUserId());
+    		parameters.addValue(parameterName, DepartmentsModel.getDeptName());
     	}
-    	else if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)))
+    	else if(insertColumnName.equals(Departments.getColumnName(Departments.Columns.CREATED_AT)))
     	{
-    		parameters.addValue(parameterName, instructorModel.getReqCourses());
+    		parameters.addValue(parameterName, DepartmentsModel.getCreatedAt());
+    	}
+    	else if(insertColumnName.equals(Departments.getColumnName(Departments.Columns.UPDATED_AT)))
+    	{
+    		parameters.addValue(parameterName, DepartmentsModel.getUpdatedAt());
     	}
     	else
     	{
@@ -178,19 +171,23 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
     	}
 	}	
 
-	private void addObjectValue(Map<String, Object> keyMap, String keyHolderColumnName, Instructor instructorModel)
+	private void addObjectValue(Map<String, Object> keyMap, String keyHolderColumnName, Departments DepartmentsModel)
 	{
-    	if(keyHolderColumnName.equals(Instructor.getColumnName(Instructor.Columns.ID)))
+    	if(keyHolderColumnName.equals(Departments.getColumnName(Departments.Columns.ID)))
     	{
-    		instructorModel.setId((Integer) keyMap.get(keyHolderColumnName));
+    		DepartmentsModel.setId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	if(keyHolderColumnName.equals(Instructor.getColumnName(Instructor.Columns.USER_ID)))
+    	else if(keyHolderColumnName.equals(Departments.getColumnName(Departments.Columns.DEPT_NAME)))
     	{
-    		instructorModel.setUserId((Integer) keyMap.get(keyHolderColumnName));
+    		DepartmentsModel.setDeptName((String) keyMap.get(keyHolderColumnName));
     	}
-    	if(keyHolderColumnName.equals(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)))
+    	else if(keyHolderColumnName.equals(Departments.getColumnName(Departments.Columns.CREATED_AT)))
     	{
-    		instructorModel.setReqCourses((Integer) keyMap.get(keyHolderColumnName));
+    		DepartmentsModel.setCreatedAt((Timestamp) keyMap.get(keyHolderColumnName));
+    	}
+    	else if(keyHolderColumnName.equals(Departments.getColumnName(Departments.Columns.UPDATED_AT)))
+    	{
+    		DepartmentsModel.setUpdatedAt((Timestamp) keyMap.get(keyHolderColumnName));
     	}
     	else
     	{
@@ -203,7 +200,7 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 	@Override
 	public void validateColumnNames(List<String> columnNameList)
 	{
-		List<String> actualColumnNames = Instructor.getColumnNameList();
+		List<String> actualColumnNames = Departments.getColumnNameList();
 		boolean valid = actualColumnNames.containsAll(columnNameList);
 		
 		if(!valid)

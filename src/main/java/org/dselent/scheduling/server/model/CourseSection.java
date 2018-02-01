@@ -2,7 +2,6 @@ package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,8 +56,31 @@ public class CourseSection extends Model{
 	private String term;
 	private Integer expectedPop;
 	private Boolean deleted;
-	private Instant createdAt;
-	private Instant updatedAt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
+	
+	public static JDBCType getColumnType(Columns column)
+	{
+		return COLUMN_TYPE_MAP.get(column);
+	}
+	
+	public static String getColumnName(Columns column)
+	{
+		return column.toString().toLowerCase();
+	}
+	
+	public static List<String> getColumnNameList()
+	{
+		List<String> columnNameList = new ArrayList<>();
+		
+		for(Columns column : COLUMN_LIST)
+		{
+			columnNameList.add(getColumnName(column));
+		}
+		
+		return columnNameList;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -95,16 +117,16 @@ public class CourseSection extends Model{
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-	public Instant getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Instant getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Instant updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 	@Override

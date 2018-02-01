@@ -77,22 +77,22 @@ public class Instructor extends Model{
 		this.id = id;
 	}
 
-	public int getUserId()
+	public Integer getUserId()
 	{
 		return userId;
 	}
 
-	public void setUserId(int userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId;
 	}
 
-	public int getReqCourses()
+	public Integer getReqCourses()
 	{
 		return reqCourses;
 	}
 
-	public void setReqCourses(int reqCourses)
+	public void setReqCourses(Integer reqCourses)
 	{
 		this.reqCourses = reqCourses;
 	}

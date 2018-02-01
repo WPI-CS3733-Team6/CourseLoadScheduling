@@ -2,7 +2,6 @@ package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,8 @@ public class CourseSectionsHistory extends Model{
 		SECTION_NUM,
 		TERM,
 		EXPECTED_POP,
-		MODIFIED_AT,
+		CREATED_AT,
+		UPDATED_AT,
 	}
 
 	// enum list
@@ -46,80 +46,130 @@ public class CourseSectionsHistory extends Model{
 		COLUMN_TYPE_MAP.put(Columns.SECTION_NUM, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.TERM, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.EXPECTED_POP, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.	MODIFIED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
+		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
+		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 	};
 
 	// attributes
 	
 	private Integer id;
-	private String course_id;
-	private Integer course_name;
-	private String course_num;
-	private Integer section_num;
-	private Boolean term;
-	private Instant expected_pop;
-	private Instant modified_at;
+	private String courseId;
+	private String courseName;
+	private String courseNum;
+	private Integer sectionNum;
+	private String term;
+	private Integer expectedPop;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
+	
+	public static JDBCType getColumnType(Columns column)
+	{
+		return COLUMN_TYPE_MAP.get(column);
+	}
+	
+	public static String getColumnName(Columns column)
+	{
+		return column.toString().toLowerCase();
+	}
+	
+	public static List<String> getColumnNameList()
+	{
+		List<String> columnNameList = new ArrayList<>();
+		
+		for(Columns column : COLUMN_LIST)
+		{
+			columnNameList.add(getColumnName(column));
+		}
+		
+		return columnNameList;
+	}
 
+	
+	
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCourse_id() {
-		return course_id;
+
+	public String getCourseId() {
+		return courseId;
 	}
-	public void setCourse_id(String course_id) {
-		this.course_id = course_id;
+
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
 	}
-	public Integer getCourse_name() {
-		return course_name;
+
+	public String getCourseName() {
+		return courseName;
 	}
-	public void setCourse_name(Integer course_name) {
-		this.course_name = course_name;
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
-	public String getCourse_num() {
-		return course_num;
+
+	public String getCourseNum() {
+		return courseNum;
 	}
-	public void setCourse_num(String course_num) {
-		this.course_num = course_num;
+
+	public void setCourseNum(String courseNum) {
+		this.courseNum = courseNum;
 	}
-	public Integer getSection_num() {
-		return section_num;
+
+	public Integer getSectionNum() {
+		return sectionNum;
 	}
-	public void setSection_num(Integer section_num) {
-		this.section_num = section_num;
+
+	public void setSectionNum(Integer sectionNum) {
+		this.sectionNum = sectionNum;
 	}
-	public Boolean getTerm() {
+
+	public String getTerm() {
 		return term;
 	}
-	public void setTerm(Boolean term) {
+
+	public void setTerm(String term) {
 		this.term = term;
 	}
-	public Instant getExpected_pop() {
-		return expected_pop;
+
+	public Integer getExpectedPop() {
+		return expectedPop;
 	}
-	public void setExpected_pop(Instant expected_pop) {
-		this.expected_pop = expected_pop;
+
+	public void setExpectedPop(Integer expectedPop) {
+		this.expectedPop = expectedPop;
 	}
-	public Instant getModified_at() {
-		return modified_at;
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
-	public void setModified_at(Instant modified_at) {
-		this.modified_at = modified_at;
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
-	
+
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((course_id == null) ? 0 : course_id.hashCode());
-		result = prime * result + ((course_name == null) ? 0 : course_name.hashCode());
-		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
-		result = prime * result + ((expected_pop == null) ? 0 : expected_pop.hashCode());
+		result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
+		result = prime * result + ((expectedPop == null) ? 0 : expectedPop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((modified_at == null) ? 0 : modified_at.hashCode());
-		result = prime * result + ((section_num == null) ? 0 : section_num.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+		result = prime * result + ((sectionNum == null) ? 0 : sectionNum.hashCode());
 		result = prime * result + ((term == null) ? 0 : term.hashCode());
 		return result;
 	}
@@ -133,40 +183,45 @@ public class CourseSectionsHistory extends Model{
 		if (getClass() != obj.getClass())
 			return false;
 		CourseSectionsHistory other = (CourseSectionsHistory) obj;
-		if (course_id == null) {
-			if (other.course_id != null)
+		if (courseId == null) {
+			if (other.courseId != null)
 				return false;
-		} else if (!course_id.equals(other.course_id))
+		} else if (!courseId.equals(other.courseId))
 			return false;
-		if (course_name == null) {
-			if (other.course_name != null)
+		if (courseName == null) {
+			if (other.courseName != null)
 				return false;
-		} else if (!course_name.equals(other.course_name))
+		} else if (!courseName.equals(other.courseName))
 			return false;
-		if (course_num == null) {
-			if (other.course_num != null)
+		if (courseNum == null) {
+			if (other.courseNum != null)
 				return false;
-		} else if (!course_num.equals(other.course_num))
+		} else if (!courseNum.equals(other.courseNum))
 			return false;
-		if (expected_pop == null) {
-			if (other.expected_pop != null)
+		if (expectedPop == null) {
+			if (other.expectedPop != null)
 				return false;
-		} else if (!expected_pop.equals(other.expected_pop))
+		} else if (!expectedPop.equals(other.expectedPop))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (modified_at == null) {
-			if (other.modified_at != null)
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-		} else if (!modified_at.equals(other.modified_at))
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
-		if (section_num == null) {
-			if (other.section_num != null)
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
 				return false;
-		} else if (!section_num.equals(other.section_num))
+		} else if (!updatedAt.equals(other.updatedAt))
+			return false;
+		if (sectionNum == null) {
+			if (other.sectionNum != null)
+				return false;
+		} else if (!sectionNum.equals(other.sectionNum))
 			return false;
 		if (term == null) {
 			if (other.term != null)
@@ -178,11 +233,8 @@ public class CourseSectionsHistory extends Model{
 	
 	@Override
 	public String toString() {
-		return "courseSectionsHistory [id=" + id + ", course_id=" + course_id + ", course_name=" + course_name
-				+ ", course_num=" + course_num + ", section_num=" + section_num + ", term=" + term + ", expected_pop="
-				+ expected_pop + ", modified_at=" + modified_at + "]";
+		return "courseSectionsHistory [id=" + id + ", courseId=" + courseId + ", courseName=" + courseName
+				+ ", courseNum=" + courseNum + ", sectionNum=" + sectionNum + ", term=" + term + ", expectedPop="
+				+ expectedPop + ", createdAt=" + createdAt + "updatedAt=" + updatedAt + "]";
 	}
-
-	
-
 }
