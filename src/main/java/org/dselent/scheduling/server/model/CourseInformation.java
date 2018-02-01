@@ -46,7 +46,7 @@ public class CourseInformation extends Model {
 	//attributes
 	
 	private Integer id;
-	private String courseNum;
+	private Integer courseNum;
 	private String courseName;
 	private String type;
 	private Boolean level;
@@ -85,11 +85,11 @@ public class CourseInformation extends Model {
 		this.id = id;
 	}
 
-	public String getCourseNum() {
+	public Integer getCourseNum() {
 		return courseNum;
 	}
 
-	public void setCourseNum(String courseNum) {
+	public void setCourseNum(Integer courseNum) {
 		this.courseNum = courseNum;
 	}
 

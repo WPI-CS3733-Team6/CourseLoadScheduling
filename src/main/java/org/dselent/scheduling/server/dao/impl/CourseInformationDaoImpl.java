@@ -198,7 +198,7 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
     	}
     	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM)))
     	{
-    		courseInformationModel.setCourseNum((String) keyMap.get(keyHolderColumnName));
+    		courseInformationModel.setCourseNum((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.ID)))
     	{
