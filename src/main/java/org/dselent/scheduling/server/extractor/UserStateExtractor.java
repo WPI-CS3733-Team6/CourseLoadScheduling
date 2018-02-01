@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.dselent.scheduling.server.model.UserState;
 
-public class userStateExtractor extends Extractor<List<UserState>>
+public class UserStateExtractor extends Extractor<List<UserState>>
 {
 	@Override
 	public List<UserState> extractData(ResultSet rs) throws SQLException
