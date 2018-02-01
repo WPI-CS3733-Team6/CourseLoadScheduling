@@ -26,10 +26,10 @@ public class DepartmentsExtractor extends Extractor<List<Departments>> {
 				result.setId(null);
 			}
 			
-			result.setCreated_at(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.CREATED_AT)));
-			result.setUpdated_at(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.UPDATED_AT)));
+			result.setCreatedAt(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.CREATED_AT)));
+			result.setUpdatedAt(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.UPDATED_AT)));
 			
-			result.setDept_name(rs.getString(Departments.getColumnName(Departments.Columns.DEPT_NAME)));
+			result.setDeptName(rs.getString(Departments.getColumnName(Departments.Columns.DEPT_NAME)));
 		}
 		
 		return resultList;

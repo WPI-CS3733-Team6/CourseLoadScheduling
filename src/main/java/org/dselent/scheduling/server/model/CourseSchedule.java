@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.dselent.scheduling.server.model.User.Columns;
-
 public class CourseSchedule extends Model{
 	//table name
 	public static final String TABLE_NAME = "course_schedule";

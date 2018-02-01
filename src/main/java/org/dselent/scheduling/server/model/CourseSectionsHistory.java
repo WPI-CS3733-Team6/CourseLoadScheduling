@@ -53,12 +53,12 @@ public class CourseSectionsHistory extends Model{
 	// attributes
 	
 	private Integer id;
-	private String course_id;
-	private String course_name;
-	private String course_num;
-	private Integer section_num;
+	private String courseId;
+	private String courseName;
+	private String courseNum;
+	private Integer sectionNum;
 	private String term;
-	private Integer expected_pop;
+	private Integer expectedPop;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	
@@ -84,73 +84,92 @@ public class CourseSectionsHistory extends Model{
 		return columnNameList;
 	}
 
+	
+	
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCourse_id() {
-		return course_id;
+
+	public String getCourseId() {
+		return courseId;
 	}
-	public void setCourse_id(String course_id) {
-		this.course_id = course_id;
+
+	public void setCourseId(String courseId) {
+		this.courseId = courseId;
 	}
-	public String getCourse_name() {
-		return course_name;
+
+	public String getCourseName() {
+		return courseName;
 	}
-	public void setCourse_name(String course_name) {
-		this.course_name = course_name;
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
-	public String getCourse_num() {
-		return course_num;
+
+	public String getCourseNum() {
+		return courseNum;
 	}
-	public void setCourse_num(String course_num) {
-		this.course_num = course_num;
+
+	public void setCourseNum(String courseNum) {
+		this.courseNum = courseNum;
 	}
-	public Integer getSection_num() {
-		return section_num;
+
+	public Integer getSectionNum() {
+		return sectionNum;
 	}
-	public void setSection_num(Integer section_num) {
-		this.section_num = section_num;
+
+	public void setSectionNum(Integer sectionNum) {
+		this.sectionNum = sectionNum;
 	}
+
 	public String getTerm() {
 		return term;
 	}
+
 	public void setTerm(String term) {
 		this.term = term;
 	}
-	public Integer getExpected_pop() {
-		return expected_pop;
+
+	public Integer getExpectedPop() {
+		return expectedPop;
 	}
-	public void setExpected_pop(Integer expected_pop) {
-		this.expected_pop = expected_pop;
+
+	public void setExpectedPop(Integer expectedPop) {
+		this.expectedPop = expectedPop;
 	}
+
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
+
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
+
 	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
+
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((course_id == null) ? 0 : course_id.hashCode());
-		result = prime * result + ((course_name == null) ? 0 : course_name.hashCode());
-		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
-		result = prime * result + ((expected_pop == null) ? 0 : expected_pop.hashCode());
+		result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
+		result = prime * result + ((expectedPop == null) ? 0 : expectedPop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
-		result = prime * result + ((section_num == null) ? 0 : section_num.hashCode());
+		result = prime * result + ((sectionNum == null) ? 0 : sectionNum.hashCode());
 		result = prime * result + ((term == null) ? 0 : term.hashCode());
 		return result;
 	}
@@ -164,25 +183,25 @@ public class CourseSectionsHistory extends Model{
 		if (getClass() != obj.getClass())
 			return false;
 		CourseSectionsHistory other = (CourseSectionsHistory) obj;
-		if (course_id == null) {
-			if (other.course_id != null)
+		if (courseId == null) {
+			if (other.courseId != null)
 				return false;
-		} else if (!course_id.equals(other.course_id))
+		} else if (!courseId.equals(other.courseId))
 			return false;
-		if (course_name == null) {
-			if (other.course_name != null)
+		if (courseName == null) {
+			if (other.courseName != null)
 				return false;
-		} else if (!course_name.equals(other.course_name))
+		} else if (!courseName.equals(other.courseName))
 			return false;
-		if (course_num == null) {
-			if (other.course_num != null)
+		if (courseNum == null) {
+			if (other.courseNum != null)
 				return false;
-		} else if (!course_num.equals(other.course_num))
+		} else if (!courseNum.equals(other.courseNum))
 			return false;
-		if (expected_pop == null) {
-			if (other.expected_pop != null)
+		if (expectedPop == null) {
+			if (other.expectedPop != null)
 				return false;
-		} else if (!expected_pop.equals(other.expected_pop))
+		} else if (!expectedPop.equals(other.expectedPop))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -199,10 +218,10 @@ public class CourseSectionsHistory extends Model{
 				return false;
 		} else if (!updatedAt.equals(other.updatedAt))
 			return false;
-		if (section_num == null) {
-			if (other.section_num != null)
+		if (sectionNum == null) {
+			if (other.sectionNum != null)
 				return false;
-		} else if (!section_num.equals(other.section_num))
+		} else if (!sectionNum.equals(other.sectionNum))
 			return false;
 		if (term == null) {
 			if (other.term != null)
@@ -214,8 +233,8 @@ public class CourseSectionsHistory extends Model{
 	
 	@Override
 	public String toString() {
-		return "courseSectionsHistory [id=" + id + ", course_id=" + course_id + ", course_name=" + course_name
-				+ ", course_num=" + course_num + ", section_num=" + section_num + ", term=" + term + ", expected_pop="
-				+ expected_pop + ", createdAt=" + createdAt + "updatedAt=" + updatedAt + "]";
+		return "courseSectionsHistory [id=" + id + ", courseId=" + courseId + ", courseName=" + courseName
+				+ ", courseNum=" + courseNum + ", sectionNum=" + sectionNum + ", term=" + term + ", expectedPop="
+				+ expectedPop + ", createdAt=" + createdAt + "updatedAt=" + updatedAt + "]";
 	}
 }

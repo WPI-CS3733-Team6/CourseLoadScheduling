@@ -1,14 +1,10 @@
 package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.dselent.scheduling.server.model.User.Columns;
 
 public class CourseInformation extends Model {
 	
@@ -52,13 +48,13 @@ public class CourseInformation extends Model {
 	//attributes
 	
 	private Integer id;
-	private String course_num;
-	private String course_name;
+	private String courseNum;
+	private String courseName;
 	private String type;
 	private Boolean level;
 	private String dept;
-	private Integer num_sections;
-	private Integer req_frequency;
+	private Integer numSections;
+	private Integer reqFrequency;
 	
 	//methods
 	
@@ -91,16 +87,16 @@ public class CourseInformation extends Model {
 		this.id = id;
 	}
 	public String getCourse_num() {
-		return course_num;
+		return courseNum;
 	}
 	public void setCourse_num(String course_num) {
-		this.course_num = course_num;
+		this.courseNum = course_num;
 	}
 	public String getCourse_name() {
-		return course_name;
+		return courseName;
 	}
 	public void setCourse_name(String course_name) {
-		this.course_name = course_name;
+		this.courseName = course_name;
 	}
 	public String getType() {
 		return type;
@@ -121,29 +117,29 @@ public class CourseInformation extends Model {
 		this.dept = dept;
 	}
 	public Integer getNum_sections() {
-		return num_sections;
+		return numSections;
 	}
 	public void setNum_sections(Integer num_sections) {
-		this.num_sections = num_sections;
+		this.numSections = num_sections;
 	}
 	public Integer getReq_frequency() {
-		return req_frequency;
+		return reqFrequency;
 	}
 	public void setReq_frequency(Integer req_frequency) {
-		this.req_frequency = req_frequency;
+		this.reqFrequency = req_frequency;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((course_name == null) ? 0 : course_name.hashCode());
-		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
+		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
 		result = prime * result + ((dept == null) ? 0 : dept.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
-		result = prime * result + ((num_sections == null) ? 0 : num_sections.hashCode());
-		result = prime * result + ((req_frequency == null) ? 0 : req_frequency.hashCode());
+		result = prime * result + ((numSections == null) ? 0 : numSections.hashCode());
+		result = prime * result + ((reqFrequency == null) ? 0 : reqFrequency.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -157,15 +153,15 @@ public class CourseInformation extends Model {
 		if (getClass() != obj.getClass())
 			return false;
 		CourseInformation other = (CourseInformation) obj;
-		if (course_name == null) {
-			if (other.course_name != null)
+		if (courseName == null) {
+			if (other.courseName != null)
 				return false;
-		} else if (!course_name.equals(other.course_name))
+		} else if (!courseName.equals(other.courseName))
 			return false;
-		if (course_num == null) {
-			if (other.course_num != null)
+		if (courseNum == null) {
+			if (other.courseNum != null)
 				return false;
-		} else if (!course_num.equals(other.course_num))
+		} else if (!courseNum.equals(other.courseNum))
 			return false;
 		if (dept == null) {
 			if (other.dept != null)
@@ -182,15 +178,15 @@ public class CourseInformation extends Model {
 				return false;
 		} else if (!level.equals(other.level))
 			return false;
-		if (num_sections == null) {
-			if (other.num_sections != null)
+		if (numSections == null) {
+			if (other.numSections != null)
 				return false;
-		} else if (!num_sections.equals(other.num_sections))
+		} else if (!numSections.equals(other.numSections))
 			return false;
-		if (req_frequency == null) {
-			if (other.req_frequency != null)
+		if (reqFrequency == null) {
+			if (other.reqFrequency != null)
 				return false;
-		} else if (!req_frequency.equals(other.req_frequency))
+		} else if (!reqFrequency.equals(other.reqFrequency))
 			return false;
 		if (type == null) {
 			if (other.type != null)
@@ -202,9 +198,9 @@ public class CourseInformation extends Model {
 	
 	@Override
 	public String toString() {
-		return "CourseInformation [id=" + id + ", course_num=" + course_num + ", course_name=" + course_name + ", type="
-				+ type + ", level=" + level + ", dept=" + dept + ", num_sections=" + num_sections + ", req_frequency="
-				+ req_frequency + "]";
+		return "CourseInformation [id=" + id + ", course_num=" + courseNum + ", course_name=" + courseName + ", type="
+				+ type + ", level=" + level + ", dept=" + dept + ", num_sections=" + numSections + ", req_frequency="
+				+ reqFrequency + "]";
 	}
 	
 }

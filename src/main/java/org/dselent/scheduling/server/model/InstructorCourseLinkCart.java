@@ -2,13 +2,10 @@ package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.dselent.scheduling.server.model.CourseInformation.Columns;
 
 public class InstructorCourseLinkCart extends Model {
 	
@@ -47,11 +44,11 @@ public class InstructorCourseLinkCart extends Model {
 	//attributes
 	
 	private Integer id;
-	private Integer instructor_id;
-	private Integer section_id;
+	private Integer instructorId;
+	private Integer sectionId;
 	private Integer status;
-	private Timestamp created_at;
-	private Timestamp updated_at;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 	
 	//methods
 	
@@ -83,17 +80,17 @@ public class InstructorCourseLinkCart extends Model {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getInstructor_id() {
-		return instructor_id;
+	public Integer getInstructorId() {
+		return instructorId;
 	}
-	public void setInstructor_id(Integer instructor_id) {
-		this.instructor_id = instructor_id;
+	public void setInstructorId(Integer instructorId) {
+		this.instructorId = instructorId;
 	}
-	public Integer getSection_id() {
-		return section_id;
+	public Integer getSectionId() {
+		return sectionId;
 	}
-	public void setSection_id(Integer section_id) {
-		this.section_id = section_id;
+	public void setSectionId(Integer sectionId) {
+		this.sectionId = sectionId;
 	}
 	public Integer getStatus() {
 		return status;
@@ -101,28 +98,28 @@ public class InstructorCourseLinkCart extends Model {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public Timestamp getCreated_at() {
-		return created_at;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(Timestamp created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
 	}
-	public Timestamp getUpdated_at() {
-		return updated_at;
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(Timestamp updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((created_at == null) ? 0 : created_at.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((instructor_id == null) ? 0 : instructor_id.hashCode());
-		result = prime * result + ((section_id == null) ? 0 : section_id.hashCode());
+		result = prime * result + ((instructorId == null) ? 0 : instructorId.hashCode());
+		result = prime * result + ((sectionId == null) ? 0 : sectionId.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((updated_at == null) ? 0 : updated_at.hashCode());
+		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
 	@Override
@@ -134,42 +131,42 @@ public class InstructorCourseLinkCart extends Model {
 		if (getClass() != obj.getClass())
 			return false;
 		InstructorCourseLinkCart other = (InstructorCourseLinkCart) obj;
-		if (created_at == null) {
-			if (other.created_at != null)
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-		} else if (!created_at.equals(other.created_at))
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (instructor_id == null) {
-			if (other.instructor_id != null)
+		if (instructorId == null) {
+			if (other.instructorId != null)
 				return false;
-		} else if (!instructor_id.equals(other.instructor_id))
+		} else if (!instructorId.equals(other.instructorId))
 			return false;
-		if (section_id == null) {
-			if (other.section_id != null)
+		if (sectionId == null) {
+			if (other.sectionId != null)
 				return false;
-		} else if (!section_id.equals(other.section_id))
+		} else if (!sectionId.equals(other.sectionId))
 			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
-		if (updated_at == null) {
-			if (other.updated_at != null)
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
 				return false;
-		} else if (!updated_at.equals(other.updated_at))
+		} else if (!updatedAt.equals(other.updatedAt))
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "InstructorCourseLinkCart [id=" + id + ", instructor_id=" + instructor_id + ", section_id=" + section_id
-				+ ", status=" + status + ", created_at=" + created_at + ", updated_at=" + updated_at + "]";
+		return "InstructorCourseLinkCart [id=" + id + ", instructorId=" + instructorId + ", sectionId=" + sectionId
+				+ ", status=" + status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	
 }

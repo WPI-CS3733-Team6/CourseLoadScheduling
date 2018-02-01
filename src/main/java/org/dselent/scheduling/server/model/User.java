@@ -2,7 +2,6 @@ package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +72,8 @@ public class User extends Model
 	private String salt;
 	private Integer userRole;
 	private Integer userStateId;
-	private Instant createdAt;
-	private Instant updatedAt;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 
 	// methods
 		
@@ -181,40 +180,24 @@ public class User extends Model
 		this.userStateId = userStateId;
 	}
 
-	public Instant getCreatedAt()
+	public Timestamp getCreatedAt()
 	{
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt)
+	public void setCreatedAt(Timestamp createdAt)
 	{
 		this.createdAt = createdAt;
 	}
-	
-	public void setCreatedAt(Timestamp createdAt)
-	{
-		if(createdAt != null)
-		{
-			this.createdAt = createdAt.toInstant();
-		}
-	}
 
-	public Instant getUpdatedAt()
+	public Timestamp getUpdatedAt()
 	{
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Instant updatedAt)
-	{
-		this.updatedAt = updatedAt;
-	}
-	
 	public void setUpdatedAt(Timestamp updatedAt)
 	{
-		if(updatedAt != null)
-		{
-			this.updatedAt = updatedAt.toInstant();
-		}
+		this.updatedAt = updatedAt;
 	}
 	
 	public Long getPhoneNum() {

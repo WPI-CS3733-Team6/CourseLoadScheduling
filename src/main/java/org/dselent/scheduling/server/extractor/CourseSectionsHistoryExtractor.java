@@ -24,16 +24,16 @@ public class CourseSectionsHistoryExtractor extends Extractor<List<CourseSection
 				result.setId(null);
 			}
 			
-			result.setCourse_id(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_ID)));
-			result.setCourse_name(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NAME)));
-			result.setCourse_num(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NUM)));
+			result.setCourseId(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_ID)));
+			result.setCourseName(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NAME)));
+			result.setCourseNum(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NUM)));
 			
-			result.setSection_num(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)));
-			result.setExpected_pop(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)));
+			result.setSectionNum(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)));
+			result.setExpectedPop(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)));
 			
 			if(rs.wasNull()) {
-				result.setSection_num(null);
-				result.setExpected_pop(null);
+				result.setSectionNum(null);
+				result.setExpectedPop(null);
 			}
 			
 			result.setTerm(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.TERM)));

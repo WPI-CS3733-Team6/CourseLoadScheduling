@@ -27,10 +27,10 @@ public class UsersHistoryExtractor extends Extractor<List<UsersHistory>> {
 			result.setFirstName(rs.getString(UsersHistory.getColumnName(UsersHistory.Columns.FIRST_NAME)));
 			result.setLastName(rs.getString(UsersHistory.getColumnName(UsersHistory.Columns.LAST_NAME)));
 			result.setEmail(rs.getString(UsersHistory.getColumnName(UsersHistory.Columns.EMAIL)));
-			result.setPhone_num(rs.getLong(UsersHistory.getColumnName(UsersHistory.Columns.PHONE_NUM)));
+			result.setPhoneNum(rs.getLong(UsersHistory.getColumnName(UsersHistory.Columns.PHONE_NUM)));
 			
 			if(rs.wasNull()) {
-				result.setPhone_num(null);
+				result.setPhoneNum(null);
 			}
 			
 			result.setSecondaryEmail(rs.getString(UsersHistory.getColumnName(UsersHistory.Columns.SECONDARY_EMAIL)));

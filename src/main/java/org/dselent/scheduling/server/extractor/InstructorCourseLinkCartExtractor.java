@@ -24,18 +24,18 @@ public class InstructorCourseLinkCartExtractor extends Extractor<List<Instructor
 				result.setId(null);
 			}
 			
-			result.setInstructor_id(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID)));
-			result.setSection_id(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.SECTION_ID)));
+			result.setInstructorId(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID)));
+			result.setSectionId(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.SECTION_ID)));
 			
 			if(rs.wasNull()) {
-				result.setInstructor_id(null);
-				result.setSection_id(null);
+				result.setInstructorId(null);
+				result.setSectionId(null);
 			}
 			
 			result.setStatus(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS)));
 			
-			result.setCreated_at(rs.getTimestamp(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.CREATED_AT)));
-			result.setUpdated_at(rs.getTimestamp(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.UPDATED_AT)));
+			result.setCreatedAt(rs.getTimestamp(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.CREATED_AT)));
+			result.setUpdatedAt(rs.getTimestamp(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.UPDATED_AT)));
 			
 			resultList.add(result);
 		}

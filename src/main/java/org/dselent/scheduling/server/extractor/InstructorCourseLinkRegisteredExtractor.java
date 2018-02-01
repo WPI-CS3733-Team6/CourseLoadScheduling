@@ -24,18 +24,18 @@ public class InstructorCourseLinkRegisteredExtractor extends Extractor<List<Inst
 				result.setId(null);
 			}
 			
-			result.setInstructor_id(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID)));
-			result.setSection_id(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.SECTION_ID)));
+			result.setInstructorId(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID)));
+			result.setSectionId(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.SECTION_ID)));
 			
 			if(rs.wasNull()) {
-				result.setInstructor_id(null);
-				result.setSection_id(null);
+				result.setInstructorId(null);
+				result.setSectionId(null);
 			}
 			
 			result.setDeleted(rs.getBoolean(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.DELETED)));
 			
-			result.setCreated_at(rs.getTimestamp(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.CREATED_AT)));
-			result.setUpdated_at(rs.getTimestamp(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.UPDATED_AT)));
+			result.setCreatedAt(rs.getTimestamp(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.CREATED_AT)));
+			result.setUpdatedAt(rs.getTimestamp(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.UPDATED_AT)));
 			
 			resultList.add(result);
 		}
