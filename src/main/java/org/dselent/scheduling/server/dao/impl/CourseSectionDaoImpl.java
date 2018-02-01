@@ -152,32 +152,32 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
     		parameters.addValue(parameterName, CourseSectionModel.getId());
     	}
     	
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.COURSE_NUM)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.COURSE_NUM)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getCourseNum());
     	}
     	
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getSectionNum());
     	}
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.TERM)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.TERM)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getTerm());
     	}
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getExpectedPop());
     	}
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.DELETED)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.DELETED)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getDeleted());
     	}
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.CREATED_AT)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.CREATED_AT)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getCreatedAt());
     	}
-    	if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.UPDATED_AT)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.UPDATED_AT)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getUpdatedAt());
     	}

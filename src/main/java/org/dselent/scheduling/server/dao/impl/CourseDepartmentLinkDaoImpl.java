@@ -154,20 +154,20 @@ public class CourseDepartmentLinkDaoImpl extends BaseDaoImpl<CourseDepartmentLin
     		parameters.addValue(parameterName, CourseDepartmentLinkModel.getId());
     	}
     	
-    	if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.COURSE_ID)))
+    	else if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.COURSE_ID)))
     	{
     		parameters.addValue(parameterName, CourseDepartmentLinkModel.getCourseId());
     	}
     	
-    	if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.DEPT_ID)))
+    	else if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.DEPT_ID)))
     	{
     		parameters.addValue(parameterName, CourseDepartmentLinkModel.getDeptId());
     	}
-    	if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.CREATED_AT)))
+    	else if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.CREATED_AT)))
     	{
     		parameters.addValue(parameterName, CourseDepartmentLinkModel.getCreatedAt());
     	}
-    	if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.UPDATED_AT)))
+    	else if(insertColumnName.equals(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.UPDATED_AT)))
     	{
     		parameters.addValue(parameterName, CourseDepartmentLinkModel.getUpdatedAt());
     	}

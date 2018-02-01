@@ -168,62 +168,62 @@ public class UsersHistoryDaoImpl extends BaseDaoImpl<UsersHistory> implements Us
     		parameters.addValue(parameterName, usersHistoryModel.getCreatedAt());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.EMAIL)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.EMAIL)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getEmail());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.ENCRYPTED_PASSWORD)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.ENCRYPTED_PASSWORD)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getEncryptedPassword());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.FIRST_NAME)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.FIRST_NAME)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getFirstName());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.ID)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.ID)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getId());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.LAST_NAME)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.LAST_NAME)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getLastName());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.PHONE_NUM)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.PHONE_NUM)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getPhoneNum());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.SALT)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.SALT)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getSalt());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.SECONDARY_EMAIL)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.SECONDARY_EMAIL)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getSecondaryEmail());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_ID)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_ID)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getUserId());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_NAME)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_NAME)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getUserName());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_ROLE)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_ROLE)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getUserRole());
     	}
     	
-    	if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_STATE_ID)))
+    	else if(insertColumnName.equals(UsersHistory.getColumnName(UsersHistory.Columns.USER_STATE_ID)))
     	{
     		parameters.addValue(parameterName, usersHistoryModel.getUserStateId());
     	}

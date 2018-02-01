@@ -152,32 +152,32 @@ public class CourseScheduleDaoImpl extends BaseDaoImpl<CourseSchedule> implement
     		parameters.addValue(parameterName, courseScheduleModel.getId());
     	}
     	
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.SECTION_ID)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.SECTION_ID)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getSectionId());
     	}
     	
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getType());
     	}
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.MEETING_DAYS)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.MEETING_DAYS)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getMeetingDays());
     	}
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_START)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_START)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getTimeStart());
     	}
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_END)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_END)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getTimeEnd());
     	}
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.CREATED_AT)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.CREATED_AT)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getCreatedAt());
     	}
-    	if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.UPDATED_AT)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.UPDATED_AT)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getUpdatedAt());
     	}

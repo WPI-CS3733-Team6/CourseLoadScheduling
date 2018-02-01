@@ -152,20 +152,20 @@ public class CourseFrequencyDaoImpl extends BaseDaoImpl<CourseFrequency> impleme
     		parameters.addValue(parameterName, CourseFrequencyModel.getId());
     	}
     	
-    	if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.COURSE_ID)))
+    	else if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.COURSE_ID)))
     	{
     		parameters.addValue(parameterName, CourseFrequencyModel.getCourseId());
     	}
     	
-    	if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.REQ_FREQUENCY)))
+    	else if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.REQ_FREQUENCY)))
     	{
     		parameters.addValue(parameterName, CourseFrequencyModel.getReqFrequency());
     	}
-    	if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.CREATED_AT)))
+    	else if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.CREATED_AT)))
     	{
     		parameters.addValue(parameterName, CourseFrequencyModel.getCreatedAt());
     	}
-    	if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.UPDATED_AT)))
+    	else if(insertColumnName.equals(CourseFrequency.getColumnName(CourseFrequency.Columns.UPDATED_AT)))
     	{
     		parameters.addValue(parameterName, CourseFrequencyModel.getUpdatedAt());
     	}

@@ -162,11 +162,11 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
     	{
     		parameters.addValue(parameterName, instructorModel.getId());
     	}
-    	if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.USER_ID)))
+    	else if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.USER_ID)))
     	{
     		parameters.addValue(parameterName, instructorModel.getUserId());
     	}
-    	if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)))
+    	else if(insertColumnName.equals(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)))
     	{
     		parameters.addValue(parameterName, instructorModel.getReqCourses());
     	}

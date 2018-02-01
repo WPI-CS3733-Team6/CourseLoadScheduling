@@ -168,27 +168,27 @@ public class InstructorCourseLinkRegisteredDaoImpl extends BaseDaoImpl<Instructo
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getCreatedAt());
     	}
     	
-    	if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.DELETED)))
+    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.DELETED)))
     	{
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getDeleted());
     	}
     	
-    	if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.ID)))
+    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.ID)))
     	{
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getId());
     	}
     	
-    	if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID)))
+    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID)))
     	{
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getInstructorId());
     	}
     	
-    	if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.SECTION_ID)))
+    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.SECTION_ID)))
     	{
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getSectionId());
     	}
     	
-    	if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.UPDATED_AT)))
+    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.UPDATED_AT)))
     	{
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getUpdatedAt());
     	}
