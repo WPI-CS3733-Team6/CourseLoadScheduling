@@ -1,5 +1,4 @@
-/*
- * package org.dselent.scheduling.server.dao.impl;
+package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -20,8 +19,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-*/
-
 /*
  * @Repository annotation
  * https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html
@@ -30,7 +27,7 @@ import org.springframework.stereotype.Repository;
  * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
  */
 
-/*
+
 @Repository
 public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
 {
@@ -245,7 +242,7 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
     	}
     	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.PHONE_NUM)))
     	{
-    		userModel.setPhoneNum((Integer) keyMap.get(keyHolderColumnName));
+    		userModel.setPhoneNum((Long) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(User.getColumnName(User.Columns.SECONDARY_EMAIL)))
     	{
@@ -297,5 +294,3 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
 		}
 	}
 }
-
-*/

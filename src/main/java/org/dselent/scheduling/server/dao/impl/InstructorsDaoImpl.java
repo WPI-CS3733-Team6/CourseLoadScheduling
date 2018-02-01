@@ -1,8 +1,6 @@
-/*
 package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +18,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-*/
 
 /*
  * @Repository annotation
@@ -30,7 +27,7 @@ import org.springframework.stereotype.Repository;
  * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
  */
 
-/*
+
 @Repository
 public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements InstructorsDao
 {
@@ -71,7 +68,7 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 	@Override
 	public List<Instructor> select(List<String> selectColumnNameList, List<QueryTerm> queryTermList, List<Pair<String, ColumnOrder>> orderByList) throws SQLException
 	{
-		InstructorsExtractor extractor = new InstructorsExtractor();	//Dont yet exist
+		InstructorExtractor extractor = new InstructorExtractor();	//Dont yet exist
 		String queryTemplate = QueryStringBuilder.generateSelectString(Instructor.TABLE_NAME, selectColumnNameList, queryTermList, orderByList);
 
 		List<Object> objectList = new ArrayList<Object>();
@@ -218,4 +215,3 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
 		}
 	}
 }
-*/
