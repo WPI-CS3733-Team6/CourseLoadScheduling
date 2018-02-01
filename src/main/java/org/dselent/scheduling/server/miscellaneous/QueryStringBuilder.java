@@ -1,9 +1,8 @@
-package org.dselent.scheduling.server.miscellaneous;
+package org.dselent.scheduling.server.sqlutils;
 
 import java.util.List;
 
-import org.dselent.scheduling.server.sqlutils.ColumnOrder;
-import org.dselent.scheduling.server.sqlutils.QueryTerm;
+import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.springframework.util.StringUtils;
 
 public class QueryStringBuilder
@@ -20,8 +19,9 @@ public class QueryStringBuilder
 	
 	private static final String UPDATE_PIECE1 = "UPDATE ";
 	private static final String UPDATE_PIECE2 = " SET ";
-	private static final String UPDATE_PIECE3 = " = ?";
-	private static final String UPDATE_PIECE4 = " WHERE ";
+	private static final String UPDATE_PIECE3 = ", ";
+	private static final String UPDATE_PIECE4 = " = ?";
+	private static final String UPDATE_PIECE5 = " WHERE ";
 	
 	private static final String DELETE_PIECE1 = "DELETE FROM ";
 	private static final String DELETE_PIECE2 = " WHERE ";
@@ -140,12 +140,12 @@ public class QueryStringBuilder
 		sb.append(tableName);
 		sb.append(UPDATE_PIECE2);
 		sb.append(columnName);
-		sb.append(UPDATE_PIECE3);
+		sb.append(UPDATE_PIECE4);
 	
 		
 		if(!queryTermList.isEmpty())
 		{
-			sb.append(UPDATE_PIECE4);
+			sb.append(UPDATE_PIECE5);
 			
 			for(QueryTerm queryTerm : queryTermList)
 			{
