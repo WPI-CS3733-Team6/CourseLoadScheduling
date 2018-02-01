@@ -2,13 +2,10 @@ package org.dselent.scheduling.server.model;
 
 import java.sql.JDBCType;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.dselent.scheduling.server.model.User.Columns;
 
 public class CourseSectionsHistory extends Model{
 
@@ -25,7 +22,8 @@ public class CourseSectionsHistory extends Model{
 		SECTION_NUM,
 		TERM,
 		EXPECTED_POP,
-		MODIFIED_AT,
+		CREATED_AT,
+		UPDATED_AT,
 	}
 
 	// enum list
@@ -48,19 +46,21 @@ public class CourseSectionsHistory extends Model{
 		COLUMN_TYPE_MAP.put(Columns.SECTION_NUM, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.TERM, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.EXPECTED_POP, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.	MODIFIED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
+		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
+		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 	};
 
 	// attributes
 	
 	private Integer id;
 	private String course_id;
-	private Integer course_name;
+	private String course_name;
 	private String course_num;
 	private Integer section_num;
-	private Boolean term;
-	private Instant expected_pop;
-	private Instant modified_at;
+	private String term;
+	private Integer expected_pop;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
 	
 	public static JDBCType getColumnType(Columns column)
 	{
@@ -96,10 +96,10 @@ public class CourseSectionsHistory extends Model{
 	public void setCourse_id(String course_id) {
 		this.course_id = course_id;
 	}
-	public Integer getCourse_name() {
+	public String getCourse_name() {
 		return course_name;
 	}
-	public void setCourse_name(Integer course_name) {
+	public void setCourse_name(String course_name) {
 		this.course_name = course_name;
 	}
 	public String getCourse_num() {
@@ -114,23 +114,29 @@ public class CourseSectionsHistory extends Model{
 	public void setSection_num(Integer section_num) {
 		this.section_num = section_num;
 	}
-	public Boolean getTerm() {
+	public String getTerm() {
 		return term;
 	}
-	public void setTerm(Boolean term) {
+	public void setTerm(String term) {
 		this.term = term;
 	}
-	public Instant getExpected_pop() {
+	public Integer getExpected_pop() {
 		return expected_pop;
 	}
-	public void setExpected_pop(Instant expected_pop) {
+	public void setExpected_pop(Integer expected_pop) {
 		this.expected_pop = expected_pop;
 	}
-	public Instant getModified_at() {
-		return modified_at;
+	public Timestamp getCreatedAt() {
+		return createdAt;
 	}
-	public void setModified_at(Instant modified_at) {
-		this.modified_at = modified_at;
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 	@Override
@@ -142,7 +148,8 @@ public class CourseSectionsHistory extends Model{
 		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
 		result = prime * result + ((expected_pop == null) ? 0 : expected_pop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((modified_at == null) ? 0 : modified_at.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		result = prime * result + ((section_num == null) ? 0 : section_num.hashCode());
 		result = prime * result + ((term == null) ? 0 : term.hashCode());
 		return result;
@@ -182,10 +189,15 @@ public class CourseSectionsHistory extends Model{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (modified_at == null) {
-			if (other.modified_at != null)
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-		} else if (!modified_at.equals(other.modified_at))
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
+				return false;
+		} else if (!updatedAt.equals(other.updatedAt))
 			return false;
 		if (section_num == null) {
 			if (other.section_num != null)
@@ -204,9 +216,6 @@ public class CourseSectionsHistory extends Model{
 	public String toString() {
 		return "courseSectionsHistory [id=" + id + ", course_id=" + course_id + ", course_name=" + course_name
 				+ ", course_num=" + course_num + ", section_num=" + section_num + ", term=" + term + ", expected_pop="
-				+ expected_pop + ", modified_at=" + modified_at + "]";
+				+ expected_pop + ", createdAt=" + createdAt + "updatedAt=" + updatedAt + "]";
 	}
-
-	
-
 }
