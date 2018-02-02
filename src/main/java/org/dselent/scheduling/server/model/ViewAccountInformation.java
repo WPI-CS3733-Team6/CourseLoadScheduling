@@ -212,6 +212,11 @@ public class ViewAccountInformation extends Model
 				return false;
 		} else if (!reqCourses.equals(other.reqCourses))
 			return false;
+		if (remaining == null) {
+			if (other.remaining != null)
+				return false;
+		} else if (!remaining.equals(other.remaining))
+			return false;
 		return true;
 	}
 
