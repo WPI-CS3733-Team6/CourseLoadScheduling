@@ -10,7 +10,7 @@ import java.util.Map;
 public class ViewAccountInformation extends Model
 {
 	// table name
-	public static final String TABLE_NAME = "accountInformation";
+	public static final String TABLE_NAME = "view_ account_information";
 
 	// column names
 	public static enum Columns
