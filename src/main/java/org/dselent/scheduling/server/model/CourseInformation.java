@@ -18,7 +18,6 @@ public class CourseInformation extends Model {
 		COURSE_NAME,
 		TYPE,
 		LEVEL,
-		DEPT,
 		NUM_SECTIONS,
 		REQ_FREQUENCY
 	}
@@ -40,7 +39,6 @@ public class CourseInformation extends Model {
 		COLUMN_TYPE_MAP.put(Columns.COURSE_NAME, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.TYPE, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.LEVEL, JDBCType.BOOLEAN);
-		COLUMN_TYPE_MAP.put(Columns.DEPT, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.NUM_SECTIONS, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.REQ_FREQUENCY, JDBCType.INTEGER);
 	};
@@ -48,11 +46,10 @@ public class CourseInformation extends Model {
 	//attributes
 	
 	private Integer id;
-	private String courseNum;
+	private Integer courseNum;
 	private String courseName;
 	private String type;
 	private Boolean level;
-	private String dept;
 	private Integer numSections;
 	private Integer reqFrequency;
 	
@@ -88,11 +85,11 @@ public class CourseInformation extends Model {
 		this.id = id;
 	}
 
-	public String getCourseNum() {
+	public Integer getCourseNum() {
 		return courseNum;
 	}
 
-	public void setCourseNum(String courseNum) {
+	public void setCourseNum(Integer courseNum) {
 		this.courseNum = courseNum;
 	}
 
@@ -120,14 +117,6 @@ public class CourseInformation extends Model {
 		this.level = level;
 	}
 
-	public String getDept() {
-		return dept;
-	}
-
-	public void setDept(String dept) {
-		this.dept = dept;
-	}
-
 	public Integer getNumSections() {
 		return numSections;
 	}
@@ -150,7 +139,6 @@ public class CourseInformation extends Model {
 		int result = 1;
 		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
 		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
-		result = prime * result + ((dept == null) ? 0 : dept.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
 		result = prime * result + ((numSections == null) ? 0 : numSections.hashCode());
@@ -177,11 +165,6 @@ public class CourseInformation extends Model {
 			if (other.courseNum != null)
 				return false;
 		} else if (!courseNum.equals(other.courseNum))
-			return false;
-		if (dept == null) {
-			if (other.dept != null)
-				return false;
-		} else if (!dept.equals(other.dept))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -214,7 +197,7 @@ public class CourseInformation extends Model {
 	@Override
 	public String toString() {
 		return "CourseInformation [id=" + id + ", courseNum=" + courseNum + ", courseName=" + courseName + ", type="
-				+ type + ", level=" + level + ", dept=" + dept + ", numSections=" + numSections + ", reqFrequency="
+				+ type + ", level=" + level + ", numSections=" + numSections + ", reqFrequency="
 				+ reqFrequency + "]";
 	}
 	

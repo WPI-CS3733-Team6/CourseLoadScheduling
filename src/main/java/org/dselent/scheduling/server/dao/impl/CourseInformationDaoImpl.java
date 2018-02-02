@@ -19,20 +19,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-/*
- * @Repository annotation
- * https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html
- * 
- * Useful link
- * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
- */
-
-//CourseInformation = Class name notation (Example: InstructorCourseLinkRegistered)
-//courseInformation = Camel naming notation (Example: instructorCourseLinkRegistered)
-//There are also some PLACEFIELDHEREs to watch out for. You should probably glance over the whole thing once youre done, just in case
-//Otherwise, this thing is 100% find/replace friendly, so go ahead!
-
-
 @Repository
 public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> implements CourseInformationDao
 {
@@ -53,9 +39,7 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
 	    {
 	    	addParameterMapValue(parameters, insertColumnName, courseInformationModel);
 	    }
-	    // new way, but unfortunately unnecessary class creation is slow and wasteful (i.e. wrong)
-	    // insertColumnNames.forEach(insertColumnName -> addParameterMap(parameters, insertColumnName, userModel));
-	    
+
 	    int rowsAffected = namedParameterJdbcTemplate.update(queryTemplate, parameters, keyHolder);
 	    
 	    Map<String, Object> keyMap = keyHolder.getKeys();
@@ -173,10 +157,6 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
     		parameters.addValue(parameterName, courseInformationModel.getCourseNum());
     	}
     	
-    	else if(insertColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.DEPT)))
-    	{
-    		parameters.addValue(parameterName, courseInformationModel.getDept());
-    	}
     	else if(insertColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.ID)))
     	{
     		parameters.addValue(parameterName, courseInformationModel.getId());
@@ -218,11 +198,7 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
     	}
     	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM)))
     	{
-    		courseInformationModel.setCourseNum((String) keyMap.get(keyHolderColumnName));
-    	}
-    	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.DEPT)))
-    	{
-    		courseInformationModel.setDept((String) keyMap.get(keyHolderColumnName));
+    		courseInformationModel.setCourseNum((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.ID)))
     	{

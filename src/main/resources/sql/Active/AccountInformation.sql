@@ -13,12 +13,12 @@ users.secondary_email,
 ins.req_courses,
 (ins.req_courses - registered_req_courses) AS remaining
 
-FROM instructors ins
-LEFT OUTER JOIN users
-ON ins.user_id = users.id
+FROM users
+LEFT OUTER JOIN instructors ins
+ON users.id = ins.user_id
 LEFT OUTER JOIN
 (SELECT COUNT(reg.instructor_id) AS registered_req_courses
  FROM instructors ins, instructor_course_link_registered reg
  WHERE ins.user_id = reg.instructor_id) AS registered_req_courses
-ON ins.user_id = users.id
-WHERE ins.id = ?
+ON users.id = ins.user_id
+WHERE users.id = ?

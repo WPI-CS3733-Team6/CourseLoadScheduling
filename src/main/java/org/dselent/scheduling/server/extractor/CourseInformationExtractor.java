@@ -38,8 +38,6 @@ public class CourseInformationExtractor extends Extractor<List<CourseInformation
 				result.setLevel(null);
 			}
 			
-			result.setDept(rs.getString(CourseInformation.getColumnName(CourseInformation.Columns.DEPT)));
-			
 			result.setNumSections(rs.getInt(CourseInformation.getColumnName(CourseInformation.Columns.NUM_SECTIONS)));
 			
 			if(rs.wasNull())
