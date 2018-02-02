@@ -10,7 +10,7 @@ import java.util.Map;
 public class ViewAccountInformation extends Model
 {
 	// table name
-	public static final String TABLE_NAME = "view_ account_information";
+	public static final String TABLE_NAME = "view_account_information";
 
 	// column names
 	public static enum Columns
@@ -109,7 +109,6 @@ public class ViewAccountInformation extends Model
 	{
 		this.lastName = lastName;
 	}
-
 
 	public String getEmail()
 	{
