@@ -19,5 +19,5 @@ public interface CustomDao
 	
 	public List<User> getAllUsersWithRole(int roleId);
 
-	public ViewAccountInformation getAccountInformationWithUserId(Integer userId);
+	public List<ViewAccountInformation> getAccountInformationWithUserId(Integer userId);
 }

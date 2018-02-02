@@ -44,11 +44,14 @@ public class CustomDaoImpl implements CustomDao
 	}
 	
 	@Override
-	public ViewAccountInformation getAccountInformationWithUserId(Integer userId)
+	public List<ViewAccountInformation> getAccountInformationWithUserId(Integer userId)
 	{
 		ViewAccountInformationExtractor extractor = new ViewAccountInformationExtractor();
 		String queryTemplate = new String(QueryPathConstants.ACCOUNT_INFORMATION_QUERY);
 	    MapSqlParameterSource parameters = new MapSqlParameterSource();
 	    parameters.addValue("userId", userId);
-	    ViewAccountInformation result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    List<ViewAccountInformation> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
 	    return result;
+	}
+	
+}
