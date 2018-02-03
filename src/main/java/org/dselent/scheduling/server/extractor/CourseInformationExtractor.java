@@ -44,13 +44,6 @@ public class CourseInformationExtractor extends Extractor<List<CourseInformation
 			{
 				result.setNumSections(null);
 			}
-			
-			result.setReqFrequency(rs.getInt(CourseInformation.getColumnName(CourseInformation.Columns.REQ_FREQUENCY)));
-			
-			if(rs.wasNull())
-			{
-				result.setReqFrequency(null);
-			}
 		
 			resultList.add(result);
 		}

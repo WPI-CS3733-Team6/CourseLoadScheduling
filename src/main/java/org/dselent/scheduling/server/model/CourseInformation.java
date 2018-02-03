@@ -18,8 +18,7 @@ public class CourseInformation extends Model {
 		COURSE_NAME,
 		TYPE,
 		LEVEL,
-		NUM_SECTIONS,
-		REQ_FREQUENCY
+		NUM_SECTIONS
 	}
 	
 	//enum list
@@ -40,7 +39,6 @@ public class CourseInformation extends Model {
 		COLUMN_TYPE_MAP.put(Columns.TYPE, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.LEVEL, JDBCType.BOOLEAN);
 		COLUMN_TYPE_MAP.put(Columns.NUM_SECTIONS, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.REQ_FREQUENCY, JDBCType.INTEGER);
 	};
 	
 	//attributes
@@ -51,7 +49,6 @@ public class CourseInformation extends Model {
 	private String type;
 	private Boolean level;
 	private Integer numSections;
-	private Integer reqFrequency;
 	
 	//methods
 	
@@ -125,12 +122,10 @@ public class CourseInformation extends Model {
 		this.numSections = numSections;
 	}
 
-	public Integer getReqFrequency() {
-		return reqFrequency;
-	}
-
-	public void setReqFrequency(Integer reqFrequency) {
-		this.reqFrequency = reqFrequency;
+	@Override
+	public String toString() {
+		return "CourseInformation [id=" + id + ", courseNum=" + courseNum + ", courseName=" + courseName + ", type="
+				+ type + ", level=" + level + ", numSections=" + numSections + "]";
 	}
 
 	@Override
@@ -142,7 +137,6 @@ public class CourseInformation extends Model {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
 		result = prime * result + ((numSections == null) ? 0 : numSections.hashCode());
-		result = prime * result + ((reqFrequency == null) ? 0 : reqFrequency.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -181,11 +175,6 @@ public class CourseInformation extends Model {
 				return false;
 		} else if (!numSections.equals(other.numSections))
 			return false;
-		if (reqFrequency == null) {
-			if (other.reqFrequency != null)
-				return false;
-		} else if (!reqFrequency.equals(other.reqFrequency))
-			return false;
 		if (type == null) {
 			if (other.type != null)
 				return false;
@@ -193,13 +182,5 @@ public class CourseInformation extends Model {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "CourseInformation [id=" + id + ", courseNum=" + courseNum + ", courseName=" + courseName + ", type="
-				+ type + ", level=" + level + ", numSections=" + numSections + ", reqFrequency="
-				+ reqFrequency + "]";
-	}
-	
 	
 }

@@ -214,11 +214,6 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
     		parameters.addValue(parameterName, courseInformationModel.getNumSections());
     	}
     	
-    	else if(insertColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.REQ_FREQUENCY)))
-    	{
-    		parameters.addValue(parameterName, courseInformationModel.getReqFrequency());
-    	}
-    	
     	else if(insertColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.TYPE)))
     	{
     		parameters.addValue(parameterName, courseInformationModel.getType());
@@ -253,10 +248,6 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
     	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.NUM_SECTIONS)))
     	{
     		courseInformationModel.setNumSections((Integer) keyMap.get(keyHolderColumnName));
-    	}
-    	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.REQ_FREQUENCY)))
-    	{
-    		courseInformationModel.setReqFrequency((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(CourseInformation.getColumnName(CourseInformation.Columns.TYPE)))
     	{
