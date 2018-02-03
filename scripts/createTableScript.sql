@@ -348,7 +348,7 @@ CREATE UNIQUE INDEX users_user_name ON users(user_name);
 CREATE TABLE admin_inbox
 (
 	id serial PRIMARY KEY,
-	from integer NOT NULL REFERENCES users(id), -- Changed this from inbox_user
+	sender integer NOT NULL REFERENCES users(id), -- Changed this from inbox_user
 	subject_line varchar(255) NOT NULL,
 	content varchar(1027) NOT NULL,
 	status boolean,
