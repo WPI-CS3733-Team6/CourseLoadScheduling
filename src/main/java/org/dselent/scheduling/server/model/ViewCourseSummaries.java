@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ViewHomepageCart extends Model{
+public class ViewCourseSummaries extends Model{
 	
 	//table name
-	public static final String TABLE_NAME = "view_homepage_cart";
+	public static final String TABLE_NAME = "view_summaries";
 	
 	//column names
 	public static enum Columns
@@ -101,7 +101,7 @@ public class ViewHomepageCart extends Model{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ViewHomepageCart other = (ViewHomepageCart) obj;
+		ViewCourseSummaries other = (ViewCourseSummaries) obj;
 		if (courseNum == null) {
 			if (other.courseNum != null)
 				return false;
