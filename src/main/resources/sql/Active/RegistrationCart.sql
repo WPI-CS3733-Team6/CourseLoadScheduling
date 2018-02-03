@@ -11,7 +11,12 @@ WHERE ci.course_num = (
   WHERE cs.section_num = (
     SELECT ic.section_id
     FROM instructor_course_link_cart ic
-    WHERE ic.instructor_id = ?
+    WHERE ic.instructor_id
+    IN (
+    	SELECT id
+    	FROM instructors
+    	WHERE user_id = :userId
+    )
   )
 )
 ORDER BY ci.course_name ASC;

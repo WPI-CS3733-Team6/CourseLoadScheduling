@@ -22,7 +22,7 @@ IN(
   IN(
     SELECT id
     FROM instructors
-    WHERE user_id = ?
+    WHERE user_id = :userId
   )
 )
 ORDER BY se.id ASC;
