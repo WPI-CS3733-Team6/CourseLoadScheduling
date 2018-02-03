@@ -35,7 +35,6 @@ public class AdminInboxTest {
     	List<String> keyHolderColumnNameList = new ArrayList<>();
     	
     	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT));
-    	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.INBOX_USER));
     	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.SENDER));
     	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.STATUS));
     	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE));

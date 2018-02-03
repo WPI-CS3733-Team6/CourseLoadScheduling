@@ -1,6 +1,7 @@
 package org.dselent.scheduling.server.dao;
 
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +17,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AppConfig.class})
 @WebAppConfiguration
+//@Transactional
 public class UsersDaoTest
 {
 	@Autowired
@@ -34,14 +37,15 @@ public class UsersDaoTest
     public void testUsersDao() throws SQLException
     {
     	// INSERT
-    	
     	User user1 = new User();
-    	user1.setUserName("user1");
-    	user1.setFirstName("user");
-    	user1.setLastName("one");
-    	user1.setEmail("userone@wpi.edu");
-    	user1.setEncryptedPassword("11111111"); // simplified for now
-    	user1.setSalt("11111111"); // also simplified for now
+    	user1.setUserName("user21");
+    	user1.setFirstName("Actuals");
+    	user1.setLastName("names");
+    	user1.setEmail("HumanEmaisl@wpi.edu");
+    	user1.setPhoneNum(1234566l);
+    	user1.setEncryptedPassword("17667878979101001"); // simplified for now
+    	user1.setSalt("7698800098900665"); // also simplified for now
+    	user1.setUserRole(2);	// assumes 2 = user
     	user1.setUserStateId(1); // assumes 1 = activated
     	
     	List<String> insertColumnNameList = new ArrayList<>();
@@ -51,8 +55,11 @@ public class UsersDaoTest
     	insertColumnNameList.add(User.getColumnName(User.Columns.FIRST_NAME));
     	insertColumnNameList.add(User.getColumnName(User.Columns.LAST_NAME));
     	insertColumnNameList.add(User.getColumnName(User.Columns.EMAIL));
+    	insertColumnNameList.add(User.getColumnName(User.Columns.PHONE_NUM));
+    	insertColumnNameList.add(User.getColumnName(User.Columns.SECONDARY_EMAIL));
     	insertColumnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
     	insertColumnNameList.add(User.getColumnName(User.Columns.SALT));
+    	insertColumnNameList.add(User.getColumnName(User.Columns.USER_ROLE));
     	insertColumnNameList.add(User.getColumnName(User.Columns.USER_STATE_ID));
     	
     	keyHolderColumnNameList.add(User.getColumnName(User.Columns.ID));
@@ -64,18 +71,30 @@ public class UsersDaoTest
     	
     	// UPDATE
     	
-    	String updateColumnName = User.getColumnName(User.Columns.USER_NAME);
-    	String oldUserName = "user1";
-    	String newUserName = "newUserName";
-    	List<QueryTerm> updateQueryTermList = new ArrayList<>();
+    	//String updateColumnName = User.getColumnName(User.Columns.USER_NAME);
+    	List<String> columnNameList = new ArrayList<String>();
+    	columnNameList.add(User.getColumnName(User.Columns.PHONE_NUM));
+    	columnNameList.add(User.getColumnName(User.Columns.EMAIL));
+    	columnNameList.add(User.getColumnName(User.Columns.USER_NAME));
     	
+    	List<Object> newValueList = new ArrayList<Object>();
+    	Long newPhoneNum = 19779991l;
+    	newValueList.add(newPhoneNum);
+    	String newEmail = "Hahajkjkahahaha@itworks.plz";
+    	newValueList.add(newEmail);
+    	String newUserName = "MoarUserName";
+    	newValueList.add(newUserName);
+    	
+    	String oldUserName = "user21";
+    	
+    	List<QueryTerm> updateQueryTermList = new ArrayList<>();
     	QueryTerm updateUseNameTerm = new QueryTerm();
-    	updateUseNameTerm.setColumnName(updateColumnName);
+    	updateUseNameTerm.setColumnName(User.getColumnName(User.Columns.USER_NAME));
     	updateUseNameTerm.setComparisonOperator(ComparisonOperator.EQUAL);
     	updateUseNameTerm.setValue(oldUserName);
     	updateQueryTermList.add(updateUseNameTerm);
     	
-    	usersDao.update(updateColumnName, newUserName, updateQueryTermList);
+    	usersDao.updateUser(columnNameList, newValueList, updateQueryTermList);
     	
     	
     	// SELECT
