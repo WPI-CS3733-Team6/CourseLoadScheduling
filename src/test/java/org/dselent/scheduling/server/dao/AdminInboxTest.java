@@ -66,6 +66,6 @@ public class AdminInboxTest {
     	updateUseNameTerm.setValue(oldSubject);
     	updateQueryTermList.add(updateUseNameTerm);
     	
-    	InboxDao.updateMail(columnNameList, newValueList, updateQueryTermList);
+    	InboxDao.updateAdminInbox(columnNameList, newValueList, updateQueryTermList);
 	}	
 }

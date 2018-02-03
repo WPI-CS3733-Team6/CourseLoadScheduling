@@ -66,7 +66,7 @@ public class CourseInfoTest {
     	updateUseNameTerm.setValue(oldNumber);
     	updateQueryTermList.add(updateUseNameTerm);
     	
-    	courseInfoDao.updateCourse(columnNameList, newValueList, updateQueryTermList);
+    	courseInfoDao.updateCourseInformation(columnNameList, newValueList, updateQueryTermList);
 	}
 
 }
