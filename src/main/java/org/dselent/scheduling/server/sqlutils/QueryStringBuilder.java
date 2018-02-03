@@ -1,9 +1,8 @@
-package org.dselent.scheduling.server.miscellaneous;
+package org.dselent.scheduling.server.sqlutils;
 
 import java.util.List;
 
-import org.dselent.scheduling.server.sqlutils.ColumnOrder;
-import org.dselent.scheduling.server.sqlutils.QueryTerm;
+import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.springframework.util.StringUtils;
 
 public class QueryStringBuilder

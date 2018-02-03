@@ -11,11 +11,11 @@ import java.util.Map;
 import org.dselent.scheduling.server.dao.UserRolesDao;
 import org.dselent.scheduling.server.extractor.UserRolesExtractor; //Need this extractor
 import org.dselent.scheduling.server.miscellaneous.Pair;
-import org.dselent.scheduling.server.miscellaneous.QueryStringBuilder;
 import org.dselent.scheduling.server.model.User;
 import org.dselent.scheduling.server.model.UserRoles;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
+import org.dselent.scheduling.server.sqlutils.QueryStringBuilder;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
