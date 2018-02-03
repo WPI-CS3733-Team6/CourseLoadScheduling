@@ -45,7 +45,5 @@ dependencies
 
 test
 {
-    exclude '**/UsersDaoTest.class'
-    exclude '**/CustomDaoTest.class'
-    exclude '**/UsersControllerTest.class'
+    exclude '**/*.class'
 }
