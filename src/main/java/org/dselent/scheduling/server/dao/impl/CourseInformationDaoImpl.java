@@ -2,6 +2,7 @@ package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,24 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
 	    return rowsAffected;
 		
 	}
+
+	public int updateCourse(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {
+		String queryTemplate = QueryStringBuilder.generateUpdateString(CourseInformation.TABLE_NAME, columnNameList, queryTermList);	//Here's where the column names are fille din
+		
+		List<Object> objectList = new ArrayList<Object>();
+		for(Object object : newValueList) {
+			objectList.add(object);	//First fill in new values
+		}
 	
+		for(QueryTerm queryTerm : queryTermList){
+			objectList.add(queryTerm.getValue());	//Second batch is conditions
+		}
+		
+		Object[] parameters = objectList.toArray();
+		
+	
+		return jdbcTemplate.update(queryTemplate, parameters);//, objectTypeList.toArray());
+	}
 	
 	@Override
 	public List<CourseInformation> select(List<String> selectColumnNameList, List<QueryTerm> queryTermList, List<Pair<String, ColumnOrder>> orderByList) throws SQLException
