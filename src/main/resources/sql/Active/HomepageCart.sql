@@ -21,7 +21,7 @@ IN(
   IN(
     SELECT id
     FROM instructors
-    WHERE user_id = ?
+    WHERE user_id = :userId
   )
 )
 AND (se.deleted = 'true')

@@ -19,6 +19,6 @@ LEFT JOIN course_department_link cdl
 ON ci.id = cdl.course_id
 LEFT JOIN departments dept
 ON cdl.dept_id = dept.id
-WHERE (term = ? OR ? = 'false') -- need more than 1 for semester
+WHERE ((term = ? OR term = ?) OR ? = 'false') -- need more than 1 for semester
 AND (dept.dept_name = ? OR ? = 'false')
 ORDER BY se.id ASC;

@@ -28,7 +28,7 @@ IN(
   IN(
     SELECT id
     FROM instructors
-    WHERE user_id = ?
+    WHERE user_id = :userId
   )
 )
 AND (ci.course_num = se.course_num)

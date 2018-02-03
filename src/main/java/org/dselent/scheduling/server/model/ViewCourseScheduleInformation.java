@@ -108,6 +108,13 @@ public class ViewCourseScheduleInformation extends Model{
 	public void setTimeEnd(Integer timeEnd) {
 		this.timeEnd = timeEnd;
 	}
+	public Integer getDeptName() {
+		return timeEnd;
+	}
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
