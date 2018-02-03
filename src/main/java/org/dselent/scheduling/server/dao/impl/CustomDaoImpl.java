@@ -3,6 +3,7 @@ package org.dselent.scheduling.server.dao.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.dselent.scheduling.server.dao.CustomDao;
 import org.dselent.scheduling.server.extractor.UsersExtractor;
@@ -10,17 +11,23 @@ import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.miscellaneous.QueryPathConstants;
 import org.dselent.scheduling.server.miscellaneous.QueryStringBuilder;
 import org.dselent.scheduling.server.model.User;
-import org.dselent.scheduling.server.model.CourseDepartmentLink;
-import org.dselent.scheduling.server.model.Instructor;
-import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.extractor.ViewAccountInformationExtractor;
+import org.dselent.scheduling.server.extractor.ViewClassesExtractor;
+import org.dselent.scheduling.server.extractor.ViewCourseScheduleInformationExtractor;
+import org.dselent.scheduling.server.extractor.ViewCourseSummariesExtractor;
+import org.dselent.scheduling.server.extractor.ViewRegistrationCartExtractor;
 import org.dselent.scheduling.server.model.ViewAccountInformation;
+import org.dselent.scheduling.server.model.ViewClasses;
+import org.dselent.scheduling.server.model.ViewCourseScheduleInformation;
+import org.dselent.scheduling.server.model.ViewCourseSummaries;
+import org.dselent.scheduling.server.model.ViewRegistrationCart;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 
@@ -51,6 +58,86 @@ public class CustomDaoImpl implements CustomDao
 	    MapSqlParameterSource parameters = new MapSqlParameterSource();
 	    parameters.addValue("userId", userId);
 	    List<ViewAccountInformation> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	//
+	@Override
+	public List<ViewClasses> getAdvancedSearchDetail(String firstTerm, String secondTerm, String deptName,
+			Integer rangeStart, Integer rangeEnd, String courseType, String sectionType, Boolean level, String days) //question query
+	{	
+		//Not going use .addValues since I don't know how to implement a Map
+		ViewClassesExtractor extractor = new ViewClassesExtractor();
+		String queryTemplate = new String(QueryPathConstants.AVANCED_SEARCH_DETAILED_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("firstTerm", firstTerm).addValue("secondTerm", secondTerm).addValue("deptName", deptName).
+	    addValue("rangeStart", rangeStart).addValue("rangeEnd", rangeEnd).addValue("courseType", courseType).
+	    addValue("sectionType", sectionType).addValue("level", level).addValue("days", days);
+	    List<ViewClasses> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	
+	@Override
+	public List<ViewCourseScheduleInformation> getCourseScheduleInformation(Integer userId)
+	{
+		ViewCourseScheduleInformationExtractor extractor = new ViewCourseScheduleInformationExtractor();
+		String queryTemplate = new String(QueryPathConstants.COURSE_SCHEDULE_INFORMATION_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("userId", userId);
+	    List<ViewCourseScheduleInformation> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	
+	@Override
+	public List<ViewCourseSummaries> getHomepageCart(Integer userId)
+	{
+		ViewCourseSummariesExtractor extractor = new ViewCourseSummariesExtractor();
+		String queryTemplate = new String(QueryPathConstants.HOMEPAGE_CART_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("userId", userId);
+	    List<ViewCourseSummaries> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	
+	@Override
+	public List<ViewRegistrationCart> getRegistrationCart(Integer userId)
+	{
+		ViewRegistrationCartExtractor extractor = new ViewRegistrationCartExtractor();
+		String queryTemplate = new String(QueryPathConstants.REGISTRATION_CART_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("userId", userId);
+	    List<ViewRegistrationCart> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	
+	@Override
+	public List<ViewClasses> getSearchClasses(String firstTerm, String secondTerm, String deptName) //question marks
+	{
+		ViewClassesExtractor extractor = new ViewClassesExtractor();
+		String queryTemplate = new String(QueryPathConstants.SEARCH_CLASSES_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("firstTerm", firstTerm).addValue("secondTerm", secondTerm).addValue("deptName", deptName);
+	    List<ViewClasses> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	
+	@Override
+	public List<ViewCourseSummaries> getUserHomepageRegistered(Integer userId)
+	{
+		ViewCourseSummariesExtractor extractor = new ViewCourseSummariesExtractor();
+		String queryTemplate = new String(QueryPathConstants.USER_HOMEPAGE_REGISTERED_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("userId", userId);
+	    List<ViewCourseSummaries> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
+	    return result;
+	}
+	@Override
+	public List<ViewClasses> getViewClasses(Integer userId)
+	{
+		ViewClassesExtractor extractor = new ViewClassesExtractor();
+		String queryTemplate = new String(QueryPathConstants.VIEW_CLASSES_QUERY);
+	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("userId", userId);
+	    List<ViewClasses> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
 	    return result;
 	}
 	
