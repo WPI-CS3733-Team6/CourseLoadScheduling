@@ -75,7 +75,7 @@ public class ViewSearchClasses extends Model{
 	public String getMeetingDays() {
 		return meetingDays;
 	}
-	public void setId(String meetingDays) {
+	public void setMeetingDays(String meetingDays) {
 		this.meetingDays = meetingDays;
 	}
 	public String getCourseNum() {
@@ -87,7 +87,7 @@ public class ViewSearchClasses extends Model{
 	public String getCourseName() {
 		return courseName;
 	}
-	public void setcCourseName(String courseName) {
+	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
 	public Integer getExpectedPop() {

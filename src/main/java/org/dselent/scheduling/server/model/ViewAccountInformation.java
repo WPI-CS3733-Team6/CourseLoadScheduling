@@ -10,7 +10,7 @@ import java.util.Map;
 public class ViewAccountInformation extends Model
 {
 	// table name
-	public static final String TABLE_NAME = "view_ account_information";
+	public static final String TABLE_NAME = "view_account_information";
 
 	// column names
 	public static enum Columns
@@ -21,7 +21,8 @@ public class ViewAccountInformation extends Model
 		EMAIL,
 		PHONE_NUM,
 		SECONDARY_EMAIL,
-		REQ_COURSES
+		REQ_COURSES,
+		REMAINING
 	}
 	
 	// enum list
@@ -44,6 +45,7 @@ public class ViewAccountInformation extends Model
 		COLUMN_TYPE_MAP.put(Columns.PHONE_NUM, JDBCType.BIGINT);
 		COLUMN_TYPE_MAP.put(Columns.SECONDARY_EMAIL, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.REQ_COURSES, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.REMAINING, JDBCType.INTEGER);
 		};
 	
 	// attributes
@@ -55,6 +57,8 @@ public class ViewAccountInformation extends Model
 	private String email;
 	private String secondaryEmail;
 	private Integer reqCourses;
+	private Integer remaining;
+	
 
 	// methods
 		
@@ -110,7 +114,6 @@ public class ViewAccountInformation extends Model
 		this.lastName = lastName;
 	}
 
-
 	public String getEmail()
 	{
 		return email;
@@ -142,6 +145,13 @@ public class ViewAccountInformation extends Model
 
 	public void setReqCourses(Integer reqCourses) {
 		this.reqCourses = reqCourses;
+	}
+	public Integer getRemaining() {
+		return remaining;
+	}
+
+	public void setRemaining(Integer remaining) {
+		this.remaining = remaining;
 	}
 
 	@Override
@@ -201,6 +211,11 @@ public class ViewAccountInformation extends Model
 			if (other.reqCourses != null)
 				return false;
 		} else if (!reqCourses.equals(other.reqCourses))
+			return false;
+		if (remaining == null) {
+			if (other.remaining != null)
+				return false;
+		} else if (!remaining.equals(other.remaining))
 			return false;
 		return true;
 	}

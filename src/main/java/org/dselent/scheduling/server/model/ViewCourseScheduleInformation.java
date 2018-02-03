@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.dselent.scheduling.server.model.CourseSchedule.Columns;
-//unfinished
+
 public class ViewCourseScheduleInformation extends Model{
 	
 	//table name
@@ -51,6 +51,10 @@ public class ViewCourseScheduleInformation extends Model{
 	private String courseNum;
 	private String courseName;
 	private String meetingDays;
+	private String deptName;
+	private Integer timeStart;
+	private Integer timeEnd;
+	
 	
 	public static JDBCType getColumnType(Columns column)
 	{
@@ -77,7 +81,7 @@ public class ViewCourseScheduleInformation extends Model{
 	public String getMeetingDays() {
 		return meetingDays;
 	}
-	public void setId(String meetingDays) {
+	public void setMeetingDays(String meetingDays) {
 		this.meetingDays = meetingDays;
 	}
 	public String getCourseNum() {
@@ -89,8 +93,20 @@ public class ViewCourseScheduleInformation extends Model{
 	public String getCourseName() {
 		return courseName;
 	}
-	public void setcCourseName(String courseName) {
+	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+	public Integer getTimeStart() {
+		return timeStart;
+	}
+	public void setTimeStart(Integer timeStart) {
+		this.timeStart = timeStart;
+	}
+	public Integer getTimeEnd() {
+		return timeEnd;
+	}
+	public void setTimeEnd(Integer timeEnd) {
+		this.timeEnd = timeEnd;
 	}
 	@Override
 	public int hashCode() {
@@ -99,6 +115,9 @@ public class ViewCourseScheduleInformation extends Model{
 		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
 		result = prime * result + ((meetingDays == null) ? 0 : meetingDays.hashCode());
 		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result + ((deptName == null) ? 0 : deptName.hashCode());
+		result = prime * result + ((timeStart == null) ? 0 : timeStart.hashCode());
+		result = prime * result + ((timeEnd == null) ? 0 : timeEnd.hashCode());
 		return result;
 	}
 	@Override
@@ -125,12 +144,28 @@ public class ViewCourseScheduleInformation extends Model{
 				return false;
 		} else if (!meetingDays.equals(other.meetingDays))
 			return false;
+		if (deptName == null) {
+			if (other.deptName != null)
+				return false;
+		} else if (!deptName.equals(other.deptName))
+			return false;
+		if (timeStart == null) {
+			if (other.timeStart != null)
+				return false;
+		} else if (!timeStart.equals(other.timeStart))
+			return false;
+		if (timeEnd == null) {
+			if (other.timeEnd != null)
+				return false;
+		} else if (!timeEnd.equals(other.timeEnd))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "CourseSection [courseName=" + courseName + ", courseNum=" + courseNum
-				+ ", meetingDays=" + meetingDays + "]";
+				+ ", meetingDays=" + meetingDays + ", deptName=" + deptName + 
+				", timeStart=" + timeStart + ", timeEnd=" + timeEnd + "]";
 	}
 	
 	

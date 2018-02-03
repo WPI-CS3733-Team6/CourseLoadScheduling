@@ -61,7 +61,7 @@ public class ViewRegistrationCart extends Model{
 	public String getCourseName() {
 		return courseName;
 	}
-	public void setcCourseName(String courseName) {
+	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
 	@Override
