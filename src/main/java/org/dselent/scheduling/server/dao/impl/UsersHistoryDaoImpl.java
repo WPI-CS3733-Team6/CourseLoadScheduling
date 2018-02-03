@@ -2,6 +2,7 @@ package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,23 +20,33 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-/*
- * @Repository annotation
- * https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html
- * 
- * Useful link
- * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
- */
-
-//UsersHistory = Class name notation (Example: InstructorCourseLinkRegistered)
-//usersHistory = Camel naming notation (Example: instructorCourseLinkRegistered)
-//There are also some PLACEFIELDHEREs to watch out for. You should probably glance over the whole thing once youre done, just in case
-//Otherwise, this thing is 100% find/replace friendly, so go ahead!
-
-
 @Repository
 public class UsersHistoryDaoImpl extends BaseDaoImpl<UsersHistory> implements UsersHistoryDao
 {
+	
+	public int updateUsersHistory(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {
+		
+    	List<Integer> typeList = new ArrayList<Integer>();
+    	typeList.add(Types.VARCHAR);
+		
+		String queryTemplate = QueryStringBuilder.generateUpdateString(UsersHistory.TABLE_NAME, columnNameList, queryTermList);	//Here's where the column names are fille din
+		
+		List<Object> objectList = new ArrayList<Object>();
+		for(Object object : newValueList) {
+			objectList.add(object);	//First fill in new values
+		}
+		
+		for(QueryTerm queryTerm : queryTermList)
+		{
+			objectList.add(queryTerm.getValue());	//Second batch is conditions
+		}
+		
+		Object[] parameters = objectList.toArray();
+		
+		return jdbcTemplate.update(queryTemplate, parameters);//, objectTypeList.toArray());
+	}
+	
+	
 	@Override
 	public int insert(UsersHistory usersHistoryModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
 	{

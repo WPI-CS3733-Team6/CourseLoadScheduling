@@ -23,6 +23,30 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> implements CourseInformationDao
 {
+	
+	public int updateCourseInformation(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {
+		
+    	List<Integer> typeList = new ArrayList<Integer>();
+    	typeList.add(Types.VARCHAR);
+		
+		String queryTemplate = QueryStringBuilder.generateUpdateString(CourseInformation.TABLE_NAME, columnNameList, queryTermList);	//Here's where the column names are fille din
+		
+		List<Object> objectList = new ArrayList<Object>();
+		for(Object object : newValueList) {
+			objectList.add(object);	//First fill in new values
+		}
+		
+		for(QueryTerm queryTerm : queryTermList)
+		{
+			objectList.add(queryTerm.getValue());	//Second batch is conditions
+		}
+		
+		Object[] parameters = objectList.toArray();
+		
+		return jdbcTemplate.update(queryTemplate, parameters);//, objectTypeList.toArray());
+	}
+	
+	
 	@Override
 	public int insert(CourseInformation courseInformationModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
 	{

@@ -20,14 +20,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-/*
- * @Repository annotation
- * https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html
- * 
- * Useful link
- * https://howtodoinjava.com/spring/spring-core/how-to-use-spring-component-repository-service-and-controller-annotations/
- */
-
 
 @Repository
 public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
