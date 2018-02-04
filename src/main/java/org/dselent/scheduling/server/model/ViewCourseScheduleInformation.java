@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.dselent.scheduling.server.model.CourseSchedule.Columns;
-
 public class ViewCourseScheduleInformation extends Model{
 	
 	//table name

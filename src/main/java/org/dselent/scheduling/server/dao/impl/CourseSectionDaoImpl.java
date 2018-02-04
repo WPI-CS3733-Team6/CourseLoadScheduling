@@ -18,7 +18,6 @@ import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 
 public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements CourseSectionDao{
 	
