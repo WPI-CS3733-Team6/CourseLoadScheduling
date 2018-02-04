@@ -2,6 +2,7 @@ package org.dselent.scheduling.server.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,10 +69,26 @@ public class CustomDaoImpl implements CustomDao
 		//Not going use .addValues since I don't know how to implement a Map
 		ViewClassesExtractor extractor = new ViewClassesExtractor();
 		String queryTemplate = new String(QueryPathConstants.AVANCED_SEARCH_DETAILED_QUERY);
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("firstTerm", firstTerm);
+		parameterMap.put("secondTerm", secondTerm);
+		parameterMap.put("deptName", deptName);
+		parameterMap.put("rangeStart", rangeStart);
+		parameterMap.put("rangeEnd", rangeEnd);
+		parameterMap.put("courseType", courseType);
+		parameterMap.put("sectionType", sectionType);
+		parameterMap.put("level", level);
+		parameterMap.put("days", days);
+		
 	    MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValues(parameterMap);
+	    /*
 	    parameters.addValue("firstTerm", firstTerm).addValue("secondTerm", secondTerm).addValue("deptName", deptName).
 	    addValue("rangeStart", rangeStart).addValue("rangeEnd", rangeEnd).addValue("courseType", courseType).
 	    addValue("sectionType", sectionType).addValue("level", level).addValue("days", days);
+	    */
+	    
 	    List<ViewClasses> result = namedParameterJdbcTemplate.query(queryTemplate, parameters, extractor);
 	    return result;
 	}
