@@ -102,15 +102,6 @@ public class UserServiceImpl implements UserService
     	rowsAffectedList.add(usersRolesLinksDao.insert(usersRolesLink, usersRolesLinksInsertColumnNameList, usersRolesLinksKeyHolderColumnNameList));
 		
 		return rowsAffectedList;
-	}
-	
-	//
-
-	@Override
-	public User loginUser(String userName, String password)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}   
+	} 
 
 }

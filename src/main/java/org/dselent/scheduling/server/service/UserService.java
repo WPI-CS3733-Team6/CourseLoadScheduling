@@ -26,5 +26,4 @@ public interface UserService
 	 * @throws SQLException
 	 */
 	public List<Integer> registerUser(RegisterUserDto registerUserDto) throws SQLException;
-    public User loginUser(String userName, String password);
 }

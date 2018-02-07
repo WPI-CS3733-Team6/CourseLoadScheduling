@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/user")
 public interface UsersController
 {
-    
     @RequestMapping(method=RequestMethod.POST, value=Register.REQUEST_NAME)
 	public ResponseEntity<String> register(@RequestBody Map<String, String> request) throws Exception;
 }
