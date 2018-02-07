@@ -10,7 +10,6 @@ import org.dselent.scheduling.server.model.User;
 import org.dselent.scheduling.server.service.LoginService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
-import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,17 +34,16 @@ public class LoginServiceImplementation implements LoginService{
 	public Integer login(String username, String password) throws SQLException {
 		//Confirm that user exists
 		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(User.getColumnName(User.Columns.USER_NAME));
+		columnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
+		columnNameList.add(User.getColumnName(User.Columns.SALT));
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm usernameQuery = new QueryTerm();
 		usernameQuery.setComparisonOperator(ComparisonOperator.EQUAL);
 		usernameQuery.setValue(username);
 		usernameQuery.setColumnName(User.getColumnName(User.Columns.USER_NAME));
-		//TODO We have two column names here and in columnNameList
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
-		//TODO Check if I can just leave this empty
 		
 		List<User> results = usersDao.select(columnNameList, queryTermList, orderByList);
 		
@@ -53,22 +51,19 @@ public class LoginServiceImplementation implements LoginService{
 		if (results.size() != 1)
 			return 0;
 		
-		//If only get one user back, check credentials
+		//Get user's encrypted credentials
 		User user = results.get(0);
-		
-		//Get info from user
 		String salt = user.getSalt();
 		String correctPassword = user.getEncryptedPassword();
 
-		//Compute entered password
+		//Encrypt entered password
 		String saltedPassword = password + salt;
 		PasswordEncoder passwordEncorder = new BCryptPasswordEncoder();
 		String enteredPassword = passwordEncorder.encode(saltedPassword);
 		
 		//If passwords match, return 1, else return 0
-		if (correctPassword.equals(enteredPassword)) {
+		if (correctPassword.equals(enteredPassword))
 			return 1;
-		}
 		return 0;
 	}
 

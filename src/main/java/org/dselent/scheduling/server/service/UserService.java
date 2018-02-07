@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.dselent.scheduling.server.dto.RegisterUserDto;
-import org.dselent.scheduling.server.model.User;
 import org.springframework.stereotype.Service;
 
 /**
