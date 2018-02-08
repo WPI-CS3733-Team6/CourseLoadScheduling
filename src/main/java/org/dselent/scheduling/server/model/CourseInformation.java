@@ -16,9 +16,9 @@ public class CourseInformation extends Model {
 		ID,
 		COURSE_NUM,
 		COURSE_NAME,
+		COURSE_DESCRIPTION,
 		TYPE,
-		LEVEL,
-		NUM_SECTIONS
+		LEVEL
 	}
 	
 	//enum list
@@ -36,9 +36,9 @@ public class CourseInformation extends Model {
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.COURSE_NUM, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.COURSE_NAME, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.COURSE_DESCRIPTION, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.TYPE, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.LEVEL, JDBCType.BOOLEAN);
-		COLUMN_TYPE_MAP.put(Columns.NUM_SECTIONS, JDBCType.INTEGER);
 	};
 	
 	//attributes
@@ -46,9 +46,9 @@ public class CourseInformation extends Model {
 	private Integer id;
 	private String courseNum;
 	private String courseName;
+	private String courseDescription;
 	private String type;
 	private Boolean level;
-	private Integer numSections;
 	
 	//methods
 	
@@ -97,6 +97,14 @@ public class CourseInformation extends Model {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
+	
+	public String getCourseDescription() {
+		return courseName;
+	}
+
+	public void setCourseDescription(String courseName) {
+		this.courseName = courseName;
+	}
 
 	public String getType() {
 		return type;
@@ -109,23 +117,15 @@ public class CourseInformation extends Model {
 	public Boolean getLevel() {
 		return level;
 	}
-
+	
 	public void setLevel(Boolean level) {
 		this.level = level;
-	}
-
-	public Integer getNumSections() {
-		return numSections;
-	}
-
-	public void setNumSections(Integer numSections) {
-		this.numSections = numSections;
 	}
 
 	@Override
 	public String toString() {
 		return "CourseInformation [id=" + id + ", courseNum=" + courseNum + ", courseName=" + courseName + ", type="
-				+ type + ", level=" + level + ", numSections=" + numSections + "]";
+				+ type + ", level=" + level + ", courseDescription=" + courseDescription + "]";
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class CourseInformation extends Model {
 		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
-		result = prime * result + ((numSections == null) ? 0 : numSections.hashCode());
+		result = prime * result + ((courseDescription == null) ? 0 : courseDescription.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -170,10 +170,10 @@ public class CourseInformation extends Model {
 				return false;
 		} else if (!level.equals(other.level))
 			return false;
-		if (numSections == null) {
-			if (other.numSections != null)
+		if (courseDescription == null) {
+			if (other.courseDescription != null)
 				return false;
-		} else if (!numSections.equals(other.numSections))
+		} else if (!courseDescription.equals(other.courseDescription))
 			return false;
 		if (type == null) {
 			if (other.type != null)
@@ -181,6 +181,5 @@ public class CourseInformation extends Model {
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
-	}
-	
+	}	
 }
