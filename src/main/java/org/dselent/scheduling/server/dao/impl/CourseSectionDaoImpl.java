@@ -176,18 +176,14 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
     		parameters.addValue(parameterName, CourseSectionModel.getId());
     	}
     	
-    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.COURSE_NUM)))
+    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID)))
     	{
-    		parameters.addValue(parameterName, CourseSectionModel.getCourseNum());
+    		parameters.addValue(parameterName, CourseSectionModel.getInstanceId());
     	}
     	
     	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getSectionNum());
-    	}
-    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.TERM)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getTerm());
     	}
     	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
     	{
@@ -220,21 +216,20 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
     	{
     		CourseSectionModel.setId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.COURSE_NUM)))
+    	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID)))
     	{
-    		CourseSectionModel.setCourseNum((String) keyMap.get(keyHolderColumnName));
+    		CourseSectionModel.setInstanceId((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)))
     	{
     		CourseSectionModel.setSectionNum((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.TERM)))
-    	{
-    		CourseSectionModel.setTerm((String) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
+
+    	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
     	{
     		CourseSectionModel.setExpectedPop((Integer) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.DELETED)))
+    	}
+    	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.DELETED)))
     	{
     		CourseSectionModel.setDeleted((Boolean) keyMap.get(keyHolderColumnName));
     	}else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.CREATED_AT)))
