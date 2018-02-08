@@ -30,6 +30,6 @@ public interface CustomDao
 	public List<ViewCourseSummaries> getHomepageCart(Integer userId);
 	public List<ViewCourseScheduleInformation> getCourseScheduleInformation(Integer userId);
 	public List<ViewClasses> getAdvancedSearchDetail(String firstTerm, String secondTerm, String deptName,
-			Integer rangeStart, Integer rangeEnd, String courseType, String sectionType, Boolean level, String days);
+			Integer rangeStart, Integer rangeEnd, String courseType, String sectionType, Boolean level, String days, Integer courseNum);
 	public List<ViewClasses> getSearchClasses(String firstTerm, String secondTerm, String deptName);
 }

@@ -26,6 +26,6 @@ AND (ci.type = :courseType OR :courseType = 'false')
 AND (sc.type = :sectionType OR :sectionType = 'false')
 AND (ci.level = :level OR :level = 'false')
 AND (sc.meeting_days = :days OR :days = 'false')
-
+AND (ci.course_num = :courseNum OR :courseNum = 'false')
 
 ORDER BY se.id ASC;

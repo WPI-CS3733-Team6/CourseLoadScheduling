@@ -56,7 +56,7 @@ public class CustomDaoImpl implements CustomDao
 	//
 	@Override
 	public List<ViewClasses> getAdvancedSearchDetail(String firstTerm, String secondTerm, String deptName,
-			Integer rangeStart, Integer rangeEnd, String courseType, String sectionType, Boolean level, String days) //question query
+			Integer rangeStart, Integer rangeEnd, String courseType, String sectionType, Boolean level, String days, Integer courseNum) //question query
 	{	
 		//Not going use .addValues since I don't know how to implement a Map
 		ViewClassesExtractor extractor = new ViewClassesExtractor();
@@ -72,6 +72,7 @@ public class CustomDaoImpl implements CustomDao
 		parameterMap.put("sectionType", sectionType);
 		parameterMap.put("level", level);
 		parameterMap.put("days", days);
+		parameterMap.put("courseNum", courseNum);
 		
 	    MapSqlParameterSource parameters = new MapSqlParameterSource();
 	    parameters.addValues(parameterMap);
