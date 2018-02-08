@@ -173,9 +173,9 @@ public class UserRolesDaoImpl extends BaseDaoImpl<UserRoles> implements UserRole
     	{
     		parameters.addValue(parameterName, usersRolesLinkModel.getId());
     	}
-    	else if(insertColumnName.equals(UserRoles.getColumnName(UserRoles.Columns.ROLE_NAME)))
+    	else if(insertColumnName.equals(UserRoles.getColumnName(UserRoles.Columns.ROLE)))
     	{
-    		parameters.addValue(parameterName, usersRolesLinkModel.getRoleName());
+    		parameters.addValue(parameterName, usersRolesLinkModel.getRole());
     	}
     	else if(insertColumnName.equals(UserRoles.getColumnName(UserRoles.Columns.UPDATED_AT)))
     	{
@@ -197,9 +197,9 @@ public class UserRolesDaoImpl extends BaseDaoImpl<UserRoles> implements UserRole
     	{
     		usersRolesLinkModel.setId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(UserRoles.getColumnName(UserRoles.Columns.ROLE_NAME)))
+    	else if(keyHolderColumnName.equals(UserRoles.getColumnName(UserRoles.Columns.ROLE)))
     	{
-    		usersRolesLinkModel.setRoleName((String) keyMap.get(keyHolderColumnName));
+    		usersRolesLinkModel.setRole((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(UserRoles.getColumnName(UserRoles.Columns.UPDATED_AT)))
     	{

@@ -16,7 +16,7 @@ public class UserRoles extends Model
 	public static enum Columns
 	{
 		ID,
-		ROLE_NAME,
+		ROLE,
 		CREATED_AT,
 		UPDATED_AT
 	}
@@ -35,7 +35,7 @@ public class UserRoles extends Model
 		}
 		
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.ROLE_NAME, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.ROLE, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 	};
@@ -43,7 +43,7 @@ public class UserRoles extends Model
 	// attributes
 	
 	private Integer id;
-	private String roleName;
+	private Integer role;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	
@@ -70,8 +70,6 @@ public class UserRoles extends Model
 		
 		return columnNameList;
 	}
-	
-	//
 
 	public Integer getId() {
 		return id;
@@ -81,12 +79,12 @@ public class UserRoles extends Model
 		this.id = id;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public Integer getRole() {
+		return role;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 
 	public Timestamp getCreatedAt() {
@@ -104,96 +102,53 @@ public class UserRoles extends Model
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((roleName == null) ? 0 : roleName.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
-		{
 			return true;
-		}
 		if (obj == null)
-		{
 			return false;
-		}
-		if (!(obj instanceof UserRoles))
-		{
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		UserRoles other = (UserRoles) obj;
-		if (createdAt == null)
-		{
+		if (createdAt == null) {
 			if (other.createdAt != null)
-			{
 				return false;
-			}
-		}
-		else if (!createdAt.equals(other.createdAt))
-		{
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
-		}
-		
-		if (id == null)
-		{
+		if (id == null) {
 			if (other.id != null)
-			{
 				return false;
-			}
-		}
-		else if (!id.equals(other.id))
-		{
+		} else if (!id.equals(other.id))
 			return false;
-		}
-		if (roleName == null)
-		{
-			if (other.roleName != null)
-			{
+		if (role == null) {
+			if (other.role != null)
 				return false;
-			}
-		}
-		else if (!roleName.equals(other.roleName))
-		{
+		} else if (!role.equals(other.role))
 			return false;
-		}
-		if (updatedAt == null)
-		{
+		if (updatedAt == null) {
 			if (other.updatedAt != null)
-			{
 				return false;
-			}
-		}
-		else if (!updatedAt.equals(other.updatedAt))
-		{
+		} else if (!updatedAt.equals(other.updatedAt))
 			return false;
-		}
 		return true;
 	}
 
 	@Override
-	public String toString()
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("UserRoles [id=");
-		builder.append(id);
-		builder.append(", roleName=");
-		builder.append(roleName);
-		builder.append(", createdAt=");
-		builder.append(createdAt);
-		builder.append(", updatedAt=");
-		builder.append(updatedAt);
-		builder.append("]");
-		return builder.toString();
+	public String toString() {
+		return "UserRoles [id=" + id + ", role=" + role + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
+
 }

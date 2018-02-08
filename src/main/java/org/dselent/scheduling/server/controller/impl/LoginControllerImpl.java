@@ -1,6 +1,5 @@
 package org.dselent.scheduling.server.controller.impl;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 @Controller
 public class LoginControllerImpl implements LoginController{
 	
 	@Autowired
 	private LoginService loginService;
 	
-	public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws JsonProcessingException, SQLException {
+	public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws Exception {
 		
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
@@ -33,6 +30,7 @@ public class LoginControllerImpl implements LoginController{
 		
 		loginService.login(username, password);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		
 		
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}

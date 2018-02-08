@@ -25,7 +25,7 @@ public class UserRolesExtractor extends Extractor<List<UserRoles>>
 				result.setId(null);
 			}
 			
-			result.setRoleName(rs.getString(UserRoles.getColumnName(UserRoles.Columns.ROLE_NAME)));
+			result.setRole(rs.getInt(UserRoles.getColumnName(UserRoles.Columns.ROLE)));
 			
 			result.setCreatedAt(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.CREATED_AT)));
 			result.setUpdatedAt(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.UPDATED_AT)));

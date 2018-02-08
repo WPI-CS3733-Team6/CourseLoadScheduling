@@ -32,13 +32,19 @@ public class LoginServiceImplementation implements LoginService{
 	//return 1 on successful login, else return 0
 	@Transactional
 	@Override
-	public Integer login(String username, String password) throws SQLException {
+	public Integer login(String username, String password) throws Exception {
 		//Confirm that user exists
 		List<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
 		columnNameList.add(User.getColumnName(User.Columns.SALT));
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
+		QueryTerm userStateQuery = new QueryTerm();
+		userStateQuery.setValue(0);
+		userStateQuery.setColumnName(User.getColumnName(User.Columns.USER_STATE_ID));
+		userStateQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(userStateQuery);
+		
 		QueryTerm usernameQuery = new QueryTerm();
 		usernameQuery.setValue(username);
 		usernameQuery.setColumnName(User.getColumnName(User.Columns.USER_NAME));
@@ -46,20 +52,13 @@ public class LoginServiceImplementation implements LoginService{
 		usernameQuery.setLogicalOperator(LogicalOperator.AND);
 		queryTermList.add(usernameQuery);
 		
-		QueryTerm userStateQuery = new QueryTerm();
-		Integer foo = 0;
-		userStateQuery.setValue(foo);
-		userStateQuery.setColumnName(User.getColumnName(User.Columns.USER_STATE_ID));
-		userStateQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList.add(userStateQuery);
-		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
 		List<User> results = usersDao.select(columnNameList, queryTermList, orderByList);
 		
 		//Check if we only get one user back
 		if (results.size() != 1)
-			return 0;
+			throw new Exception("Testing");
 		
 		//Get user's encrypted credentials
 		User user = results.get(0);
@@ -74,7 +73,7 @@ public class LoginServiceImplementation implements LoginService{
 		//If passwords match, return 1, else return 0
 		if (correctPassword.equals(enteredPassword))
 			return 1;
-		return 0;
+		throw new Exception("Invalid password");
 	}
 
 }
