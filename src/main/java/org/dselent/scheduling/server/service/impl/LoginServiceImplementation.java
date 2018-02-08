@@ -10,6 +10,7 @@ import org.dselent.scheduling.server.model.User;
 import org.dselent.scheduling.server.service.LoginService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
+import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,9 +40,18 @@ public class LoginServiceImplementation implements LoginService{
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm usernameQuery = new QueryTerm();
-		usernameQuery.setComparisonOperator(ComparisonOperator.EQUAL);
 		usernameQuery.setValue(username);
 		usernameQuery.setColumnName(User.getColumnName(User.Columns.USER_NAME));
+		usernameQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		usernameQuery.setLogicalOperator(LogicalOperator.AND);
+		queryTermList.add(usernameQuery);
+		
+		QueryTerm userStateQuery = new QueryTerm();
+		Integer foo = 0;
+		userStateQuery.setValue(foo);
+		userStateQuery.setColumnName(User.getColumnName(User.Columns.USER_STATE_ID));
+		userStateQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(userStateQuery);
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
@@ -58,8 +68,8 @@ public class LoginServiceImplementation implements LoginService{
 
 		//Encrypt entered password
 		String saltedPassword = password + salt;
-		PasswordEncoder passwordEncorder = new BCryptPasswordEncoder();
-		String enteredPassword = passwordEncorder.encode(saltedPassword);
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String enteredPassword = passwordEncoder.encode(saltedPassword);
 		
 		//If passwords match, return 1, else return 0
 		if (correctPassword.equals(enteredPassword))
