@@ -16,14 +16,10 @@ public class CourseSectionsHistory extends Model{
 	public static enum Columns
 	{
 		ID,
-		COURSE_ID,
-		COURSE_NAME,
-		COURSE_NUM,
+		INSTANCE_ID,
 		SECTION_NUM,
-		TERM,
 		EXPECTED_POP,
-		CREATED_AT,
-		UPDATED_AT,
+		UPDATED_AT
 	}
 
 	// enum list
@@ -40,26 +36,18 @@ public class CourseSectionsHistory extends Model{
 		}
 
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.COURSE_ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.COURSE_NAME, JDBCType.VARCHAR);
-		COLUMN_TYPE_MAP.put(Columns.COURSE_NUM, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.INSTANCE_ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.SECTION_NUM, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.TERM, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.EXPECTED_POP, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 	};
 
 	// attributes
 	
 	private Integer id;
-	private String courseId;
-	private String courseName;
-	private String courseNum;
+	private Integer instanceId;
 	private Integer sectionNum;
-	private String term;
 	private Integer expectedPop;
-	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	
 	public static JDBCType getColumnType(Columns column)
@@ -84,8 +72,6 @@ public class CourseSectionsHistory extends Model{
 		return columnNameList;
 	}
 
-	
-	
 	public Integer getId() {
 		return id;
 	}
@@ -94,28 +80,12 @@ public class CourseSectionsHistory extends Model{
 		this.id = id;
 	}
 
-	public String getCourseId() {
-		return courseId;
+	public Integer getInstanceId() {
+		return instanceId;
 	}
 
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
-	}
-
-	public String getCourseName() {
-		return courseName;
-	}
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-
-	public String getCourseNum() {
-		return courseNum;
-	}
-
-	public void setCourseNum(String courseNum) {
-		this.courseNum = courseNum;
+	public void setInstanceId(Integer instanceId) {
+		this.instanceId = instanceId;
 	}
 
 	public Integer getSectionNum() {
@@ -126,28 +96,12 @@ public class CourseSectionsHistory extends Model{
 		this.sectionNum = sectionNum;
 	}
 
-	public String getTerm() {
-		return term;
-	}
-
-	public void setTerm(String term) {
-		this.term = term;
-	}
-
 	public Integer getExpectedPop() {
 		return expectedPop;
 	}
 
 	public void setExpectedPop(Integer expectedPop) {
 		this.expectedPop = expectedPop;
-	}
-
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public Timestamp getUpdatedAt() {
@@ -162,18 +116,14 @@ public class CourseSectionsHistory extends Model{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
-		result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
-		result = prime * result + ((courseNum == null) ? 0 : courseNum.hashCode());
 		result = prime * result + ((expectedPop == null) ? 0 : expectedPop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
+		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
 		result = prime * result + ((sectionNum == null) ? 0 : sectionNum.hashCode());
-		result = prime * result + ((term == null) ? 0 : term.hashCode());
+		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -183,21 +133,6 @@ public class CourseSectionsHistory extends Model{
 		if (getClass() != obj.getClass())
 			return false;
 		CourseSectionsHistory other = (CourseSectionsHistory) obj;
-		if (courseId == null) {
-			if (other.courseId != null)
-				return false;
-		} else if (!courseId.equals(other.courseId))
-			return false;
-		if (courseName == null) {
-			if (other.courseName != null)
-				return false;
-		} else if (!courseName.equals(other.courseName))
-			return false;
-		if (courseNum == null) {
-			if (other.courseNum != null)
-				return false;
-		} else if (!courseNum.equals(other.courseNum))
-			return false;
 		if (expectedPop == null) {
 			if (other.expectedPop != null)
 				return false;
@@ -208,33 +143,27 @@ public class CourseSectionsHistory extends Model{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (createdAt == null) {
-			if (other.createdAt != null)
+		if (instanceId == null) {
+			if (other.instanceId != null)
 				return false;
-		} else if (!createdAt.equals(other.createdAt))
-			return false;
-		if (updatedAt == null) {
-			if (other.updatedAt != null)
-				return false;
-		} else if (!updatedAt.equals(other.updatedAt))
+		} else if (!instanceId.equals(other.instanceId))
 			return false;
 		if (sectionNum == null) {
 			if (other.sectionNum != null)
 				return false;
 		} else if (!sectionNum.equals(other.sectionNum))
 			return false;
-		if (term == null) {
-			if (other.term != null)
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
 				return false;
-		} else if (!term.equals(other.term))
+		} else if (!updatedAt.equals(other.updatedAt))
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "courseSectionsHistory [id=" + id + ", courseId=" + courseId + ", courseName=" + courseName
-				+ ", courseNum=" + courseNum + ", sectionNum=" + sectionNum + ", term=" + term + ", expectedPop="
-				+ expectedPop + ", createdAt=" + createdAt + "updatedAt=" + updatedAt + "]";
+		return "CourseSectionsHistory [id=" + id + ", instanceId=" + instanceId + ", sectionNum=" + sectionNum
+				+ ", expectedPop=" + expectedPop + ", updatedAt=" + updatedAt + "]";
 	}
 }
