@@ -17,7 +17,7 @@ public class RegisterUserDto
 	private final String lastName;
 	private final String email;
 	private final String password;
-
+	
 	// I added to the auto-generated code
 	@Generated("SparkTools")
 	private RegisterUserDto(Builder builder)
