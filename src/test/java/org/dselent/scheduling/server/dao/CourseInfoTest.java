@@ -28,7 +28,6 @@ public class CourseInfoTest {
 		course1.setCourseName("New Course");
 		course1.setCourseNum("3838");
 		course1.setLevel(true);
-		course1.setNumSections(4);
 		course1.setType("Lecture");
 		
 		List<String> insertColumnNameList = new ArrayList<>();
@@ -37,7 +36,6 @@ public class CourseInfoTest {
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
-    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.NUM_SECTIONS));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
     	
     	keyHolderColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
