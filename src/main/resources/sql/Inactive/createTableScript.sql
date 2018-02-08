@@ -153,7 +153,7 @@ CREATE TABLE instructors
 	@Param course_name: Course name
 	@Param term: The term the course is taught
 	@Param type: The type of course: (MQP/IQP/regular/etc.)
-	@Param level: The level of the course (Undergraduate=TRUE, Graduate=FALSE)
+	@Param level: The level of the course (Graduate=TRUE, Undergraduate=FALSE)
 	@Param num_sections: The number of sections that are offered for the course 
 			next 5 digits will represent the terms it's offered. Encoded as follows:
 			A00000
