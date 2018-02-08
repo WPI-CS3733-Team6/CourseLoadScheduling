@@ -166,6 +166,27 @@ CREATE TABLE course_information
 	level boolean NOT NULL
 );
 
+/*
+	course_instance: This a "child" table of course_information. This table holds time-dependent values and a grouping method
+	for instances of courses
+	@Param id: This is the users ID (aka the primary key)
+	@Param course_id: foreign key references course_information (master course)
+	@Param term: term that this instance is run in
+	@Param deleted: whether the instance has been deleted or not (false = not deleted)
+	@Param created_at: timestamp
+	@Param updated_at: timestamp
+*/
+CREATE TABLE course_instance
+(
+	id serial PRIMARY KEY,
+	course_id integer,
+	term varchar(7),
+	deleted boolean NOT NULL DEFAULT(FALSE),
+	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+	FOREIGN KEY (course_id) REFERENCES course_information(id)
+)
+
 
 
 /*
@@ -174,7 +195,6 @@ CREATE TABLE course_information
 	@Param id: Primary key
 	@Param course_num: The couse number that is "Taken/referenced" from the parent table.
 	@Param section_num: The specific section number (Each row will have a unique section number in its given course and term). The number of sections will be taken form the parent table.
-	@Param term: The term the course is offered in. (Thi will also be used to create a unique section number: A01, B03, etc.)
 	@Param expected_pop: this is the expected population of a class section
 	@Param deleted: whether the given section has been taken or not: FALSE = not taken, or available; TRUE = taken, or not available
 	@Param created_at: timestamp
@@ -183,14 +203,13 @@ CREATE TABLE course_information
 CREATE TABLE course_sections
 (
 	id serial PRIMARY KEY,
-	course_id integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
+	instance_id integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
 	section_num integer NOT NULL, --automatically generated on the front end (user inputs amount of sections, app generates numbers for each one, ex: 01, 02, 03)
-	term varchar(5) NOT NULL,
 	expected_pop integer NOT NULL,
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-	FOREIGN KEY (course_id) REFERENCES course_information (id) --I changed this from "course_information (course_num)"
+	FOREIGN KEY (instance_id) REFERENCES course_instance (id) --I changed this from "course_information (course_num)"
 														--because the course_num is not unique (So, it can't be a FK)
 );
 
