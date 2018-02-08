@@ -47,7 +47,7 @@ CREATE TABLE user_roles
 	@Param encrypted_password: Password for the user
 	@Param salt: Used for the password encryption integrity
 	@Param user_role: Whether or not they are an admin: 0 - not an admin, 1 - admin
-	@Param user_state_id: This is whether or not a user has been deleted
+	@Param user_state_id: This is whether or not a user has been deleted, 0 = not deleted, 1 = deleted.
 	@param admin_inbox: This is a link to the admin inbox. Only users that are admins will be able to access this inbox(this will be done through Java).
 	@Param created_at: timestamp
 	@Param updated_at: timestamp
