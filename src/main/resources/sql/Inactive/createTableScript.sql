@@ -151,27 +151,19 @@ CREATE TABLE instructors
 	@Param id: This is the users ID (aka the primary key)
 	@Param course_num: Course number
 	@Param course_name: Course name
+	@Param course_description: a description of the course
 	@Param term: The term the course is taught
 	@Param type: The type of course: (MQP/IQP/regular/etc.)
 	@Param level: The level of the course (Graduate=TRUE, Undergraduate=FALSE)
-	@Param num_sections: The number of sections that are offered for the course 
-			next 5 digits will represent the terms it's offered. Encoded as follows:
-			A00000
-			1st Letter: Can be an A or a B. A=Every year, B=Every other year
-			1st Number: A ONE if its offered this term (A-Term). A ZERO if not.
-			2st Number: A ONE if its offered this term (B-Term). A ZERO if not.
-			3st Number: A ONE if its offered this term (C-Term). A ZERO if not.
-			4st Number: A ONE if its offered this term (D-Term). A ZERO if not.
-			5st Number: A ONE if its offered this term (E-Term). A ZERO if not.
 */
 CREATE TABLE course_information
 (
 	id serial PRIMARY KEY,
 	course_num varchar(255) NOT NULL,
 	course_name varchar(255) UNIQUE NOT NULL,
+	course_description varchar(2047) NOT NULL,
 	type varchar(255) NOT NULL,
-	level boolean NOT NULL,
-	num_sections integer NOT NULL
+	level boolean NOT NULL
 );
 
 
@@ -229,7 +221,7 @@ CREATE TABLE course_schedule
 (
 	id serial PRIMARY KEY,
 	section_id integer NOT NULL REFERENCES course_sections(id), --HAS TO REFERENCE course_sections in some way
-	type varchar(255) NOT NULL,
+	lecture_type varchar(255) NOT NULL,
 	meeting_days varchar(255) NOT NULL,
 	time_start integer NOT NULL,
 	time_end integer NOT NULL,
@@ -240,7 +232,7 @@ CREATE TABLE course_schedule
 /*
 	departments: This table lists all the departments in the system
 	@Param id: Primary key for the table
-	@Param dept_name: the name of the department
+	@Param [_name: the name of the department
 	@Param created_at: timestamp
 	@Param updated_at: timestamp
 */
