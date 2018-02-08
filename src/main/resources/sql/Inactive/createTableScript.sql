@@ -191,14 +191,14 @@ CREATE TABLE course_information
 CREATE TABLE course_sections
 (
 	id serial PRIMARY KEY,
-	course_num integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
+	course_id integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
 	section_num integer NOT NULL, --automatically generated on the front end (user inputs amount of sections, app generates numbers for each one, ex: 01, 02, 03)
 	term varchar(5) NOT NULL,
 	expected_pop integer NOT NULL,
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-	FOREIGN KEY (course_num) REFERENCES course_information (id) --I changed this from "course_information (course_num)"
+	FOREIGN KEY (course_id) REFERENCES course_information (id) --I changed this from "course_information (course_num)"
 														--because the course_num is not unique (So, it can't be a FK)
 );
 
