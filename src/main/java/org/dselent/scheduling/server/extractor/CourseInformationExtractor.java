@@ -38,11 +38,11 @@ public class CourseInformationExtractor extends Extractor<List<CourseInformation
 				result.setLevel(null);
 			}
 			
-			result.setNumSections(rs.getInt(CourseInformation.getColumnName(CourseInformation.Columns.NUM_SECTIONS)));
+			result.setCourseDescription(rs.getString(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION)));
 			
 			if(rs.wasNull())
 			{
-				result.setNumSections(null);
+				result.setCourseDescription(null);
 			}
 		
 			resultList.add(result);

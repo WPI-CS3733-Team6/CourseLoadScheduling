@@ -176,34 +176,18 @@ public class CourseSectionsHistoryDaoImpl  extends BaseDaoImpl<CourseSectionsHis
     		parameters.addValue(parameterName, CourseSectionModel.getId());
     	}
     	
-    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NUM)))
+    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.INSTANCE_ID)))
     	{
-    		parameters.addValue(parameterName, CourseSectionModel.getCourseNum());
+    		parameters.addValue(parameterName, CourseSectionModel.getInstanceId());
     	}
     	
     	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getSectionNum());
     	}
-    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.TERM)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getTerm());
-    	}
     	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getExpectedPop());
-    	}
-    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NAME)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getCourseName());
-    	}
-    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_ID)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getCourseId());
-    	}
-    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.CREATED_AT)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getCreatedAt());
     	}
     	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.UPDATED_AT)))
     	{
@@ -224,30 +208,19 @@ public class CourseSectionsHistoryDaoImpl  extends BaseDaoImpl<CourseSectionsHis
     	{
     		CourseSectionModel.setId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NUM)))
+    	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.INSTANCE_ID)))
     	{
-    		CourseSectionModel.setCourseNum((String) keyMap.get(keyHolderColumnName));
+    		CourseSectionModel.setInstanceId((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)))
     	{
     		CourseSectionModel.setSectionNum((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.TERM)))
-    	{
-    		CourseSectionModel.setTerm((String) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)))
+    	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)))
     	{
     		CourseSectionModel.setExpectedPop((Integer) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NAME)))
-    	{
-    		CourseSectionModel.setCourseName((String) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_ID)))
-    	{
-    		CourseSectionModel.setCourseId((String) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.CREATED_AT)))
-    	{
-    		CourseSectionModel.setCreatedAt((Timestamp) keyMap.get(keyHolderColumnName));
-    	}else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.UPDATED_AT)))
+    	}
+    	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.UPDATED_AT)))
     	{
     		CourseSectionModel.setUpdatedAt((Timestamp) keyMap.get(keyHolderColumnName));
     	}

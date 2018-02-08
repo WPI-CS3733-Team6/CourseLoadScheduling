@@ -24,7 +24,7 @@ public class CourseSectionExtractor extends Extractor<List<CourseSection>> {
 				result.setId(null);
 			}
 			
-			result.setCourseNum(rs.getString(CourseSection.getColumnName(CourseSection.Columns.COURSE_NUM)));
+			result.setInstanceId(rs.getInt(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID)));
 			result.setSectionNum(rs.getInt(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)));
 			result.setExpectedPop(rs.getInt(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)));
 			
@@ -32,8 +32,6 @@ public class CourseSectionExtractor extends Extractor<List<CourseSection>> {
 				result.setSectionNum(null);
 				result.setExpectedPop(null);
 			}
-			
-			result.setTerm(rs.getString(CourseSection.getColumnName(CourseSection.Columns.TERM)));
 			
 			result.setCreatedAt(rs.getTimestamp(CourseSection.getColumnName(CourseSection.Columns.CREATED_AT)));
 			result.setUpdatedAt(rs.getTimestamp(CourseSection.getColumnName(CourseSection.Columns.UPDATED_AT)));

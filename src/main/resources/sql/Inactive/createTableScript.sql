@@ -151,28 +151,41 @@ CREATE TABLE instructors
 	@Param id: This is the users ID (aka the primary key)
 	@Param course_num: Course number
 	@Param course_name: Course name
+	@Param course_description: a description of the course
 	@Param term: The term the course is taught
 	@Param type: The type of course: (MQP/IQP/regular/etc.)
-	@Param level: The level of the course (Undergraduate=TRUE, Graduate=FALSE)
-	@Param num_sections: The number of sections that are offered for the course 
-			next 5 digits will represent the terms it's offered. Encoded as follows:
-			A00000
-			1st Letter: Can be an A or a B. A=Every year, B=Every other year
-			1st Number: A ONE if its offered this term (A-Term). A ZERO if not.
-			2st Number: A ONE if its offered this term (B-Term). A ZERO if not.
-			3st Number: A ONE if its offered this term (C-Term). A ZERO if not.
-			4st Number: A ONE if its offered this term (D-Term). A ZERO if not.
-			5st Number: A ONE if its offered this term (E-Term). A ZERO if not.
+	@Param level: The level of the course (Graduate=TRUE, Undergraduate=FALSE)
 */
 CREATE TABLE course_information
 (
 	id serial PRIMARY KEY,
 	course_num varchar(255) NOT NULL,
 	course_name varchar(255) UNIQUE NOT NULL,
+	course_description varchar(2047) NOT NULL,
 	type varchar(255) NOT NULL,
-	level boolean NOT NULL,
-	num_sections integer NOT NULL
+	level boolean NOT NULL
 );
+
+/*
+	course_instance: This a "child" table of course_information. This table holds time-dependent values and a grouping method
+	for instances of courses
+	@Param id: This is the users ID (aka the primary key)
+	@Param course_id: foreign key references course_information (master course)
+	@Param term: term that this instance is run in
+	@Param deleted: whether the instance has been deleted or not (false = not deleted)
+	@Param created_at: timestamp
+	@Param updated_at: timestamp
+*/
+CREATE TABLE course_instance
+(
+	id serial PRIMARY KEY,
+	course_id integer,
+	term varchar(7),
+	deleted boolean NOT NULL DEFAULT(FALSE),
+	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
+	FOREIGN KEY (course_id) REFERENCES course_information(id)
+)
 
 
 
@@ -182,7 +195,6 @@ CREATE TABLE course_information
 	@Param id: Primary key
 	@Param course_num: The couse number that is "Taken/referenced" from the parent table.
 	@Param section_num: The specific section number (Each row will have a unique section number in its given course and term). The number of sections will be taken form the parent table.
-	@Param term: The term the course is offered in. (Thi will also be used to create a unique section number: A01, B03, etc.)
 	@Param expected_pop: this is the expected population of a class section
 	@Param deleted: whether the given section has been taken or not: FALSE = not taken, or available; TRUE = taken, or not available
 	@Param created_at: timestamp
@@ -191,14 +203,13 @@ CREATE TABLE course_information
 CREATE TABLE course_sections
 (
 	id serial PRIMARY KEY,
-	course_num integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
+	instance_id integer NOT NULL, 
 	section_num integer NOT NULL, --automatically generated on the front end (user inputs amount of sections, app generates numbers for each one, ex: 01, 02, 03)
-	term varchar(5) NOT NULL,
 	expected_pop integer NOT NULL,
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
-	FOREIGN KEY (course_num) REFERENCES course_information (id) --I changed this from "course_information (course_num)"
+	FOREIGN KEY (instance_id) REFERENCES course_instance (id) --I changed this from "course_information (course_num)"
 														--because the course_num is not unique (So, it can't be a FK)
 );
 
@@ -229,7 +240,7 @@ CREATE TABLE course_schedule
 (
 	id serial PRIMARY KEY,
 	section_id integer NOT NULL REFERENCES course_sections(id), --HAS TO REFERENCE course_sections in some way
-	type varchar(255) NOT NULL,
+	lecture_type varchar(255) NOT NULL,
 	meeting_days varchar(255) NOT NULL,
 	time_start integer NOT NULL,
 	time_end integer NOT NULL,
@@ -240,7 +251,7 @@ CREATE TABLE course_schedule
 /*
 	departments: This table lists all the departments in the system
 	@Param id: Primary key for the table
-	@Param dept_name: the name of the department
+	@Param [_name: the name of the department
 	@Param created_at: timestamp
 	@Param updated_at: timestamp
 */
@@ -357,26 +368,22 @@ CREATE TABLE admin_inbox
 );
 
 /*
-course_sections_history: This will keep record of a user's history.
-	@Param id: This is the course's ID (aka the primary key)
-	@Param course_id: The primary key of the course in the "Master" table. This will be taken from the master table.
-	@Param course_name: Course name
-	@Param course_num: The course number that is "Taken/referenced" from the parent table.
+	course_sections: This keeps track of a section's history
+	@Param id: Primary key
+	@Param course_num: The couse number that is "Taken/referenced" from the parent table.
 	@Param section_num: The specific section number (Each row will have a unique section number in its given course and term). The number of sections will be taken form the parent table.
-	@Param term: The term the course is taught
-	@Param expected_pop: Expected population of class (How many seats will be offered)
+	@Param expected_pop: this is the expected population of a class section
+	@Param deleted: whether the given section has been taken or not: FALSE = not taken, or available; TRUE = taken, or not available
 	@Param created_at: timestamp
+	@Param updated_at: timestamp
 */
 CREATE TABLE course_sections_history
 (
 	id serial PRIMARY KEY,
-	course_id integer NOT NULL REFERENCES course_sections(id) ON DELETE CASCADE,
-	course_name varchar(255) NOT NULL,
-	course_num varchar(255) NOT NULL,
+	instance_id integer NOT NULL REFERENCES course_instance(id) ON DELETE CASCADE,
 	section_num integer NOT NULL,
-	term varchar(5) NOT NULL,
 	expected_pop integer NOT NULL,
-	modified_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 
@@ -399,8 +406,8 @@ EXECUTE PROCEDURE insert_users_history();
 CREATE FUNCTION insert_course_history() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-INSERT INTO course_history(course_id, course_name, course_num, section_num, term, expected_pop)
-VALUES(OLD.course_id, OLD.course_name, OLD.course_num, OLD.section_num, OLD.term, OLD.expected_pop);
+INSERT INTO course_sections_history(section_id, section_num, expected_pop)
+VALUES(OLD.section_id, OLD.section_num, OLD.expected_pop);
 RETURN NEW;
 END;
 $BODY$

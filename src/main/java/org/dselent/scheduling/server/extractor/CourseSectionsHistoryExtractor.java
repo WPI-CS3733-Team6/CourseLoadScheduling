@@ -24,10 +24,7 @@ public class CourseSectionsHistoryExtractor extends Extractor<List<CourseSection
 				result.setId(null);
 			}
 			
-			result.setCourseId(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_ID)));
-			result.setCourseName(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NAME)));
-			result.setCourseNum(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.COURSE_NUM)));
-			
+			result.setInstanceId(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.INSTANCE_ID)));
 			result.setSectionNum(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)));
 			result.setExpectedPop(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)));
 			
@@ -35,10 +32,6 @@ public class CourseSectionsHistoryExtractor extends Extractor<List<CourseSection
 				result.setSectionNum(null);
 				result.setExpectedPop(null);
 			}
-			
-			result.setTerm(rs.getString(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.TERM)));
-			
-			result.setCreatedAt(rs.getTimestamp(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.CREATED_AT)));
 			result.setUpdatedAt(rs.getTimestamp(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.UPDATED_AT)));
 			
 			resultList.add(result);
