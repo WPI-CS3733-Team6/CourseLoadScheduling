@@ -203,7 +203,7 @@ CREATE TABLE course_instance
 CREATE TABLE course_sections
 (
 	id serial PRIMARY KEY,
-	instance_id integer NOT NULL, -- I changed this from a varchar(255) so it would be a compatible data type to its new FK
+	instance_id integer NOT NULL, 
 	section_num integer NOT NULL, --automatically generated on the front end (user inputs amount of sections, app generates numbers for each one, ex: 01, 02, 03)
 	expected_pop integer NOT NULL,
 	deleted boolean NOT NULL DEFAULT(FALSE),
@@ -368,24 +368,20 @@ CREATE TABLE admin_inbox
 );
 
 /*
-course_sections_history: This will keep record of a user's history.
-	@Param id: This is the course's ID (aka the primary key)
-	@Param course_id: The primary key of the course in the "Master" table. This will be taken from the master table.
-	@Param course_name: Course name
-	@Param course_num: The course number that is "Taken/referenced" from the parent table.
+	course_sections: This keeps track of a section's history
+	@Param id: Primary key
+	@Param course_num: The couse number that is "Taken/referenced" from the parent table.
 	@Param section_num: The specific section number (Each row will have a unique section number in its given course and term). The number of sections will be taken form the parent table.
-	@Param term: The term the course is taught
-	@Param expected_pop: Expected population of class (How many seats will be offered)
+	@Param expected_pop: this is the expected population of a class section
+	@Param deleted: whether the given section has been taken or not: FALSE = not taken, or available; TRUE = taken, or not available
 	@Param created_at: timestamp
+	@Param updated_at: timestamp
 */
 CREATE TABLE course_sections_history
 (
 	id serial PRIMARY KEY,
-	course_id integer NOT NULL REFERENCES course_sections(id) ON DELETE CASCADE,
-	course_name varchar(255) NOT NULL,
-	course_num varchar(255) NOT NULL,
+	section_id integer NOT NULL REFERENCES course_sections(id) ON DELETE CASCADE,
 	section_num integer NOT NULL,
-	term varchar(5) NOT NULL,
 	expected_pop integer NOT NULL,
 	modified_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
@@ -410,8 +406,8 @@ EXECUTE PROCEDURE insert_users_history();
 CREATE FUNCTION insert_course_history() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-INSERT INTO course_history(course_id, course_name, course_num, section_num, term, expected_pop)
-VALUES(OLD.course_id, OLD.course_name, OLD.course_num, OLD.section_num, OLD.term, OLD.expected_pop);
+INSERT INTO course_sections_history(section_id, section_num, expected_pop)
+VALUES(OLD.section_id, OLD.section_num, OLD.expected_pop);
 RETURN NEW;
 END;
 $BODY$
