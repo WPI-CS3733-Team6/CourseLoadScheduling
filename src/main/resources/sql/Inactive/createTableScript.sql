@@ -380,10 +380,10 @@ CREATE TABLE admin_inbox
 CREATE TABLE course_sections_history
 (
 	id serial PRIMARY KEY,
-	section_id integer NOT NULL REFERENCES course_sections(id) ON DELETE CASCADE,
+	instance_id integer NOT NULL REFERENCES course_instance(id) ON DELETE CASCADE,
 	section_num integer NOT NULL,
 	expected_pop integer NOT NULL,
-	modified_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 
