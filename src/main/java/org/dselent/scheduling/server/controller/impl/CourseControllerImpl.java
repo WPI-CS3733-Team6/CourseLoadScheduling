@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.dselent.scheduling.server.controller.CourseController;
+import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Courses;
 import org.dselent.scheduling.server.service.CourseService;
@@ -16,9 +17,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public class CourseControllerImpl implements CourseController{
 	
+	@Autowired
+	private CourseService courseService;
+	
 	@Override
 	public ResponseEntity<String> courses(Map<String, String> request) throws Exception {
-		return null;
+		
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		List <CourseDto> courseList = courseService.courses();
+		success.add(courseList);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		
+		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
 	
