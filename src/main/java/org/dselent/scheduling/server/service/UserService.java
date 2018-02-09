@@ -28,5 +28,5 @@ public interface UserService
 	 */
 	public List<Integer> registerUser(RegisterUserDto registerUserDto) throws SQLException;
 	
-	public UserInfoDto userInfo(Integer user_id) throws Exception;
+	public UserInfoDto userInfo(Integer userId) throws Exception;
 }

@@ -7,7 +7,7 @@ import org.dselent.scheduling.server.miscellaneous.RequestParameterConverter;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Defines information for the register request including the keys for the
+ * Defines information for the update request including the keys for the
  * header, parameters, and body and the request type (RequestMethod).
  * 
  * @author dselent
