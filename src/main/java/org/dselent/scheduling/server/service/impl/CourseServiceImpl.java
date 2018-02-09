@@ -34,6 +34,7 @@ public class CourseServiceImpl {
 	
 	public ArrayList<CourseDto> courses() throws SQLException, Exception {
 		//Getting master courses
+		//Get info from database
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
@@ -47,7 +48,7 @@ public class CourseServiceImpl {
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
 		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
-		
+		//Reformat databse info into Dto format
 		ArrayList<CourseDto> courseDtoList = new ArrayList<CourseDto>();
 		for (int i = 0; i < results.size(); i++) {
 			CourseInformation course = results.get(i);
@@ -58,7 +59,7 @@ public class CourseServiceImpl {
 					.withCourse_num(course.getCourseNum())
 					.withLevel(course.getLevel())
 					.withType(course.getType())
-					.withCourseInstance(getCourseInstances(course))
+					.withCourseInstance(getCourseInstances(course)) //Call helper to get all instances tied to this master class
 					.build();
 			courseDtoList.add(courseDto);
 		}
@@ -67,6 +68,7 @@ public class CourseServiceImpl {
 	}
 	
 	public ArrayList<CourseInstanceDto> getCourseInstances(CourseInformation masterCourse) throws Exception {
+		//Get all instances 
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
@@ -125,5 +127,49 @@ public class CourseServiceImpl {
 			courseSectionsList.add(courseSectionDto);
 		}
 		return courseSectionsList;
+	}
+	
+	public CourseDto findById(Integer courseId) throws Exception {
+		//Getting master courses
+		//Get info from database
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setValue(courseId);
+		idQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(idQueryTerm);
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
+		//Reformat databse info into Dto format
+		ArrayList<CourseDto> courseDtoList = new ArrayList<CourseDto>();
+		for (int i = 0; i < results.size(); i++) {
+			CourseInformation course = results.get(i);
+			CourseDto.Builder builder = CourseDto.builder();
+			CourseDto courseDto = builder.withCourse_description(course.getCourseDescription())
+					.withId(course.getId())
+					.withCourse_name(course.getCourseName())
+					.withCourse_num(course.getCourseNum())
+					.withLevel(course.getLevel())
+					.withType(course.getType())
+					.withCourseInstance(getCourseInstances(course)) //Call helper to get all instances tied to this master class
+					.build();
+			courseDtoList.add(courseDto);
+		}
+
+		if (courseDtoList.size() != 1) {
+			//TODO trigger Exception
+			return null;
+		}
+		else return courseDtoList.get(0);
 	}
 }
