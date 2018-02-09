@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface RegistrationCartController {
 	
 	 @RequestMapping(method=RequestMethod.POST, value=RegistrationCart.REQUEST_NAME)
-	 public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws Exception;
+	 public ResponseEntity<String> registrationCart (@RequestBody Map<String,String> request) throws Exception;
 	
 }
