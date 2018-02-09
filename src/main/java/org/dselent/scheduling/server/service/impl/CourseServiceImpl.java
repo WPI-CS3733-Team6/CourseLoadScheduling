@@ -33,7 +33,7 @@ public class CourseServiceImpl {
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));	
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
@@ -51,6 +51,9 @@ public class CourseServiceImpl {
 					.withCourse_num(course.getCourseNum())
 					.withLevel(course.getLevel())
 					.withType(course.getType())
+					
+					//
+					
 					.build();
 			courseDtoList.add(courseDto);
 		}
