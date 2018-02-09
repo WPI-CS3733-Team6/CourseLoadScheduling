@@ -120,5 +120,4 @@ public class CourseSectionDto {
 				+ ", expected_pop=" + expected_pop + "]";
 	}
 	
-	
 }
