@@ -5,7 +5,6 @@ public class RegistrationCartDto {
 	private final String course_name;
 	private final String course_num;
 	private final Integer status;
-	private final Integer section_num;
 	private final String term;
 	private final String dept_name;
 	
@@ -14,7 +13,6 @@ public class RegistrationCartDto {
 		this.course_name = builder.course_name;
 		this.course_num = builder.course_num;
 		this.status = builder.status;
-		this.section_num = builder.section_num;
 		this.term = builder.term;
 		this.dept_name = builder.dept_name;
 		
@@ -29,10 +27,6 @@ public class RegistrationCartDto {
 		if(this.status == null)
 		{
 			throw new IllegalStateException("status cannot be null");
-		}
-		if(this.section_num == null)
-		{
-			throw new IllegalStateException("section_num cannot be null");
 		}
 		if(this.term == null)
 		{
@@ -57,10 +51,6 @@ public class RegistrationCartDto {
 		return status;
 	}
 
-	public Integer getSection_num() {
-		return section_num;
-	}
-
 	public String getTerm() {
 		return term;
 	}
@@ -76,7 +66,6 @@ public class RegistrationCartDto {
 		result = prime * result + ((course_name == null) ? 0 : course_name.hashCode());
 		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
 		result = prime * result + ((dept_name == null) ? 0 : dept_name.hashCode());
-		result = prime * result + ((section_num == null) ? 0 : section_num.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((term == null) ? 0 : term.hashCode());
 		return result;
@@ -106,11 +95,6 @@ public class RegistrationCartDto {
 				return false;
 		} else if (!dept_name.equals(other.dept_name))
 			return false;
-		if (section_num == null) {
-			if (other.section_num != null)
-				return false;
-		} else if (!section_num.equals(other.section_num))
-			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -127,7 +111,7 @@ public class RegistrationCartDto {
 	@Override
 	public String toString() {
 		return "RegistrationCartDto [course_name=" + course_name + ", course_num=" + course_num + ", status=" + status
-				+ ", section_num=" + section_num + ", term=" + term + ", dept_name=" + dept_name + "]";
+				+ ", term=" + term + ", dept_name=" + dept_name + "]";
 	}
 	
 	/**
@@ -148,7 +132,6 @@ public class RegistrationCartDto {
 		private String course_name;
 		private String course_num;
 		private Integer status;
-		private Integer section_num;
 		private String term;
 		private String dept_name;
 		
@@ -170,12 +153,6 @@ public class RegistrationCartDto {
 		public Builder withStatus(Integer status)
 		{
 			this.status = status;
-			return this;
-		}
-		
-		public Builder withSectionNum(Integer section_num)
-		{
-			this.section_num = section_num;
 			return this;
 		}
 		
