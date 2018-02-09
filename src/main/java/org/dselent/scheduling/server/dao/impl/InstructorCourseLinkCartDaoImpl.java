@@ -184,7 +184,7 @@ public class InstructorCourseLinkCartDaoImpl  extends BaseDaoImpl<InstructorCour
     	
     	else if(insertColumnName.equals(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID)))
     	{
-    		parameters.addValue(parameterName, InstructorCourseLinkCartModel.getSectionId());
+    		parameters.addValue(parameterName, InstructorCourseLinkCartModel.getInstanceId());
     	}
     	else if(insertColumnName.equals(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS)))
     	{
@@ -220,7 +220,7 @@ public class InstructorCourseLinkCartDaoImpl  extends BaseDaoImpl<InstructorCour
     	}
     	else if(keyHolderColumnName.equals(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID)))
     	{
-    		InstructorCourseLinkCartModel.setSectionId((Integer) keyMap.get(keyHolderColumnName));
+    		InstructorCourseLinkCartModel.setInstanceId((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS)))
     	{

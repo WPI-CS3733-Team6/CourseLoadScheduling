@@ -25,11 +25,11 @@ public class InstructorCourseLinkCartExtractor extends Extractor<List<Instructor
 			}
 			
 			result.setInstructorId(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID)));
-			result.setSectionId(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID)));
+			result.setInstanceId(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID)));
 			
 			if(rs.wasNull()) {
 				result.setInstructorId(null);
-				result.setSectionId(null);
+				result.setInstanceId(null);
 			}
 			
 			result.setStatus(rs.getInt(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS)));
