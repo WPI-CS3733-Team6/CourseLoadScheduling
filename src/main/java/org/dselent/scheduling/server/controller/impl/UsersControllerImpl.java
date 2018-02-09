@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.dselent.scheduling.server.controller.UsersController;
 import org.dselent.scheduling.server.dto.RegisterUserDto;
+import org.dselent.scheduling.server.dto.UserInfoDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Register;
+import org.dselent.scheduling.server.requests.UserInfo;
 import org.dselent.scheduling.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,7 @@ public class UsersControllerImpl implements UsersController
 {
 	@Autowired
     private UserService userService;
-    
+	
 	/**
 	 * 
 	 * @param request The body of the request expected to contain a map of String key-value pairs
@@ -59,6 +61,24 @@ public class UsersControllerImpl implements UsersController
 		.build();
 		
 		userService.registerUser(registerUserDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+    }
+	
+	public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception 
+    {
+    	// Print is for testing purposes
+		System.out.println("controller reached");
+    	
+		// add any objects that need to be returned to the success list
+		String response = "User Info";
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
+		UserInfoDto userInfo = userService.userInfo(id);
+		
+		success.add(userInfo);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);

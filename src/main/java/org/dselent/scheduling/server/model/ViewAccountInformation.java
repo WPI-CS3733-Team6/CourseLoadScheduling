@@ -45,7 +45,7 @@ public class ViewAccountInformation extends Model
 		COLUMN_TYPE_MAP.put(Columns.PHONE_NUM, JDBCType.BIGINT);
 		COLUMN_TYPE_MAP.put(Columns.SECONDARY_EMAIL, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.REQ_COURSES, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.REMAINING, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.REMAINING, JDBCType.FLOAT);
 		};
 	
 	// attributes
@@ -57,7 +57,7 @@ public class ViewAccountInformation extends Model
 	private String email;
 	private String secondaryEmail;
 	private Integer reqCourses;
-	private Integer remaining;
+	private Float remaining;
 	
 
 	// methods
@@ -146,11 +146,11 @@ public class ViewAccountInformation extends Model
 	public void setReqCourses(Integer reqCourses) {
 		this.reqCourses = reqCourses;
 	}
-	public Integer getRemaining() {
+	public Float getRemaining() {
 		return remaining;
 	}
 
-	public void setRemaining(Integer remaining) {
+	public void setRemaining(Float remaining) {
 		this.remaining = remaining;
 	}
 

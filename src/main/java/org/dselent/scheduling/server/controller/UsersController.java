@@ -8,11 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 @RequestMapping("/user")
 public interface UsersController
 {
     @RequestMapping(method=RequestMethod.POST, value=Register.REQUEST_NAME)
 	public ResponseEntity<String> register(@RequestBody Map<String, String> request) throws Exception;
+    
+    @RequestMapping(method=RequestMethod.POST, value="/info")
+    public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception;
 }
 
 	

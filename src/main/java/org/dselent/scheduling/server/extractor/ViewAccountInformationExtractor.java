@@ -33,13 +33,13 @@ public class ViewAccountInformationExtractor extends Extractor<List<ViewAccountI
 			
 			if(rs.wasNull());
 			{
-				result.setReqCourses(0);
+				result.setReqCourses(null);
 			}
-			result.setRemaining(rs.getInt(ViewAccountInformation.getColumnName(ViewAccountInformation.Columns.REMAINING)));
+			result.setRemaining(rs.getFloat(ViewAccountInformation.getColumnName(ViewAccountInformation.Columns.REMAINING)));
 			
 			if(rs.wasNull());
 			{
-				result.setRemaining(0);
+				result.setRemaining(null);
 			}
 		
 			resultList.add(result);
