@@ -37,4 +37,17 @@ public class CurrentCoursesControllerImpl implements CurrentCoursesController{
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<String> detailedSchedule(@RequestBody Map<String, String> request) throws Exception {
+		
+		String response = "";
+		List<Object> success = new ArrayList<Object>();
+		
+		List <CourseDto> currentCoursesList = courseService.courses();
+		success.add(currentCoursesList);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
 }
