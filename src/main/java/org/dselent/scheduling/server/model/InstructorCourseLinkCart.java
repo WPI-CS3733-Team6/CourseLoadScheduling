@@ -16,7 +16,7 @@ public class InstructorCourseLinkCart extends Model {
 	public static enum Columns {
 		ID,
 		INSTRUCTOR_ID,
-		SECTION_ID,
+		INSTANCE_ID,
 		STATUS,
 		CREATED_AT,
 		UPDATED_AT
@@ -35,7 +35,7 @@ public class InstructorCourseLinkCart extends Model {
 		
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.INSTRUCTOR_ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.SECTION_ID, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.INSTANCE_ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.STATUS, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP);
@@ -45,7 +45,7 @@ public class InstructorCourseLinkCart extends Model {
 	
 	private Integer id;
 	private Integer instructorId;
-	private Integer sectionId;
+	private Integer instanceId;
 	private Integer status;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
@@ -87,10 +87,10 @@ public class InstructorCourseLinkCart extends Model {
 		this.instructorId = instructorId;
 	}
 	public Integer getSectionId() {
-		return sectionId;
+		return instanceId;
 	}
 	public void setSectionId(Integer sectionId) {
-		this.sectionId = sectionId;
+		this.instanceId = sectionId;
 	}
 	public Integer getStatus() {
 		return status;
@@ -117,7 +117,7 @@ public class InstructorCourseLinkCart extends Model {
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instructorId == null) ? 0 : instructorId.hashCode());
-		result = prime * result + ((sectionId == null) ? 0 : sectionId.hashCode());
+		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
@@ -146,10 +146,10 @@ public class InstructorCourseLinkCart extends Model {
 				return false;
 		} else if (!instructorId.equals(other.instructorId))
 			return false;
-		if (sectionId == null) {
-			if (other.sectionId != null)
+		if (instanceId == null) {
+			if (other.instanceId != null)
 				return false;
-		} else if (!sectionId.equals(other.sectionId))
+		} else if (!instanceId.equals(other.instanceId))
 			return false;
 		if (status == null) {
 			if (other.status != null)
@@ -165,7 +165,7 @@ public class InstructorCourseLinkCart extends Model {
 	}
 	@Override
 	public String toString() {
-		return "InstructorCourseLinkCart [id=" + id + ", instructorId=" + instructorId + ", sectionId=" + sectionId
+		return "InstructorCourseLinkCart [id=" + id + ", instructorId=" + instructorId + ", sectionId=" + instanceId
 				+ ", status=" + status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	

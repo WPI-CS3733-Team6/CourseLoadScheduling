@@ -208,7 +208,7 @@ public class InstructorCourseLinkRegisteredDaoImpl extends BaseDaoImpl<Instructo
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getInstructorId());
     	}
     	
-    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.SECTION_ID)))
+    	else if(insertColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID)))
     	{
     		parameters.addValue(parameterName, instructorCourseLinkRegisteredModel.getSectionId());
     	}
@@ -244,7 +244,7 @@ public class InstructorCourseLinkRegisteredDaoImpl extends BaseDaoImpl<Instructo
     	{
     		instructorCourseLinkRegisteredModel.setInstructorId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.SECTION_ID)))
+    	else if(keyHolderColumnName.equals(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID)))
     	{
     		instructorCourseLinkRegisteredModel.setSectionId((Integer) keyMap.get(keyHolderColumnName));
     	}

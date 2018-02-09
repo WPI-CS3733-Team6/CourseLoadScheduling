@@ -313,7 +313,7 @@ CREATE TABLE instructor_course_link_registered
 (
 	id serial PRIMARY KEY,
 	instructor_id integer NOT NULL REFERENCES instructors(id),
-	section_id integer NOT NULL REFERENCES course_sections(id),
+	instance_id integer NOT NULL REFERENCES course_instance(id),
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
@@ -335,7 +335,7 @@ CREATE TABLE instructor_course_link_cart
 (
 	id serial PRIMARY KEY,
 	instructor_id integer NOT NULL REFERENCES instructors(id), --HAS TO REFERENCE
-	section_id integer NOT NULL REFERENCES course_sections(id),
+	instance_id integer NOT NULL REFERENCES course_instance(id),
 	status integer NOT NULL DEFAULT(0),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)

@@ -16,7 +16,7 @@ public class InstructorCourseLinkRegistered extends Model {
 	public static enum Columns {
 		ID,
 		INSTRUCTOR_ID,
-		SECTION_ID,
+		INSTANCE_ID,
 		DELETED,
 		CREATED_AT,
 		UPDATED_AT
@@ -35,7 +35,7 @@ public class InstructorCourseLinkRegistered extends Model {
 		
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.INSTRUCTOR_ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.SECTION_ID, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.INSTANCE_ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.DELETED, JDBCType.BOOLEAN);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP);	
@@ -45,7 +45,7 @@ public class InstructorCourseLinkRegistered extends Model {
 	
 	private Integer id;
 	private Integer instructorId;
-	private Integer sectionId;
+	private Integer instanceId;
 	private Boolean deleted;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
@@ -87,10 +87,10 @@ public class InstructorCourseLinkRegistered extends Model {
 		this.instructorId = instructor_id;
 	}
 	public Integer getSectionId() {
-		return sectionId;
+		return instanceId;
 	}
 	public void setSectionId(Integer sectionId) {
-		this.sectionId = sectionId;
+		this.instanceId = sectionId;
 	}
 	public Boolean getDeleted() {
 		return deleted;
@@ -118,7 +118,7 @@ public class InstructorCourseLinkRegistered extends Model {
 		result = prime * result + ((deleted == null) ? 0 : deleted.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instructorId == null) ? 0 : instructorId.hashCode());
-		result = prime * result + ((sectionId == null) ? 0 : sectionId.hashCode());
+		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
@@ -151,10 +151,10 @@ public class InstructorCourseLinkRegistered extends Model {
 				return false;
 		} else if (!instructorId.equals(other.instructorId))
 			return false;
-		if (sectionId == null) {
-			if (other.sectionId != null)
+		if (instanceId == null) {
+			if (other.instanceId != null)
 				return false;
-		} else if (!sectionId.equals(other.sectionId))
+		} else if (!instanceId.equals(other.instanceId))
 			return false;
 		if (updatedAt == null) {
 			if (other.updatedAt != null)
@@ -166,7 +166,7 @@ public class InstructorCourseLinkRegistered extends Model {
 	@Override
 	public String toString() {
 		return "InstructorCourseLinkRegistered [id=" + id + ", instructor_id=" + instructorId + ", sectionId="
-				+ sectionId + ", deleted=" + deleted + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ instanceId + ", deleted=" + deleted + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
 				+ "]";
 	}
 	
