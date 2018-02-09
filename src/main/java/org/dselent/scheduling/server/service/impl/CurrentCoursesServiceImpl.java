@@ -9,8 +9,10 @@ import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.CourseSectionDao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
 import org.dselent.scheduling.server.dto.CourseDto;
+import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.CourseInformation;
+import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.model.User;
@@ -46,14 +48,11 @@ public class CurrentCoursesServiceImpl {
 	//		*probably not, but i need to figure out how to use the dto that was made in courseServiceImpl in this method
 	//		 like how do I make an instance of the actual dto. Do i need to make a builder here again? or just call that course() method?
 	
-	public ArrayList<CourseDto> courses(Integer user_id) throws SQLException, Exception {
+	public ArrayList<CourseInstanceDto> courses(Integer user_id) throws SQLException, Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 
@@ -67,11 +66,11 @@ public class CurrentCoursesServiceImpl {
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
-		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
+		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
 		
-		ArrayList<CourseDto> courseDtoList = new ArrayList<CourseDto>();
+		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
 		
-		return courseDtoList;
+		return courseInstanceDtoList;
 	}
 
 	
