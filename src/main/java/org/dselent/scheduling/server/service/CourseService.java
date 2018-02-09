@@ -8,5 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CourseService {
+	//Get a list of all courses in the system
 	public ArrayList<CourseDto> courses() throws SQLException, Exception;
+	//Get the details for the specified course
+	public CourseDto findById(Integer courseId) throws Exception;
 }
