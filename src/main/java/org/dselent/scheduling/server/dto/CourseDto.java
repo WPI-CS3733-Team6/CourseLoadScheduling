@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 public class CourseDto {
 	
-	private final String user_id;
+	private final Integer id;
 	private final String course_name;
 	private final String course_num;
 	private final String course_description;
@@ -16,7 +16,7 @@ public class CourseDto {
 	
 	@Generated("SparkTools")
 	private CourseDto(Builder builder) {
-		this.user_id = builder.user_id;
+		this.id = builder.id;
 		this.course_name = builder.course_name;
 		this.course_num = builder.course_num;
 		this.course_description = builder.course_description;
@@ -37,7 +37,7 @@ public class CourseDto {
 	 */
 	@Generated("SparkTools")
 	public static final class Builder {
-		private String user_id;
+		private Integer id;
 		private String course_name;
 		private String course_num;
 		private String course_description;
@@ -48,8 +48,8 @@ public class CourseDto {
 		private Builder() {
 		}
 
-		public Builder withUser_id(String user_id) {
-			this.user_id = user_id;
+		public Builder withId(Integer id) {
+			this.id = id;
 			return this;
 		}
 
@@ -87,8 +87,8 @@ public class CourseDto {
 			return new CourseDto(this);
 		}
 	}
-	public String getUser_id() {
-		return user_id;
+	public Integer getId() {
+		return id;
 	}
 	public String getCourse_name() {
 		return course_name;
@@ -116,11 +116,12 @@ public class CourseDto {
 		result = prime * result + ((course_description == null) ? 0 : course_description.hashCode());
 		result = prime * result + ((course_name == null) ? 0 : course_name.hashCode());
 		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -150,6 +151,11 @@ public class CourseDto {
 				return false;
 		} else if (!course_num.equals(other.course_num))
 			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
 		if (level == null) {
 			if (other.level != null)
 				return false;
@@ -160,20 +166,16 @@ public class CourseDto {
 				return false;
 		} else if (!type.equals(other.type))
 			return false;
-		if (user_id == null) {
-			if (other.user_id != null)
-				return false;
-		} else if (!user_id.equals(other.user_id))
-			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "CourseDto [user_id=" + user_id + ", course_name=" + course_name + ", course_num=" + course_num
+		return "CourseDto [id=" + id + ", course_name=" + course_name + ", course_num=" + course_num
 				+ ", course_description=" + course_description + ", type=" + type + ", level=" + level
 				+ ", courseInstance=" + courseInstance + "]";
 	}
+	
 	
 	
 }
