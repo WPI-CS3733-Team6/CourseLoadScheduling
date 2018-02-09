@@ -15,10 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public class CourseControllerImpl implements CourseController{
-
+	
 	@Override
 	public ResponseEntity<String> courses(Map<String, String> request) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

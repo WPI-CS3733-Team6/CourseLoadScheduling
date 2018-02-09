@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@RequestMapping("/course")
+@RequestMapping("/courses")
 public interface CourseController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=Courses.REQUEST_NAME)

@@ -19,6 +19,7 @@ public class HomeServiceImpl implements HomeService{
 	
 	@Autowired
 	private UserRolesDao userRolesDao;
+	@Autowired
 	private AdminInboxDao adminInboxDao;
 	
 	public HomeServiceImpl() {

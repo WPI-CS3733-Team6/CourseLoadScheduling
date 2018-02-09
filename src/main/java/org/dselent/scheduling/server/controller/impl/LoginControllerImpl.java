@@ -31,7 +31,6 @@ public class LoginControllerImpl implements LoginController{
 		loginService.login(username, password);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		
-		
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 }
