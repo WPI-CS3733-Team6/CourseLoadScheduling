@@ -10,13 +10,11 @@ import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.DepartmentsDao;
 import org.dselent.scheduling.server.dao.InstructorCourseLinkCartDao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
-import org.dselent.scheduling.server.dao.UsersDao;
 import org.dselent.scheduling.server.dto.RegistrationCartDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.service.RegistrationCartService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
-import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.Departments;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
-import org.dselent.scheduling.server.model.User;
 
 @Service
 public class RegistrationCartServiceImplementation implements RegistrationCartService {
