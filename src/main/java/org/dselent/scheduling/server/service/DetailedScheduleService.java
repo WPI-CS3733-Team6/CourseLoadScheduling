@@ -10,5 +10,5 @@ import org.dselent.scheduling.server.model.CourseSchedule;
 
 public interface DetailedScheduleService {
 
-	public List<CourseSchedule> detailedSchedule(ArrayList<CourseInstanceDto> courseInstances) throws SQLException, Exception;
+	public ArrayList<CourseScheduleDto> detailedSchedule(ArrayList<CourseInstanceDto> courseInstances) throws SQLException, Exception;
 }

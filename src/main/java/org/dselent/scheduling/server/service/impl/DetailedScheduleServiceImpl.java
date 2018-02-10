@@ -10,6 +10,7 @@ import org.dselent.scheduling.server.dao.CourseScheduleDao;
 import org.dselent.scheduling.server.dao.CourseSectionDao;
 import org.dselent.scheduling.server.dao.Dao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
+import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.CourseScheduleDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
@@ -43,7 +44,7 @@ public class DetailedScheduleServiceImpl implements DetailedScheduleService{
 	
 	
 	@Override
-	public List<CourseSchedule> detailedSchedule(ArrayList<CourseInstanceDto> courseInstances) throws SQLException, Exception {
+	public ArrayList<CourseScheduleDto> detailedSchedule(ArrayList<CourseInstanceDto> courseInstances) throws SQLException, Exception {
 		ArrayList<CourseSectionDto> courseSections = new ArrayList<>();
 		for(Integer i = 0; i < courseInstances.size() ; i++) {
 			ArrayList<CourseSectionDto> temp = courseInstances.get(i).getSections();
@@ -56,10 +57,21 @@ public class DetailedScheduleServiceImpl implements DetailedScheduleService{
 			List<CourseSchedule> temp = getScheduleFromSection(courseSections.get(k).getId());
 			courseSchedules.addAll(temp);
 		}
+		ArrayList<CourseScheduleDto> scheduleDtoList = new ArrayList<CourseScheduleDto>();
+		for(Integer l = 0; l< courseSchedules.size(); l++) {
+			CourseSchedule courseSchedule = courseSchedules.get(l);
+			CourseScheduleDto.Builder builder = CourseScheduleDto.builder();
+			CourseScheduleDto scheduleDto = builder.withId(courseSchedule.getId())
+					.withSection_id(courseSchedule.getSectionId())
+					.withLecture_type(courseSchedule.getType())
+					.withMeeting_days(courseSchedule.getMeetingDays())
+					.withTime_start(courseSchedule.getTimeStart())
+					.withTime_end(courseSchedule.getTimeEnd())
+					.build();
+			scheduleDtoList.add(scheduleDto);
+		}
 		
-		
-		
-		return courseSchedules;
+		return scheduleDtoList;
 	}
 	
 	public List<CourseSchedule> getScheduleFromSection(Integer section_id) throws Exception {
@@ -110,6 +122,15 @@ public class DetailedScheduleServiceImpl implements DetailedScheduleService{
 		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
 		
 		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
+		for(Integer l = 0; l< results.size(); l++) {
+			CourseInstance courseInstance = results.get(l);
+			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
+			CourseInstanceDto instanceDto = builder.withId(courseInstance.getId())
+					.withTerm(courseInstance.getTerm())
+					.withCourse_id(courseInstance.getCourseId())
+					.build();
+			courseInstanceDtoList.add(instanceDto);
+		}
 		
 		return courseInstanceDtoList;
 	}
