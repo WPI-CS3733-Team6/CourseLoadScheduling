@@ -28,7 +28,7 @@ public class AdminInboxTest {
 		message1.setContent("This is a message");
 		message1.setInboxUser(13);
 		message1.setSender(43);
-		message1.setStatus(false);
+		message1.setStatus(0);
 		message1.setSubjectLine("Derperino");
 		
 		List<String> insertColumnNameList = new ArrayList<>();
