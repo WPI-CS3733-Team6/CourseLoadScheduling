@@ -83,6 +83,14 @@ public class UsersControllerImpl implements UsersController
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
     }
+
+	@Override
+	public ResponseEntity<String> userAdd(Integer request) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }
 
 	
