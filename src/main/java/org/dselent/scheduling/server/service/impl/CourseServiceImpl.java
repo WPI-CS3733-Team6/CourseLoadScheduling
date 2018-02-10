@@ -310,4 +310,26 @@ public class CourseServiceImpl {
 		
 		return courseSectionsDao.updateCourseSection(columnNameList, newValueList, queryTermList);
 	}
+
+	public Integer createCourse(CourseDto newCourse) throws Exception {
+		CourseInformation course = new CourseInformation();
+		course.setCourseDescription(newCourse.getCourse_description());
+		course.setCourseName(newCourse.getCourse_name());
+		course.setCourseNum(newCourse.getCourse_num());
+		course.setLevel(newCourse.getLevel());
+		course.setType(newCourse.getType());
+		
+		List<String> insertColumnNameList = new ArrayList<>();
+    	List<String> keyHolderColumnNameList = new ArrayList<>();
+    	
+    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
+    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
+    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
+    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
+    	
+    	keyHolderColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+    	
+    	return masterCourseDao.insert(course, insertColumnNameList, keyHolderColumnNameList);
+	}
 }

@@ -22,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 public class CourseControllerImpl implements CourseController{
 	
@@ -115,6 +117,31 @@ public class CourseControllerImpl implements CourseController{
 				.build();
 		
 		courseService.editSection(sectionDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
+	public ResponseEntity<String> courseCreate (@RequestBody Map<String,String> request) throws Exception {
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer courseId = Integer.parseInt(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_ID)));
+		String courseName = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NAME));
+		String courseNum = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NUM));
+		Boolean courseLevel = Boolean.parseBoolean(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.LEVEL)));
+		String courseType = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.TYPE));
+		String courseDesc = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_DESCRIPTION));
+		
+		CourseDto.Builder builder = CourseDto.builder();
+		CourseDto courseDto = builder.withCourse_description(courseDesc)
+				.withCourse_name(courseName)
+				.withCourse_num(courseNum)
+				.withLevel(courseLevel)
+				.withType(courseType)
+				.withId(courseId)
+				.build();
+		
+		courseService.createCourse(courseDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
