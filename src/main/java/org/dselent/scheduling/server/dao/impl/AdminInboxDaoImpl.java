@@ -261,7 +261,7 @@ public class AdminInboxDaoImpl extends BaseDaoImpl<AdminInbox> implements AdminI
     	}
     	else if(keyHolderColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.STATUS)))
     	{
-    		adminInboxModel.setStatus((Boolean) keyMap.get(keyHolderColumnName));
+    		adminInboxModel.setStatus((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE)))
     	{

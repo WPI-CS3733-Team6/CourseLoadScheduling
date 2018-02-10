@@ -31,7 +31,7 @@ public class AdminInboxExtractor extends Extractor<List<AdminInbox>>
 			
 			result.setSubjectLine(rs.getString(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE)));
 			result.setContent(rs.getString(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT)));
-			result.setStatus(rs.getBoolean(AdminInbox.getColumnName(AdminInbox.Columns.STATUS)));
+			result.setStatus(rs.getInt(AdminInbox.getColumnName(AdminInbox.Columns.STATUS)));
 			
 			if(rs.wasNull())
 			{

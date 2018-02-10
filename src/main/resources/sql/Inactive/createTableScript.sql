@@ -351,7 +351,7 @@ CREATE UNIQUE INDEX users_user_name ON users(user_name);
 	@Param sender: Who sent (made the entry into the table).
 	@Param subject_line: The subject line of the message. This will be automatically generated. The user will not be able to modify this.
 	@Param content: Contents of the message.
-	@Param status: Whether or not the admin has accepted or rejected the request (could also be deleted or unread).
+	@Param status: Whether or not the admin has accepted or rejected the request (0 = pending, 1 = accepted, 2 = rejected)
 	@Param created_at: timestamp
 	@Param updated_at: timestamp
 	--course num and term need to be inherited
@@ -362,7 +362,7 @@ CREATE TABLE admin_inbox
 	sender integer NOT NULL REFERENCES users(id), -- Changed this from inbox_user
 	subject_line varchar(255) NOT NULL,
 	content varchar(1027) NOT NULL,
-	status boolean,
+	status integer NOT NULL,
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );

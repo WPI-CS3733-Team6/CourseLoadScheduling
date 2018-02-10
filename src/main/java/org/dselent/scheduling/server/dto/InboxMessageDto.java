@@ -16,7 +16,7 @@ public class InboxMessageDto
 	private final Integer senderId;
 	private final String subject;
 	private final String content;
-	private final Boolean status;
+	private final Integer status;
 	
 	
 	public Integer getMessageId() {
@@ -31,7 +31,7 @@ public class InboxMessageDto
 	public String getContent() {
 		return content;
 	}
-	public Boolean getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 	
@@ -117,7 +117,7 @@ public class InboxMessageDto
 		private Integer senderId;
 		private String subject;
 		private String content;
-		private Boolean status;
+		private Integer status;
 
 		private Builder() {
 		}
@@ -142,7 +142,7 @@ public class InboxMessageDto
 			return this;
 		}
 
-		public Builder withStatus(Boolean status) {
+		public Builder withStatus(Integer status) {
 			this.status = status;
 			return this;
 		}

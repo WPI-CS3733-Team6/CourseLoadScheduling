@@ -54,7 +54,7 @@ public class AdminInbox extends Model{
 	private Integer sender;
 	private String subjectLine;
 	private String content;
-	private Boolean status;
+	private Integer status;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	
@@ -112,10 +112,10 @@ public class AdminInbox extends Model{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Boolean getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	public Timestamp getCreatedAt() {
