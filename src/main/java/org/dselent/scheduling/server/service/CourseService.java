@@ -27,4 +27,6 @@ public interface CourseService {
 	public Integer createCourse(CourseDto newCourse) throws Exception;
 	
 	public Integer createInstance(CourseInstanceDto newInstance) throws Exception;
+	
+	public Integer createSection(CourseSectionDto newSection) throws Exception;
 }

@@ -14,6 +14,7 @@ import org.dselent.scheduling.server.requests.CourseDetails;
 import org.dselent.scheduling.server.requests.CourseEdit;
 import org.dselent.scheduling.server.requests.CourseInstanceCreate;
 import org.dselent.scheduling.server.requests.CourseInstanceEdit;
+import org.dselent.scheduling.server.requests.CourseSectionCreate;
 import org.dselent.scheduling.server.requests.CourseSectionEdit;
 import org.dselent.scheduling.server.requests.Courses;
 import org.dselent.scheduling.server.requests.Login;
@@ -151,17 +152,32 @@ public class CourseControllerImpl implements CourseController{
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
-		Integer instanceId = Integer.parseInt(request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.ID)));
 		Integer courseId = Integer.parseInt(request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.COURSE_ID)));
 		String instanceTerm = request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.TERM));
 		
 		CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
-		CourseInstanceDto instanceDto = builder.withId(instanceId)
-				.withCourse_id(courseId)
+		CourseInstanceDto instanceDto = builder.withCourse_id(courseId)
 				.withTerm(instanceTerm)
 				.build();
 		
 		courseService.createInstance(instanceDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<String> courseSectionCreate (@RequestBody Map<String,String> request) throws Exception {
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer instanceId = Integer.parseInt(request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.INSTANCE_ID)));
+		Integer expectedPop = Integer.parseInt(request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.EXPECTED_POP)));
+		
+		CourseSectionDto.Builder builder = CourseSectionDto.builder();
+		CourseSectionDto sectionDto = builder.withExpected_pop(expectedPop)
+				.withInstance_id(instanceId)
+				.build();
+		
+		courseService.createSection(sectionDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}

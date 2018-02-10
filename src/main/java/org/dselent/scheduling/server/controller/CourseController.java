@@ -7,6 +7,7 @@ import org.dselent.scheduling.server.requests.CourseDetails;
 import org.dselent.scheduling.server.requests.CourseEdit;
 import org.dselent.scheduling.server.requests.CourseInstanceCreate;
 import org.dselent.scheduling.server.requests.CourseInstanceEdit;
+import org.dselent.scheduling.server.requests.CourseSectionCreate;
 import org.dselent.scheduling.server.requests.CourseSectionEdit;
 import org.dselent.scheduling.server.requests.Courses;
 import org.springframework.http.ResponseEntity;
@@ -37,4 +38,7 @@ public interface CourseController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=CourseInstanceCreate.REQUEST_NAME)
 	public ResponseEntity<String> courseInstanceCreate (@RequestBody Map<String,String> request) throws Exception;
+	
+	@RequestMapping(method=RequestMethod.POST, value=CourseSectionCreate.REQUEST_NAME)
+	public ResponseEntity<String> courseSectionCreate (@RequestBody Map<String,String> request) throws Exception;
 }

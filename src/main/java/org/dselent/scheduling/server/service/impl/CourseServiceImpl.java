@@ -351,4 +351,24 @@ public class CourseServiceImpl {
 		
     	return courseInstanceDao.insert(instance, insertColumnNameList, keyHolderColumnNameList);
 	}
+	
+	public Integer createSection(CourseSectionDto newSection) throws Exception {
+		CourseSection section = new CourseSection();
+		section.setInstanceId(newSection.getInstance_id());
+		section.setExpectedPop(newSection.getExpected_pop());
+		
+		List<String> insertColumnNameList = new ArrayList<>();
+    	List<String> keyHolderColumnNameList = new ArrayList<>();
+    	
+    	insertColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
+    	insertColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
+    	
+    	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.CREATED_AT));
+    	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
+    	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
+    	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.UPDATED_AT));
+    	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM));
+    	
+    	return courseSectionsDao.insert(section, insertColumnNameList, keyHolderColumnNameList);
+}
 }
