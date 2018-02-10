@@ -6,7 +6,6 @@ import java.util.List;
 import org.dselent.scheduling.server.dto.RegisterUserDto;
 import org.dselent.scheduling.server.dto.UserInfoDto;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service layer to specify all business logic. Calls the dao layer when data retrieval is needed.
@@ -29,4 +28,8 @@ public interface UserService
 	public List<Integer> registerUser(RegisterUserDto registerUserDto) throws SQLException;
 	
 	public UserInfoDto userInfo(Integer userId) throws Exception;
+
+	public List<Integer> userInfoUpdate(Integer userId, String currentPassword, String newPassword, String confirmNewPassword,
+			String preferredEmail, Long phoneNum) throws Exception;
+
 }

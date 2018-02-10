@@ -4,19 +4,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dselent.scheduling.server.dao.CustomDao;
 import org.dselent.scheduling.server.dao.UsersDao;
 import org.dselent.scheduling.server.dao.UsersRolesLinksDao;
-import org.dselent.scheduling.server.dao.InstructorCourseLinkRegisteredDao;
-import org.dselent.scheduling.server.dao.CustomDao;
 import org.dselent.scheduling.server.dto.RegisterUserDto;
 import org.dselent.scheduling.server.dto.UserInfoDto;
-import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.User;
 import org.dselent.scheduling.server.model.UsersRolesLink;
 import org.dselent.scheduling.server.model.ViewAccountInformation;
 import org.dselent.scheduling.server.service.UserService;
-import org.dselent.scheduling.server.sqlutils.ColumnOrder;
-import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,9 +30,6 @@ public class UserServiceImpl implements UserService
 
 	@Autowired
 	private UsersRolesLinksDao usersRolesLinksDao;
-	
-	@Autowired
-	private InstructorCourseLinkRegisteredDao InstructorCourseLinkRegisteredDao;
 	
 	@Autowired
 	private CustomDao CustomDao;
@@ -151,11 +144,12 @@ public class UserServiceImpl implements UserService
 		}
 		else return null;
 	}*/
+	
+	@Override
+	public UserInfoDto userInfo(Integer userId) throws Exception{
 
-	public UserInfoDto userInfo(Integer user_id) throws Exception{
 
-
-		List<ViewAccountInformation> results = CustomDao.getAccountInformationWithUserId(user_id);
+		List<ViewAccountInformation> results = CustomDao.getAccountInformationWithUserId(userId);
 		
 		if(results.size() == 1 ) {
 			ViewAccountInformation userInfo = results.get(0);
@@ -164,7 +158,7 @@ public class UserServiceImpl implements UserService
 					.withEmail(userInfo.getEmail())
 					.withFirstName(userInfo.getFirstName())
 					.withLastName(userInfo.getLastName())
-					.withPhonrNum(userInfo.getPhoneNum())
+					.withPhoneNum(userInfo.getPhoneNum())
 					.withUserName(userInfo.getUserName())
 					.withSecondaryEmail(userInfo.getSecondaryEmail())
 					.withReqCourses(userInfo.getRemaining())
@@ -173,5 +167,54 @@ public class UserServiceImpl implements UserService
 			return userDto;
 		}
 		else return null;
+	}
+	
+	@Override
+	public List<Integer> userInfoUpdate(Integer userId, String currentPassword, String newPassword, String confirmNewPassword,
+			String preferredEmail, Long phoneNum) throws Exception{
+		List<Integer> rowsAffectedList = new ArrayList<>();
+		List<QueryTerm> queryTermList = new ArrayList<>();
+		List<Object> newValueList = new ArrayList<>();
+		
+		User user = usersDao.findById(userId);
+		
+		if(!newPassword.equals(null)){
+			if(confirmNewPassword.equals(newPassword)) {
+				
+				String oldSalt = user.getSalt();
+				String oldSaltedPassword = currentPassword + oldSalt;
+				PasswordEncoder oldPasswordEncorder = new BCryptPasswordEncoder();
+				String currentEncryptedPassword = oldPasswordEncorder.encode(oldSaltedPassword);
+
+				if(user.getEncryptedPassword().equals(currentEncryptedPassword)) {
+					String salt = KeyGenerators.string().generateKey();
+					String newSaltedPassword = newPassword + salt;
+					PasswordEncoder newPasswordEncorder = new BCryptPasswordEncoder();
+					String newEncryptedPassword = newPasswordEncorder.encode(newSaltedPassword);
+					
+					newValueList.add(salt);
+					newValueList.add(newEncryptedPassword);
+				}
+			}
+		}
+		else {
+			newValueList.add(preferredEmail);
+			newValueList.add(phoneNum);
+			
+		}
+		
+		List<String> userInsertColumnNameList = new ArrayList<>();
+
+
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.SECONDARY_EMAIL));
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.PHONE_NUM));
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.SALT));
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
+		
+		rowsAffectedList.add(usersDao.updateUser(userInsertColumnNameList, newValueList, queryTermList));
+		
+		return rowsAffectedList;
+		
+		
 	}
 }
