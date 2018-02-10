@@ -18,6 +18,7 @@ import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSection;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
+import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.service.CourseService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
@@ -428,4 +429,48 @@ public class CourseServiceImpl implements CourseService {
 		
 		return instructorId;
 	}
+
+	@Override
+	public ArrayList<CourseDto> courseSearch(String course_name, String course_num) throws Exception {
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+
+		if (!course_name.equals(null)){
+			QueryTerm nameQueryTerm = new QueryTerm();
+			nameQueryTerm.setValue(course_name);
+			nameQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+			nameQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			queryTermList.add(nameQueryTerm);
+		}
+		
+		if (!course_num.equals(null)){
+			QueryTerm numQueryTerm = new QueryTerm();
+			numQueryTerm.setValue(course_name);
+			numQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
+			numQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			queryTermList.add(numQueryTerm);
+		}
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
+		
+		ArrayList<CourseDto> CourseDtoList = new ArrayList<CourseDto>();
+		for(Integer l = 0; l< results.size(); l++) {
+			CourseInformation courseInformation = results.get(l);
+			CourseDto.Builder builder = CourseDto.builder();
+			CourseDto informationDto = builder.withCourse_name(courseInformation.getCourseName())
+					.withCourse_num(courseInformation.getCourseNum())
+					.build();
+			CourseDtoList.add(informationDto);
+		}
+		
+		return CourseDtoList;
+		
+	}
+
+	
 }

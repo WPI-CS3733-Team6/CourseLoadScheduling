@@ -2,6 +2,7 @@ package org.dselent.scheduling.server.controller;
 
 import java.util.Map;
 
+import org.dselent.scheduling.server.requests.CourseSearch;
 import org.dselent.scheduling.server.requests.CourseCreate;
 import org.dselent.scheduling.server.requests.CourseDetails;
 import org.dselent.scheduling.server.requests.CourseDetailsAddToCart;
@@ -45,4 +46,7 @@ public interface CourseController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=CourseDetailsAddToCart.REQUEST_NAME)
 	public ResponseEntity<String> courseDetailsAddToCart (@RequestBody Map<String,String> request) throws Exception;
+	
+	@RequestMapping(method=RequestMethod.POST, value=CourseSearch.REQUEST_NAME)
+	public ResponseEntity<String> CourseSearch (@RequestBody Map<String,String> request) throws Exception;
 }

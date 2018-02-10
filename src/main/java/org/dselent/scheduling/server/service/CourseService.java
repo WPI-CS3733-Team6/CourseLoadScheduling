@@ -31,4 +31,6 @@ public interface CourseService {
 	public Integer createSection(CourseSectionDto newSection) throws Exception;
 	
 	public void addToCart(Integer user_id, Integer instance_id) throws Exception;
+	
+	public ArrayList<CourseDto> courseSearch(String course_name, String course_num) throws Exception;
 }
