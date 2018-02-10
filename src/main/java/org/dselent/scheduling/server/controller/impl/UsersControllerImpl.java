@@ -7,6 +7,7 @@ import java.util.Map;
 import org.dselent.scheduling.server.controller.UsersController;
 import org.dselent.scheduling.server.dto.RegisterUserDto;
 import org.dselent.scheduling.server.dto.UserInfoDto;
+import org.dselent.scheduling.server.dto.UserInfoUpdateDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Register;
 import org.dselent.scheduling.server.requests.UserInfo;
@@ -66,7 +67,7 @@ public class UsersControllerImpl implements UsersController
 		return new ResponseEntity<String>(response, HttpStatus.OK);
     }
 	
-	public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception 
+	public ResponseEntity<String> userInfo(@RequestBody Integer userId) throws Exception 
     {
     	// Print is for testing purposes
 		System.out.println("controller reached");
@@ -85,10 +86,24 @@ public class UsersControllerImpl implements UsersController
     }
 
 	@Override
-	public ResponseEntity<String> userAdd(Integer request) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public ResponseEntity<String> userInfoUpdate(@RequestBody Integer userId, String currentPassword, String newPassword, String confirmNewPassword,
+			String preferredEmail, Long phoneNum) throws Exception 
+    {
+    	// Print is for testing purposes
+		System.out.println("controller reached");
+    	
+		// add any objects that need to be returned to the success list
+		String response = "User Info";
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
+		UserInfoUpdateDto userInfo = userService.userInfoUpdate(id, response, response, response, response, phoneNum);
+		
+		success.add(userInfo);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+    }
 	
 	
 }
