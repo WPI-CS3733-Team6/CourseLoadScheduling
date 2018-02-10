@@ -121,22 +121,29 @@ public class UsersControllerImpl implements UsersController
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 		
     }
+	
 	@Override
-	public ResponseEntity<String> userAdd(@RequestBody Map<String, String> request) throws Exception {
-		// Print is for testing purposes
+	public ResponseEntity<String> allUsers(@RequestBody Map<String, String> request) throws Exception 
+	{
+    	// Print is for testing purposes
 		System.out.println("controller reached");
-
+    	
 		// add any objects that need to be returned to the success list
-		String response = "Add User";
+		String response = "List of User Infos";
 		List<Object> success = new ArrayList<Object>();
-
-		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
-		UserInfoDto userInfo = userService.userInfo(id);
-		success.add(userInfo);
+		List<UserInfoDto> allUserInfos = userService.getAllUserInfo();
+		
+		success.add(allUserInfos);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
-    }
+	}
+
+	@Override
+	public ResponseEntity<String> userAdd(Map<String, String> request) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
 

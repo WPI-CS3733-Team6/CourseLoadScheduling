@@ -217,4 +217,32 @@ public class UserServiceImpl implements UserService
 		
 		
 	}
+	
+	@Override
+	public List<UserInfoDto> getAllUserInfo() throws Exception{
+
+
+		List<User> listOfAdmins = CustomDao.getAllUsersWithRole(1);
+		List<User> listOfUsers = CustomDao.getAllUsersWithRole(0);
+		listOfUsers.addAll(listOfAdmins);
+		List<UserInfoDto> listOfUserdto = new ArrayList<UserInfoDto>();
+		
+		for(User i : listOfUsers) {
+			List<ViewAccountInformation> user = CustomDao.getAccountInformationWithUserId(i.getId());
+				for (ViewAccountInformation userInfo : user) {
+					UserInfoDto.Builder builder = UserInfoDto.builder();
+					UserInfoDto userDto = builder
+							.withEmail(userInfo.getEmail())
+							.withFirstName(userInfo.getFirstName())
+							.withLastName(userInfo.getLastName())
+							.withPhoneNum(userInfo.getPhoneNum())
+							.withUserName(userInfo.getUserName())
+							.withSecondaryEmail(userInfo.getSecondaryEmail())
+							.withReqCourses(userInfo.getRemaining())
+							.build();
+					listOfUserdto.add(userDto);
+				}
+		}
+		return listOfUserdto;
+	}
 }

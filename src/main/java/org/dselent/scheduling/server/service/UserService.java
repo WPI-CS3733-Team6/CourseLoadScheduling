@@ -32,4 +32,8 @@ public interface UserService
 	public List<Integer> userInfoUpdate(Integer userId, String currentPassword, String newPassword, String confirmNewPassword,
 			String preferredEmail, Long phoneNum) throws Exception;
 
+	public List<UserInfoDto> getAllUserInfo() throws Exception;
+	
+	
+
 }
