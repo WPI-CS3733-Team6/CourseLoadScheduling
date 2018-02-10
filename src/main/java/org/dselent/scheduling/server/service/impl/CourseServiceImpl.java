@@ -332,4 +332,23 @@ public class CourseServiceImpl {
     	
     	return masterCourseDao.insert(course, insertColumnNameList, keyHolderColumnNameList);
 	}
+	
+	public Integer createInstance(CourseInstanceDto newInstance) throws Exception {
+		CourseInstance instance = new CourseInstance();
+		instance.setCourseId(newInstance.getCourse_id());
+		instance.setTerm(newInstance.getTerm());
+		
+		List<String> insertColumnNameList = new ArrayList<>();
+    	List<String> keyHolderColumnNameList = new ArrayList<>();
+    	
+    	insertColumnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+    	insertColumnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+    	
+    	keyHolderColumnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.CREATED_AT));
+    	keyHolderColumnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.UPDATED_AT));
+    	keyHolderColumnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+    	keyHolderColumnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		
+    	return courseInstanceDao.insert(instance, insertColumnNameList, keyHolderColumnNameList);
+	}
 }

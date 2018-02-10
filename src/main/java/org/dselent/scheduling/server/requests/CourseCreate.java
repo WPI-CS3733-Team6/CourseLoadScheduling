@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dselent.scheduling.server.miscellaneous.RequestParameterConverter;
-import org.dselent.scheduling.server.requests.CourseCreate.BodyKey;
-import org.dselent.scheduling.server.requests.CourseCreate.HeaderKey;
-import org.dselent.scheduling.server.requests.CourseCreate.ParameterKey;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 public class CourseCreate {

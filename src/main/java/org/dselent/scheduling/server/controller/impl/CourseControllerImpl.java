@@ -12,6 +12,7 @@ import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.CourseCreate;
 import org.dselent.scheduling.server.requests.CourseDetails;
 import org.dselent.scheduling.server.requests.CourseEdit;
+import org.dselent.scheduling.server.requests.CourseInstanceCreate;
 import org.dselent.scheduling.server.requests.CourseInstanceEdit;
 import org.dselent.scheduling.server.requests.CourseSectionEdit;
 import org.dselent.scheduling.server.requests.Courses;
@@ -125,12 +126,12 @@ public class CourseControllerImpl implements CourseController{
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
-		Integer courseId = Integer.parseInt(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_ID)));
-		String courseName = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NAME));
-		String courseNum = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NUM));
-		Boolean courseLevel = Boolean.parseBoolean(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.LEVEL)));
-		String courseType = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.TYPE));
-		String courseDesc = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_DESCRIPTION));
+		Integer courseId = Integer.parseInt(request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_ID)));
+		String courseName = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_NAME));
+		String courseNum = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_NUM));
+		Boolean courseLevel = Boolean.parseBoolean(request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.LEVEL)));
+		String courseType = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.TYPE));
+		String courseDesc = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_DESCRIPTION));
 		
 		CourseDto.Builder builder = CourseDto.builder();
 		CourseDto courseDto = builder.withCourse_description(courseDesc)
@@ -142,6 +143,25 @@ public class CourseControllerImpl implements CourseController{
 				.build();
 		
 		courseService.createCourse(courseDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<String> courseInstanceCreate (@RequestBody Map<String,String> request) throws Exception {
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer instanceId = Integer.parseInt(request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.ID)));
+		Integer courseId = Integer.parseInt(request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.COURSE_ID)));
+		String instanceTerm = request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.TERM));
+		
+		CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
+		CourseInstanceDto instanceDto = builder.withId(instanceId)
+				.withCourse_id(courseId)
+				.withTerm(instanceTerm)
+				.build();
+		
+		courseService.createInstance(instanceDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
