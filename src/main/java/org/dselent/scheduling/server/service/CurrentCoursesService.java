@@ -8,4 +8,6 @@ import org.dselent.scheduling.server.dto.CourseScheduleDto;
 
 public interface CurrentCoursesService {
 	public ArrayList<CourseInstanceDto> currentCourses(Integer user_id) throws SQLException, Exception;
+	
+	public ArrayList<CourseScheduleDto> detailedSchedule(ArrayList<CourseInstanceDto> courseInstances) throws SQLException, Exception;
 }
