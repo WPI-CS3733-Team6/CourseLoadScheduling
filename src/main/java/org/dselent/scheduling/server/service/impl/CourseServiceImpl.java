@@ -432,6 +432,14 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public ArrayList<CourseDto> courseSearch(String course_name, String course_num) throws Exception {
+		/*
+		This code is incomplete
+		Our plan for implementing both a search of master courses and course instances:
+		- Take search terms and group them into three groups: masterCourse, courseInstance, and courseSchedule
+		- Return list of instance ids when there is a search hit
+		- Take this list of ids, return as a dto of instances
+		- Also change this entire method to take in a dto, so that you don't take in like a million different params
+		 */
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
