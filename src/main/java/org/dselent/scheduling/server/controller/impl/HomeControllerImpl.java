@@ -19,20 +19,33 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
 public class HomeControllerImpl implements LoginController{
-	
+
 	//@Autowired
 	//private HomeService homeService;
-	
+
 	public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws JsonProcessingException, SQLException {
-		
+
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
-		
+
 		String user_id = (request.get(Home.getBodyName(Home.BodyKey.USER_ID)));
-		
+
 		//homeService.load(user_id);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
-		
+
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
+	public ResponseEntity<String> HomeHandleMessage (@RequestBody Map<String,String> request) throws JsonProcessingException, SQLException {
+
+		String response = "";
+		List<Object> success = new ArrayList<Object>();
+
+		String sender_id = (request.get(Home.getBodyName(Home.BodyKey.USER_ID)));
+
+		//homeService.load(user_id);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 }

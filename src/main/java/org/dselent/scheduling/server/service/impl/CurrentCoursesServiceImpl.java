@@ -15,6 +15,7 @@ import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.CourseInformation;
 import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.Instructor;
+import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
 import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.model.User;
 import org.dselent.scheduling.server.service.CurrentCoursesService;
@@ -66,7 +67,8 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 
 	
 		
-	public Integer findInstructor(Integer user_id) throws Exception {
+	public Integer findInstructor(Integer user_id) throws Exception 
+	{
 		Integer instructorId = 0;
 		
 		List<String> columnNameList = new ArrayList<String>();
@@ -89,6 +91,39 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		instructorId = results.get(0).getId();
 		
 		return instructorId;
+	}
+	
+	public ArrayList<CourseInstanceDto> deleteCourseInstance(Integer instructor_id) throws SQLException
+	{
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setValue(instructor_id);
+		idQueryTerm.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(idQueryTerm);
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
+		
+		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
+		for(Integer l = 0; l< results.size(); l++) {
+			CourseInstance courseInstance = results.get(l);
+			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
+			CourseInstanceDto instanceDto = builder.withId(courseInstance.getId())
+					.withTerm(courseInstance.getTerm())
+					.withCourse_id(courseInstance.getCourseId())
+					.build();
+			courseInstanceDtoList.add(instanceDto);
+		}
+		
+		return courseInstanceDtoList;
 	}
 
 

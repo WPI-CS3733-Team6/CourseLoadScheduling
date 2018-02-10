@@ -12,4 +12,6 @@ public interface HomeService {
 	//If user_id belongs to admin, return list of messages in admin inbox,
 	//else return null
 	public List<InboxMessageDto> load(String user_id) throws SQLException, Exception;
+	
+	public void handleMessage(Integer sender_id, Boolean decision) throws SQLException, Exception;
 }
