@@ -7,6 +7,8 @@ import java.util.List;
 import org.dselent.scheduling.server.dao.CourseInformationDao;
 import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.CourseSectionDao;
+import org.dselent.scheduling.server.dao.InstructorCourseLinkCartDao;
+import org.dselent.scheduling.server.dao.InstructorsDao;
 import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
@@ -14,13 +16,16 @@ import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.CourseInformation;
 import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSection;
+import org.dselent.scheduling.server.model.Instructor;
+import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
+import org.dselent.scheduling.server.service.CourseService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
 import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CourseServiceImpl {
+public class CourseServiceImpl implements CourseService {
 	
 	@Autowired
 	private CourseInformationDao masterCourseDao;
@@ -28,6 +33,10 @@ public class CourseServiceImpl {
 	private CourseInstanceDao courseInstanceDao;
 	@Autowired
 	private CourseSectionDao courseSectionsDao;
+	@Autowired
+	private InstructorsDao instructorsDao;
+	@Autowired
+	private InstructorCourseLinkCartDao instructorCourseLinkCartDao;
 	
 	public CourseServiceImpl() {
 		
@@ -285,7 +294,7 @@ public class CourseServiceImpl {
 		return courseInstanceDao.updateCourseInstance(columnNameList, newValueList, queryTermList);
 	}
 	
-	public Integer editSections(CourseSectionDto newSection) throws Exception {
+	public Integer editSection(CourseSectionDto newSection) throws Exception {
 		Integer sectionId = newSection.getId();
 
 		ArrayList<String> columnNameList = new ArrayList<String>();
@@ -371,4 +380,52 @@ public class CourseServiceImpl {
     	
     	return courseSectionsDao.insert(section, insertColumnNameList, keyHolderColumnNameList);
 }
+
+	@Override
+	public void addToCart(Integer user_id, Integer instance_id) throws Exception {
+		Integer instructor_id = findInstructor(user_id);
+		
+		InstructorCourseLinkCart cartModel = new InstructorCourseLinkCart();
+		cartModel.setInstructorId(instructor_id);
+		cartModel.setInstanceId(instance_id);;
+		cartModel.setStatus(0); 
+		
+		List<String> insertColumnNameList = new ArrayList<String>();
+		insertColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
+    	insertColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID));
+    	
+    	List<String> keyHolderColumnNameList = new ArrayList<>();
+    	
+    	keyHolderColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.ID));
+    	keyHolderColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS));
+    	keyHolderColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.CREATED_AT));
+    	keyHolderColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.UPDATED_AT));
+		
+    	instructorCourseLinkCartDao.insert(cartModel, insertColumnNameList, keyHolderColumnNameList);
+	}
+	public Integer findInstructor(Integer user_id) throws Exception 
+	{
+		Integer instructorId = 0;
+		
+		List<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(Instructor.getColumnName(Instructor.Columns.USER_ID));
+		
+		List<QueryTerm> queryTermList = new ArrayList<>();
+		QueryTerm findInstructorQuery = new QueryTerm();
+		findInstructorQuery.setValue(user_id);
+		findInstructorQuery.setColumnName(Instructor.getColumnName(Instructor.Columns.USER_ID));
+		findInstructorQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(findInstructorQuery);
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<Instructor> results = instructorsDao.select(columnNameList, queryTermList, orderByList);
+		
+		if (results.size() != 1)
+			throw new Exception("Testing");
+		
+		instructorId = results.get(0).getId();
+		
+		return instructorId;
+	}
 }

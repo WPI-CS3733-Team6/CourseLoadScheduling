@@ -29,4 +29,6 @@ public interface CourseService {
 	public Integer createInstance(CourseInstanceDto newInstance) throws Exception;
 	
 	public Integer createSection(CourseSectionDto newSection) throws Exception;
+	
+	public void addToCart(Integer user_id, Integer instance_id) throws Exception;
 }

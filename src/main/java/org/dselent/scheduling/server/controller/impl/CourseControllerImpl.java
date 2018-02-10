@@ -181,4 +181,17 @@ public class CourseControllerImpl implements CourseController{
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
+
+	@Override
+	public ResponseEntity<String> courseDetailsAddToCart(Map<String, String> request) throws Exception {
+		
+		String response = "";
+		List<Object> success = new ArrayList<Object>();
+		
+		List <CourseDto> currentCoursesList = courseService.courses();
+		success.add(currentCoursesList);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
 }
