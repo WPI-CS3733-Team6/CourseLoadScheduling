@@ -62,6 +62,15 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
 		
 		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
+		for(Integer l = 0; l< results.size(); l++) {
+			CourseInstance courseInstance = results.get(l);
+			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
+			CourseInstanceDto instanceDto = builder.withId(courseInstance.getId())
+					.withTerm(courseInstance.getTerm())
+					.withCourse_id(courseInstance.getCourseId())
+					.build();
+			courseInstanceDtoList.add(instanceDto);
+		}
 		
 		return courseInstanceDtoList;
 	}
