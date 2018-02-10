@@ -18,6 +18,9 @@ public interface UsersController
     
     @RequestMapping(method=RequestMethod.POST, value="/info")
     public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception;
+    
+    @RequestMapping(method=RequestMethod.POST, value="/add")
+    public ResponseEntity<String> userAdd(@RequestBody Integer request) throws Exception;
 }
 
 	
