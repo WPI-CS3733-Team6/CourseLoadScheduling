@@ -13,5 +13,5 @@ public interface HomeService {
 	//else return null
 	public List<InboxMessageDto> load(String user_id) throws SQLException, Exception;
 	
-	public void handleMessage(Integer sender_id, Boolean decision) throws SQLException, Exception;
+	public void handleMessage(Integer sender_id, Boolean decision, Integer instance_id) throws SQLException, Exception;
 }

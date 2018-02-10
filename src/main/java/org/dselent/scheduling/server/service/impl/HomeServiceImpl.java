@@ -6,9 +6,10 @@ import java.util.List;
 
 import org.dselent.scheduling.server.dao.AdminInboxDao;
 import org.dselent.scheduling.server.dao.CourseInstanceDao;
+import org.dselent.scheduling.server.dao.InstructorCourseLinkCartDao;
+import org.dselent.scheduling.server.dao.InstructorCourseLinkRegisteredDao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
 import org.dselent.scheduling.server.dao.UserRolesDao;
-import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.InboxMessageDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.AdminInbox;
@@ -33,7 +34,11 @@ public class HomeServiceImpl implements HomeService{
 	private InstructorsDao instructorDao;
 	@Autowired
 	private CourseInstanceDao courseInstanceDao;
-	
+	@Autowired
+	private InstructorCourseLinkCartDao instructorCourseLinkCartDao;
+	@Autowired
+	private InstructorCourseLinkRegisteredDao instructorCourseLinkRegisteredDao;
+
 	public HomeServiceImpl() {
 		//
 	}
@@ -97,43 +102,47 @@ public class HomeServiceImpl implements HomeService{
 
 	//sender_id is a user's id (the one who sent the message)
 	@Override
-	public void handleMessage(Integer sender_id, Boolean decision) throws SQLException, Exception {
+	public void handleMessage(Integer sender_id, Boolean decision, Integer instance_id) throws SQLException, Exception {
 
 		Integer instructor_id = findInstructor(sender_id);
-
+		modifyCourseInstance(instructor_id, instance_id, decision);
 
 		if (decision == true) 
 		{
-			List<String> columnNameList3 = new ArrayList<String>();
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.ID));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.SENDER));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.STATUS));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE));
+			InstructorCourseLinkRegistered instructorCourseLinkRegisteredModel = new InstructorCourseLinkRegistered();
+			instructorCourseLinkRegisteredModel.setInstanceId(instance_id);
+			instructorCourseLinkRegisteredModel.setInstructorId(instructor_id);
 
-			List<QueryTerm> queryTermList3 = new ArrayList<>();
+			List<String> insertColumnNameList = new ArrayList<String>();
+			insertColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID));
+	    	insertColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID));
 
+	    	List<String> keyHolderColumnNameList = new ArrayList<>();
+	    	
+	    	keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.ID));
+	    	keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.DELETED));
+	    	keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.CREATED_AT));
+	    	keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.UPDATED_AT));
 
-			List<Pair<String, ColumnOrder>> orderByList3 = new ArrayList<>();
-
-			List<AdminInbox> results3 = adminInboxDao.select(columnNameList3, queryTermList3, orderByList3);
+	    	instructorCourseLinkRegisteredDao.insert(instructorCourseLinkRegisteredModel, insertColumnNameList, keyHolderColumnNameList);
 		}
 
 		else if (decision == false) 
 		{
-			List<String> columnNameList3 = new ArrayList<String>();
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.ID));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.SENDER));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.STATUS));
-			columnNameList3.add(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE));
+			List<String> columnNameList = new ArrayList<String>();
+			columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
 
-			List<QueryTerm> queryTermList3 = new ArrayList<>();
+			List<Object> newValueList = new ArrayList<Object>();
+			newValueList.add(false);
 
+			List<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+			QueryTerm findInstanceQuery = new QueryTerm();
+			findInstanceQuery.setValue(instance_id);
+			findInstanceQuery.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+			findInstanceQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+			queryTermList.add(findInstanceQuery);
 
-			List<Pair<String, ColumnOrder>> orderByList3 = new ArrayList<>();
-
-			List<AdminInbox> results3 = adminInboxDao.select(columnNameList3, queryTermList3, orderByList3);
+			courseInstanceDao.updateCourseInstance(columnNameList, newValueList, queryTermList);
 		}
 	}
 	public Integer findInstructor(Integer user_id) throws Exception 
@@ -161,37 +170,34 @@ public class HomeServiceImpl implements HomeService{
 
 		return instructorId;
 	}
-	
-	public ArrayList<CourseInstanceDto> deleteCourseInstance (Integer instructor_id) throws SQLException
+
+	public void modifyCourseInstance (Integer instructor_id, Integer instance_id, Boolean decision) throws SQLException
 	{
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
-		
-		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		columnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS));
 
-		QueryTerm idQueryTerm = new QueryTerm();
-		idQueryTerm.setValue(instructor_id);
-		idQueryTerm.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
-		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList.add(idQueryTerm);
-		
-		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
-		
-		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
-		
-		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
-		for(Integer l = 0; l< results.size(); l++) {
-			CourseInstance courseInstance = results.get(l);
-			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
-			CourseInstanceDto instanceDto = builder.withId(courseInstance.getId())
-					.withTerm(courseInstance.getTerm())
-					.withCourse_id(courseInstance.getCourseId())
-					.build();
-			courseInstanceDtoList.add(instanceDto);
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		if (decision == false) {
+			newValueList.add(-1);
 		}
-		
-		return courseInstanceDtoList;
+		else {
+			newValueList.add(1);
+		}
+
+		List<QueryTerm> queryTermList = new ArrayList<>();
+		QueryTerm findInstructorIdQuery = new QueryTerm();
+		findInstructorIdQuery.setValue(instructor_id);
+		findInstructorIdQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
+		findInstructorIdQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(findInstructorIdQuery);
+
+		QueryTerm findInstanceIdQuery = new QueryTerm();
+		findInstanceIdQuery.setValue(instance_id);
+		findInstanceIdQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID));
+		findInstanceIdQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(findInstanceIdQuery);
+
+		instructorCourseLinkCartDao.updateInstructorCourseLinkCart(columnNameList, newValueList, queryTermList);
+
 	}
 }
