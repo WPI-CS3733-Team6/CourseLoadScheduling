@@ -25,11 +25,11 @@ public class InstructorCourseLinkRegisteredExtractor extends Extractor<List<Inst
 			}
 			
 			result.setInstructorId(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID)));
-			result.setSectionId(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID)));
+			result.setInstanceId(rs.getInt(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID)));
 			
 			if(rs.wasNull()) {
 				result.setInstructorId(null);
-				result.setSectionId(null);
+				result.setInstanceId(null);
 			}
 			
 			result.setDeleted(rs.getBoolean(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.DELETED)));
