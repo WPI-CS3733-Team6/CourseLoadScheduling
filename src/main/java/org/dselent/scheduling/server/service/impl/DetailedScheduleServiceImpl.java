@@ -4,24 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dselent.scheduling.server.dao.CourseInformationDao;
 import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.CourseScheduleDao;
-import org.dselent.scheduling.server.dao.CourseSectionDao;
-import org.dselent.scheduling.server.dao.Dao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
-import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.CourseScheduleDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
-import org.dselent.scheduling.server.model.CourseInformation;
 import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSchedule;
-import org.dselent.scheduling.server.model.CourseSection;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
-import org.dselent.scheduling.server.service.CurrentCoursesService;
 import org.dselent.scheduling.server.service.DetailedScheduleService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
@@ -33,11 +26,7 @@ public class DetailedScheduleServiceImpl implements DetailedScheduleService{
 	@Autowired
 	private InstructorsDao instructorDao;
 	@Autowired
-	private CourseInformationDao masterCourseDao;
-	@Autowired
 	private CourseInstanceDao courseInstanceDao;
-	@Autowired
-	private CourseSectionDao courseSectionsDao;
 	@Autowired
 	private CourseScheduleDao courseScheduleDao;
 	

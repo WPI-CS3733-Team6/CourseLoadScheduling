@@ -1,10 +1,8 @@
 package org.dselent.scheduling.server.dto;
 
-import java.util.ArrayList;
 
 import javax.annotation.Generated;
 
-import org.dselent.scheduling.server.dto.CourseDto.Builder;
 
 public class CourseScheduleDto {
 	private final Integer id;
