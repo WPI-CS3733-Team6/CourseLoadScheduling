@@ -11,6 +11,7 @@ import org.dselent.scheduling.server.dto.UserInfoUpdateDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Register;
 import org.dselent.scheduling.server.requests.UserInfo;
+import org.dselent.scheduling.server.requests.UserInfoUpdate;
 import org.dselent.scheduling.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,7 +68,8 @@ public class UsersControllerImpl implements UsersController
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
-	public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception 
+	@Override
+	public ResponseEntity<String> userInfo(@RequestBody Map<String, String> request) throws Exception 
 	{
 		// Print is for testing purposes
 		System.out.println("controller reached");
@@ -76,7 +78,8 @@ public class UsersControllerImpl implements UsersController
 		String response = "User Info";
 		List<Object> success = new ArrayList<Object>();
 
-		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
+		Integer id = Integer.parseInt(request.get(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID)));
+		
 		UserInfoDto userInfo = userService.userInfo(id);
 
 		success.add(userInfo);
@@ -86,8 +89,7 @@ public class UsersControllerImpl implements UsersController
 	}
 
 	@Override
-	public ResponseEntity<String> userInfoUpdate(@RequestBody Integer userId, String currentPassword, String newPassword, String confirmNewPassword,
-			String preferredEmail, Long phoneNum) throws Exception 
+	public ResponseEntity<String> userInfoUpdate(@RequestBody Map<String, String> request) throws Exception 
     {
     	// Print is for testing purposes
 		System.out.println("controller reached");
@@ -95,12 +97,32 @@ public class UsersControllerImpl implements UsersController
 		// add any objects that need to be returned to the success list
 		String response = "User Info";
 		List<Object> success = new ArrayList<Object>();
+
+		Integer id = Integer.parseInt(request.get(UserInfoUpdate.getBodyName(UserInfoUpdate.BodyKey.USER_ID)));
+		String newPassword = request.get(UserInfoUpdate.getBodyName(UserInfoUpdate.BodyKey.NEW_PASSWORD));
+		String oldPassword = request.get(UserInfoUpdate.getBodyName(UserInfoUpdate.BodyKey.CURRENT_PASSWORD));
+		String confirmedPassword = request.get(UserInfoUpdate.getBodyName(UserInfoUpdate.BodyKey.NEW_PASSWORD_CONFIRMED));
+		Long phone = Long.parseLong(request.get(UserInfoUpdate.getBodyName(UserInfoUpdate.BodyKey.PHONE_NUM)));
+		String secondEmail = request.get(UserInfoUpdate.getBodyName(UserInfoUpdate.BodyKey.PREFERRED_EMAIL));
+
 		
-		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
-		UserInfoUpdateDto userInfo = userService.userInfoUpdate(id, response, response, response, response, phoneNum);
+		UserInfoUpdateDto.Builder builder = UserInfoUpdateDto.builder();
+		UserInfoUpdateDto userInfoUpdateDto = builder
+				.withUserId(id)
+				.withCurrentPassword(oldPassword)
+				.withNewPassword(newPassword)
+				.withNewPasswordConfirmed(confirmedPassword)
+				.withPhoneNum(phone)
+				.withPreferredEmail(secondEmail)
+				.build();
+		
+		success.add(userInfoUpdateDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
 		
     }
-	public ResponseEntity<String> userAdd(Integer request) throws Exception {
+	@Override
+	public ResponseEntity<String> userAdd(@RequestBody Map<String, String> request) throws Exception {
 		// Print is for testing purposes
 		System.out.println("controller reached");
 

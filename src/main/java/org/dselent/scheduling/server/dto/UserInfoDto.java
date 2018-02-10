@@ -12,6 +12,7 @@ import javax.annotation.Generated;
  */
 public class UserInfoDto
 {
+	private final Integer userId;
 	private final String userName;
 	private final String firstName;
 	private final String lastName;
@@ -19,10 +20,10 @@ public class UserInfoDto
 	private final String secondaryEmail;
 	private final Long phoneNum;
 	private final Float reqCourses;
-
-
+	
 	@Generated("SparkTools")
 	private UserInfoDto(Builder builder) {
+		this.userId = builder.userId;
 		this.userName = builder.userName;
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
@@ -30,38 +31,6 @@ public class UserInfoDto
 		this.secondaryEmail = builder.secondaryEmail;
 		this.phoneNum = builder.phoneNum;
 		this.reqCourses = builder.reqCourses;
-
-		// making claim that none of these can be null
-		// add other state checks here as necessary
-
-		if(this.userName == null)
-		{
-			throw new IllegalStateException("userName cannot be null");
-		}
-		else if(this.firstName == null)
-		{
-			throw new IllegalStateException("firstName cannot be null");
-		}
-		else if(this.lastName == null)
-		{
-			throw new IllegalStateException("lastName cannot be null");
-		}
-		else if(this.email == null)
-		{
-			throw new IllegalStateException("email cannot be null");
-		}
-		else if(this.secondaryEmail == null)
-		{
-			throw new IllegalStateException("secondaryPassword cannot be null");
-		}
-		else if(this.phoneNum == null)
-		{
-			throw new IllegalStateException("phoneNumber cannot be null");
-		}
-		else if(this.reqCourses == null)
-		{
-			throw new IllegalStateException("requiredCourses cannot be null");
-		}
 	}
 	/**
 	 * Creates builder to build {@link UserInfoDto}.
@@ -76,6 +45,7 @@ public class UserInfoDto
 	 */
 	@Generated("SparkTools")
 	public static final class Builder {
+		private Integer userId;
 		private String userName;
 		private String firstName;
 		private String lastName;
@@ -85,6 +55,11 @@ public class UserInfoDto
 		private Float reqCourses;
 
 		private Builder() {
+		}
+
+		public Builder withUserId(Integer userId) {
+			this.userId = userId;
+			return this;
 		}
 
 		public Builder withUserName(String userName) {
@@ -112,8 +87,8 @@ public class UserInfoDto
 			return this;
 		}
 
-		public Builder withPhonrNum(Long phonrNum) {
-			this.phoneNum = phonrNum;
+		public Builder withPhoneNum(Long phoneNum) {
+			this.phoneNum = phoneNum;
 			return this;
 		}
 
@@ -126,8 +101,9 @@ public class UserInfoDto
 			return new UserInfoDto(this);
 		}
 	}
-
-	//Getters
+	public Integer getUserId() {
+		return userId;
+	}
 	public String getUserName() {
 		return userName;
 	}
@@ -143,15 +119,12 @@ public class UserInfoDto
 	public String getSecondaryEmail() {
 		return secondaryEmail;
 	}
-	public Long getPhonrNum() {
+	public Long getPhoneNum() {
 		return phoneNum;
 	}
 	public Float getReqCourses() {
 		return reqCourses;
 	}
-
-
-	//Hashcode and equals
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -162,6 +135,7 @@ public class UserInfoDto
 		result = prime * result + ((phoneNum == null) ? 0 : phoneNum.hashCode());
 		result = prime * result + ((reqCourses == null) ? 0 : reqCourses.hashCode());
 		result = prime * result + ((secondaryEmail == null) ? 0 : secondaryEmail.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
@@ -204,6 +178,11 @@ public class UserInfoDto
 				return false;
 		} else if (!secondaryEmail.equals(other.secondaryEmail))
 			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
 		if (userName == null) {
 			if (other.userName != null)
 				return false;
@@ -211,13 +190,11 @@ public class UserInfoDto
 			return false;
 		return true;
 	}
-
-	//toString
 	@Override
 	public String toString() {
-		return "UserInfoDto [userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", secondaryEmail=" + secondaryEmail + ", phonrNum=" + phoneNum + ", reqCourses=" + reqCourses
-				+ "]";
-	}	
-
+		return "UserInfoDto [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", email=" + email + ", secondaryEmail=" + secondaryEmail + ", phoneNum=" + phoneNum
+				+ ", reqCourses=" + reqCourses + "]";
+	}
+	
 }

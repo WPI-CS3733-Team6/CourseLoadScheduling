@@ -57,7 +57,8 @@ public class UsersDaoImpl extends BaseDaoImpl<User> implements UsersDao
 		
 	}
 	
-	public int updateUser(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {
+	@Override
+	public int updateUser(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList){
 		
     	List<Integer> typeList = new ArrayList<Integer>();
     	typeList.add(Types.VARCHAR);

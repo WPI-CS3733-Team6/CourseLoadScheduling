@@ -15,10 +15,13 @@ public interface UsersController
 	public ResponseEntity<String> register(@RequestBody Map<String, String> request) throws Exception;
     
     @RequestMapping(method=RequestMethod.POST, value="/info")
-    public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception;
+    public ResponseEntity<String> userInfo(@RequestBody Map<String, String> request) throws Exception;
     
     @RequestMapping(method=RequestMethod.POST, value="/add")
-    public ResponseEntity<String> userAdd(@RequestBody Integer request) throws Exception;
+    public ResponseEntity<String> userAdd(@RequestBody Map<String, String> request) throws Exception;
+    
+    @RequestMapping(method=RequestMethod.POST, value="/info/update")
+	ResponseEntity<String> userInfoUpdate(@RequestBody Map<String, String> request) throws Exception;
 }
 
 	
