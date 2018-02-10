@@ -17,5 +17,7 @@ public interface RegistrationCartService {
 	 * @throws SQLException
 	 */
 	public List<RegistrationCartDto> registrationCart(String user_id) throws SQLException;
+	
+	public void removeCourse(String user_id, String course_num) throws SQLException;
 
 }
