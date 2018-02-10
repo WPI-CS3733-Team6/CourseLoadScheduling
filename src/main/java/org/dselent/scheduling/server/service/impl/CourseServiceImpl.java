@@ -16,6 +16,7 @@ import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSection;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
+import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -171,5 +172,142 @@ public class CourseServiceImpl {
 			return null;
 		}
 		else return courseDtoList.get(0);
+	}
+
+	//Delete course with specified ID, along with all instances and sections associated with it
+	//Returns the number of rows changed in the database
+	public Integer deleteCourse(Integer courseId) throws Exception {
+		//Total count of changed rows
+		Integer rowsChanged = 0;
+		
+		//Get old master course
+		CourseDto oldCourse = findById(courseId);
+		Integer instanceCount = oldCourse.getCourseInstance().size();
+		
+		//Only value to be changed on all tables is "Deleted" Boolean
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		boolean isDeleted = true;
+		newValueList.add(isDeleted);
+		
+		//Iterate through course instances
+		for (int i = 0; i < instanceCount; i++) {
+			CourseInstanceDto oldInstance = oldCourse.getCourseInstance().get(i);
+			Integer instanceId = oldInstance.getId();
+			Integer sectionCount = oldInstance.getSections().size();
+			
+			//Iterate through course sections
+			for (int j = 0; i < sectionCount; j++) {
+				CourseSectionDto oldSection = oldInstance.getSections().get(j);
+				Integer sectionId = oldSection.getId();
+				
+				//Virtually delete all sections in this Course Instance
+				ArrayList<String> columnNameList3 = new ArrayList<String>();
+				columnNameList3.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
+				
+				ArrayList<QueryTerm> queryTermList3 = new ArrayList<QueryTerm>();
+				QueryTerm sectionQueryTerm = new QueryTerm();
+				sectionQueryTerm.setValue(sectionId);
+				sectionQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.ID));
+				sectionQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+				queryTermList3.add(sectionQueryTerm);
+				
+				rowsChanged = rowsChanged + courseSectionsDao.updateCourseSection(columnNameList3, newValueList, queryTermList3);
+			}
+			
+			//Virtually delete all Instances in this Master Course
+			ArrayList<String> columnNameList2 = new ArrayList<String>();
+			columnNameList2.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
+			
+			ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
+			QueryTerm instanceQueryTerm = new QueryTerm();
+			instanceQueryTerm.setValue(instanceId);
+			instanceQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+			instanceQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			queryTermList2.add(instanceQueryTerm);
+			
+			rowsChanged = rowsChanged + courseInstanceDao.updateCourseInstance(columnNameList2, newValueList, queryTermList2);
+		}
+		
+		//Return total of changed rows
+		return rowsChanged;
+	}
+	
+	public Integer editCourse(CourseDto newCourse) throws Exception {
+		Integer courseId = newCourse.getId();
+
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
+		
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		newValueList.add(newCourse.getCourse_description());
+		newValueList.add(newCourse.getCourse_name());
+		newValueList.add(newCourse.getCourse_num());
+		newValueList.add(newCourse.getLevel());
+		newValueList.add(newCourse.getType());
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(courseId);
+		queryTermList.add(idQueryTerm);
+
+		return masterCourseDao.updateCourseInformation(columnNameList, newValueList, queryTermList);
+	}
+	
+	public Integer editInstance(CourseInstanceDto newInstance) throws Exception {
+		Integer instanceId = newInstance.getId();
+
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		newValueList.add(newInstance.getTerm());
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(instanceId);
+		queryTermList.add(idQueryTerm);
+		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		deletedQueryTerm.setLogicalOperator(LogicalOperator.AND);
+		queryTermList.add(deletedQueryTerm);
+		
+		return courseInstanceDao.updateCourseInstance(columnNameList, newValueList, queryTermList);
+	}
+	
+	public Integer editSections(CourseSectionDto newSection) throws Exception {
+		Integer sectionId = newSection.getId();
+
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
+		
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		newValueList.add(newSection.getExpected_pop());
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(sectionId);
+		queryTermList.add(idQueryTerm);
+		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		deletedQueryTerm.setLogicalOperator(LogicalOperator.AND);
+		queryTermList.add(deletedQueryTerm);
+		
+		return courseSectionsDao.updateCourseSection(columnNameList, newValueList, queryTermList);
 	}
 }

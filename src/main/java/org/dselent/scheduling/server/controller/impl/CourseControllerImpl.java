@@ -6,8 +6,14 @@ import java.util.Map;
 
 import org.dselent.scheduling.server.controller.CourseController;
 import org.dselent.scheduling.server.dto.CourseDto;
+import org.dselent.scheduling.server.dto.CourseInstanceDto;
+import org.dselent.scheduling.server.dto.CourseSectionDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
+import org.dselent.scheduling.server.requests.CourseCreate;
 import org.dselent.scheduling.server.requests.CourseDetails;
+import org.dselent.scheduling.server.requests.CourseEdit;
+import org.dselent.scheduling.server.requests.CourseInstanceEdit;
+import org.dselent.scheduling.server.requests.CourseSectionEdit;
 import org.dselent.scheduling.server.requests.Courses;
 import org.dselent.scheduling.server.requests.Login;
 import org.dselent.scheduling.server.service.CourseService;
@@ -43,6 +49,72 @@ public class CourseControllerImpl implements CourseController{
 		CourseDto course = courseService.findById(courseId);
 		
 		success.add(course);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+	
+	@Override
+	public ResponseEntity<String> courseEdit(Map<String,String> request) throws Exception {
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer courseId = Integer.parseInt(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_ID)));
+		String courseName = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NAME));
+		String courseNum = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NUM));
+		Boolean courseLevel = Boolean.parseBoolean(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.LEVEL)));
+		String courseType = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.TYPE));
+		String courseDesc = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_DESCRIPTION));
+		
+		CourseDto.Builder builder = CourseDto.builder();
+		CourseDto courseDto = builder.withCourse_description(courseDesc)
+				.withCourse_name(courseName)
+				.withCourse_num(courseNum)
+				.withLevel(courseLevel)
+				.withType(courseType)
+				.withId(courseId)
+				.build();
+		
+		courseService.editCourse(courseDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+	
+	@Override
+	public ResponseEntity<String> instanceEdit(Map<String,String> request) throws Exception {
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		String instanceTerm = request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.TERM));
+		Integer courseId = Integer.parseInt(request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.COURSE_ID)));
+		Integer instanceId = Integer.parseInt(request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.ID)));
+		
+		CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
+		CourseInstanceDto instanceDto = builder.withCourse_id(courseId)
+				.withId(instanceId)
+				.withTerm(instanceTerm)
+				.build();
+		
+		courseService.editInstance(instanceDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<String> sectionEdit(Map<String, String> request) throws Exception {
+		String response;
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer expected_pop = Integer.parseInt(request.get(CourseSectionEdit.getBodyName(CourseSectionEdit.BodyKey.EXPECTED_POP)));
+		Integer sectionId = Integer.parseInt(request.get(CourseSectionEdit.getBodyName(CourseSectionEdit.BodyKey.ID)));
+		Integer instanceId = Integer.parseInt(request.get(CourseSectionEdit.getBodyName(CourseSectionEdit.BodyKey.INSTANCE_ID)));
+		
+		CourseSectionDto.Builder builder = CourseSectionDto.builder();
+		CourseSectionDto sectionDto = builder.withExpected_pop(expected_pop)
+				.withId(sectionId)
+				.withInstance_id(instanceId)
+				.build();
+		
+		courseService.editSection(sectionDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}

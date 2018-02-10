@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CourseCreate {
 	
 	public static final RequestMethod REQUEST_TYPE = RequestMethod.POST;
-	public static final String REQUEST_NAME = "/course/create";
+	public static final String REQUEST_NAME = "/create";
 	private static final List<HeaderKey> HEADER_KEY_LIST;
 	private static final List<ParameterKey> PARAMETER_KEY_LIST;
 	private static final List<BodyKey> BODY_KEY_LIST;
@@ -29,7 +29,7 @@ public class CourseCreate {
 	
 	public static enum BodyKey
 	{
-		USER_ID,
+		COURSE_ID,
 		COURSE_NAME,
 		COURSE_NUM,
 		TYPE,

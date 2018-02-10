@@ -3,6 +3,7 @@ package org.dselent.scheduling.server.controller;
 import java.util.Map;
 
 import org.dselent.scheduling.server.requests.CourseDetails;
+import org.dselent.scheduling.server.requests.CourseEdit;
 import org.dselent.scheduling.server.requests.Courses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,4 +18,13 @@ public interface CourseController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=CourseDetails.REQUEST_NAME)
 	public ResponseEntity<String> courseDetails (@RequestBody Map<String,String> request) throws Exception;
+	
+	@RequestMapping(method=RequestMethod.POST, value=CourseEdit.REQUEST_NAME)
+	public ResponseEntity<String> courseEdit (@RequestBody Map<String,String> request) throws Exception;
+	
+	@RequestMapping(method=RequestMethod.POST, value=CourseEdit.REQUEST_NAME)
+	public ResponseEntity<String> instanceEdit (@RequestBody Map<String,String> request) throws Exception;
+	
+	@RequestMapping(method=RequestMethod.POST, value=CourseEdit.REQUEST_NAME)
+	public ResponseEntity<String> sectionEdit (@RequestBody Map<String,String> request) throws Exception;
 }
