@@ -41,4 +41,7 @@ public interface CourseController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=CourseSectionCreate.REQUEST_NAME)
 	public ResponseEntity<String> courseSectionCreate (@RequestBody Map<String,String> request) throws Exception;
+	
+	@RequestMapping(method=RequestMethod.POST, value=CourseSectionCreate.REQUEST_NAME)
+	public ResponseEntity<String> courseDetailsAddToCart (@RequestBody Map<String,String> request) throws Exception;
 }
