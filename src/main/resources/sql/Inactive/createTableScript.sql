@@ -351,7 +351,7 @@ CREATE UNIQUE INDEX users_user_name ON users(user_name);
 	@Param sender: Who sent (made the entry into the table).
 	@Param subject_line: The subject line of the message. This will be automatically generated. The user will not be able to modify this.
 	@Param content: Contents of the message.
-	@Param status: Whether or not the admin has accepted or rejected the request (0 = pending, 1 = accepted, 2 = rejected)
+	@Param status: Whether or not the admin has accepted or rejected the request (-1 = rejected, 0 = pending, 1 = accepted)
 	@Param created_at: timestamp
 	@Param updated_at: timestamp
 	--course num and term need to be inherited
