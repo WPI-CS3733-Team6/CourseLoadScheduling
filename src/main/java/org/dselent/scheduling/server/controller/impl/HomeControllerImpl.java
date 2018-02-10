@@ -8,8 +8,6 @@ import java.util.Map;
 import org.dselent.scheduling.server.controller.LoginController;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Home;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -37,6 +35,19 @@ public class HomeControllerImpl implements LoginController{
 	}
 
 	public ResponseEntity<String> HomeHandleMessage (@RequestBody Map<String,String> request) throws JsonProcessingException, SQLException {
+
+		String response = "";
+		List<Object> success = new ArrayList<Object>();
+
+		String sender_id = (request.get(Home.getBodyName(Home.BodyKey.USER_ID)));
+
+		//homeService.load(user_id);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<String> ReportProblem (@RequestBody Map<String,String> request) throws JsonProcessingException, SQLException {
 
 		String response = "";
 		List<Object> success = new ArrayList<Object>();

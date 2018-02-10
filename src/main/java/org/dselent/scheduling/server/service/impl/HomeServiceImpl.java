@@ -200,4 +200,43 @@ public class HomeServiceImpl implements HomeService{
 		instructorCourseLinkCartDao.updateInstructorCourseLinkCart(columnNameList, newValueList, queryTermList);
 
 	}
+
+	@Override
+	public void reportProblem(Integer probType, String name, String email, String description) throws SQLException, Exception {
+		String extendDescription = "From: " + name + ", " + email + "\n" + description;
+		
+		String problem = "";
+		if (probType == 0) {
+			problem = "Missing Functionality";
+		}
+		else if (probType == 1) {
+			problem = "Accesibility";
+		}
+		else if (probType == 2) {
+			problem = "User Interface";
+		}
+		else if (probType == 3) {
+			problem = "Other";
+		}
+		
+		AdminInbox adminInboxModel = new AdminInbox();
+		adminInboxModel.setSubjectLine(problem);
+		adminInboxModel.setContent(extendDescription);
+		adminInboxModel.setSender(-1); //effectively null
+		adminInboxModel.setStatus(0); //effectively pending
+		
+		List<String> insertColumnNameList = new ArrayList<String>();
+		insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE));
+    	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT));
+    	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.SENDER));
+    	insertColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.STATUS));
+    	
+    	List<String> keyHolderColumnNameList = new ArrayList<>();
+    	
+    	keyHolderColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.ID));
+    	keyHolderColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.CREATED_AT));
+    	keyHolderColumnNameList.add(AdminInbox.getColumnName(AdminInbox.Columns.UPDATED_AT));
+		
+    	adminInboxDao.insert(adminInboxModel, insertColumnNameList, keyHolderColumnNameList);
+	}
 }
