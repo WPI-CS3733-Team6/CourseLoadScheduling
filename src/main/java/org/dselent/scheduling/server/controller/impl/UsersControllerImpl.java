@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UsersControllerImpl implements UsersController
 {
 	@Autowired
-    private UserService userService;
-	
+	private UserService userService;
+
 	/**
 	 * 
 	 * @param request The body of the request expected to contain a map of String key-value pairs
@@ -38,14 +38,14 @@ public class UsersControllerImpl implements UsersController
 	 * @throws Exception 
 	 */
 	public ResponseEntity<String> register(@RequestBody Map<String, String> request) throws Exception 
-    {
-    	// Print is for testing purposes
+	{
+		// Print is for testing purposes
 		System.out.println("controller reached");
-    	
+
 		// add any objects that need to be returned to the success list
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
-		
+
 		String userName = request.get(Register.getBodyName(Register.BodyKey.USER_NAME));
 		String firstName = request.get(Register.getBodyName(Register.BodyKey.FIRST_NAME));
 		String lastName = request.get(Register.getBodyName(Register.BodyKey.LAST_NAME));
@@ -54,43 +54,54 @@ public class UsersControllerImpl implements UsersController
 
 		RegisterUserDto.Builder builder = RegisterUserDto.builder();
 		RegisterUserDto registerUserDto = builder.withUserName(userName)
-		.withFirstName(firstName)
-		.withLastName(lastName)
-		.withEmail(email)
-		.withPassword(password)
-		.build();
-		
+				.withFirstName(firstName)
+				.withLastName(lastName)
+				.withEmail(email)
+				.withPassword(password)
+				.build();
+
 		userService.registerUser(registerUserDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
-    }
-	
+	}
+
 	public ResponseEntity<String> userInfo(@RequestBody Integer request) throws Exception 
-    {
-    	// Print is for testing purposes
+	{
+		// Print is for testing purposes
 		System.out.println("controller reached");
-    	
+
 		// add any objects that need to be returned to the success list
 		String response = "User Info";
 		List<Object> success = new ArrayList<Object>();
-		
+
 		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
 		UserInfoDto userInfo = userService.userInfo(id);
-		
+
 		success.add(userInfo);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
-    }
+	}
 
 	@Override
 	public ResponseEntity<String> userAdd(Integer request) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		// Print is for testing purposes
+		System.out.println("controller reached");
+
+		// add any objects that need to be returned to the success list
+		String response = "Add User";
+		List<Object> success = new ArrayList<Object>();
+
+		Integer id = Integer.parseInt(UserInfo.getBodyName(UserInfo.BodyKey.USER_ID));
+		UserInfoDto userInfo = userService.userInfo(id);
+
+		success.add(userInfo);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+
+		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
-	
-	
+
+
 }
 
-	
