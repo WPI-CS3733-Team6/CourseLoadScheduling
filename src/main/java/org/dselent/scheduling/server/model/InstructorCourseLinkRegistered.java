@@ -86,11 +86,11 @@ public class InstructorCourseLinkRegistered extends Model {
 	public void setInstructorId(Integer instructor_id) {
 		this.instructorId = instructor_id;
 	}
-	public Integer getSectionId() {
+	public Integer getInstanceId() {
 		return instanceId;
 	}
-	public void setSectionId(Integer sectionId) {
-		this.instanceId = sectionId;
+	public void setInstanceId(Integer instanceId) {
+		this.instanceId = instanceId;
 	}
 	public Boolean getDeleted() {
 		return deleted;
