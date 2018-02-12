@@ -161,7 +161,7 @@ CREATE TABLE course_information
 	id serial PRIMARY KEY,
 	course_num varchar(255) NOT NULL,
 	course_name varchar(255) UNIQUE NOT NULL,
-	course_description varchar(2047) NOT NULL,
+	course_description varchar(2047),
 	type varchar(255) NOT NULL,
 	level boolean NOT NULL
 );
@@ -185,7 +185,7 @@ CREATE TABLE course_instance
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	FOREIGN KEY (course_id) REFERENCES course_information(id)
-)
+);
 
 
 
