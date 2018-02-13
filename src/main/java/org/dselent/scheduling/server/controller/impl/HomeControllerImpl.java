@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.dselent.scheduling.server.controller.HomeController;
 import org.dselent.scheduling.server.controller.LoginController;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Home;
@@ -16,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
-public class HomeControllerImpl implements LoginController{
+public class HomeControllerImpl implements HomeController{
 
 	//@Autowired
 	//private HomeService homeService;
-
+	
 	public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws JsonProcessingException, SQLException {
 
 		String response = "";
@@ -58,5 +59,18 @@ public class HomeControllerImpl implements LoginController{
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
+
+	// Added these just to get something compiling
+	@Override
+	public ResponseEntity<String> homeHandleMessage(Map<String, String> request) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<String> reportProblem(Map<String, String> request) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

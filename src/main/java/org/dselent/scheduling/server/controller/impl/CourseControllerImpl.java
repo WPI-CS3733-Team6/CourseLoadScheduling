@@ -120,6 +120,7 @@ public class CourseControllerImpl implements CourseController{
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
+	@Override
 	public ResponseEntity<String> courseCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
@@ -145,6 +146,7 @@ public class CourseControllerImpl implements CourseController{
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
+	@Override
 	public ResponseEntity<String> courseInstanceCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
@@ -162,6 +164,7 @@ public class CourseControllerImpl implements CourseController{
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
+	@Override
 	public ResponseEntity<String> courseSectionCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
