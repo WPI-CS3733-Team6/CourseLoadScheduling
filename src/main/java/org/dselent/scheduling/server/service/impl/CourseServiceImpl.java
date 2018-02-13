@@ -18,7 +18,6 @@ import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSection;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
-import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.service.CourseService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
@@ -114,7 +113,6 @@ public class CourseServiceImpl implements CourseService {
 		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
 		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
 		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM));
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
@@ -133,7 +131,6 @@ public class CourseServiceImpl implements CourseService {
 			CourseSectionDto courseSectionDto = builder.withExpected_pop(section.getExpectedPop())
 					.withId(section.getId())
 					.withInstance_id(section.getInstanceId())
-					.withSection_num(section.getSectionNum())
 					.build();
 			courseSectionsList.add(courseSectionDto);
 		}
@@ -377,7 +374,6 @@ public class CourseServiceImpl implements CourseService {
     	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
     	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
     	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.UPDATED_AT));
-    	keyHolderColumnNameList.add(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM));
     	
     	return courseSectionsDao.insert(section, insertColumnNameList, keyHolderColumnNameList);
 }

@@ -204,7 +204,6 @@ CREATE TABLE course_sections
 (
 	id serial PRIMARY KEY,
 	instance_id integer NOT NULL, 
-	section_num integer NOT NULL, --automatically generated on the front end (user inputs amount of sections, app generates numbers for each one, ex: 01, 02, 03)
 	expected_pop integer NOT NULL,
 	deleted boolean NOT NULL DEFAULT(FALSE),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),

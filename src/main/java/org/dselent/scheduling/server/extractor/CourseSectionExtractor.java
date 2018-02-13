@@ -25,11 +25,9 @@ public class CourseSectionExtractor extends Extractor<List<CourseSection>> {
 			}
 			
 			result.setInstanceId(rs.getInt(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID)));
-			result.setSectionNum(rs.getInt(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)));
 			result.setExpectedPop(rs.getInt(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)));
 			
 			if(rs.wasNull()) {
-				result.setSectionNum(null);
 				result.setExpectedPop(null);
 			}
 			

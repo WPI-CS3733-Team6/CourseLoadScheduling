@@ -6,14 +6,11 @@ public class CourseSectionDto {
 	
 	private final Integer id;
 	private final Integer instance_id;
-	private final Integer section_num;
 	private final Integer expected_pop;
-	
 	@Generated("SparkTools")
 	private CourseSectionDto(Builder builder) {
 		this.id = builder.id;
 		this.instance_id = builder.instance_id;
-		this.section_num = builder.section_num;
 		this.expected_pop = builder.expected_pop;
 	}
 	/**
@@ -31,7 +28,6 @@ public class CourseSectionDto {
 	public static final class Builder {
 		private Integer id;
 		private Integer instance_id;
-		private Integer section_num;
 		private Integer expected_pop;
 
 		private Builder() {
@@ -44,11 +40,6 @@ public class CourseSectionDto {
 
 		public Builder withInstance_id(Integer instance_id) {
 			this.instance_id = instance_id;
-			return this;
-		}
-
-		public Builder withSection_num(Integer section_num) {
-			this.section_num = section_num;
 			return this;
 		}
 
@@ -67,9 +58,6 @@ public class CourseSectionDto {
 	public Integer getInstance_id() {
 		return instance_id;
 	}
-	public Integer getSection_num() {
-		return section_num;
-	}
 	public Integer getExpected_pop() {
 		return expected_pop;
 	}
@@ -80,7 +68,6 @@ public class CourseSectionDto {
 		result = prime * result + ((expected_pop == null) ? 0 : expected_pop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instance_id == null) ? 0 : instance_id.hashCode());
-		result = prime * result + ((section_num == null) ? 0 : section_num.hashCode());
 		return result;
 	}
 	@Override
@@ -107,17 +94,11 @@ public class CourseSectionDto {
 				return false;
 		} else if (!instance_id.equals(other.instance_id))
 			return false;
-		if (section_num == null) {
-			if (other.section_num != null)
-				return false;
-		} else if (!section_num.equals(other.section_num))
-			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "CourseSectionDto [id=" + id + ", instance_id=" + instance_id + ", section_num=" + section_num
-				+ ", expected_pop=" + expected_pop + "]";
+		return "CourseSectionDto [id=" + id + ", instance_id=" + instance_id + ", expected_pop=" + expected_pop + "]";
 	}
 	
 }

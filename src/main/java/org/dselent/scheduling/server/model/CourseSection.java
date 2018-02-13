@@ -17,7 +17,6 @@ public class CourseSection extends Model{
 	{
 		ID,
 		INSTANCE_ID,
-		SECTION_NUM,
 		EXPECTED_POP,
 		DELETED,
 		CREATED_AT,
@@ -39,7 +38,6 @@ public class CourseSection extends Model{
 		
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.INSTANCE_ID, JDBCType.VARCHAR);
-		COLUMN_TYPE_MAP.put(Columns.SECTION_NUM, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.EXPECTED_POP, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.DELETED, JDBCType.BOOLEAN);
 		COLUMN_TYPE_MAP.put(Columns.CREATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
@@ -50,7 +48,6 @@ public class CourseSection extends Model{
 	
 	private Integer id;
 	private Integer instanceId;
-	private Integer sectionNum;
 	private Integer expectedPop;
 	private Boolean deleted;
 	private Timestamp createdAt;
@@ -94,14 +91,6 @@ public class CourseSection extends Model{
 		this.instanceId = instanceId;
 	}
 
-	public Integer getSectionNum() {
-		return sectionNum;
-	}
-
-	public void setSectionNum(Integer sectionNum) {
-		this.sectionNum = sectionNum;
-	}
-
 	public Integer getExpectedPop() {
 		return expectedPop;
 	}
@@ -143,7 +132,6 @@ public class CourseSection extends Model{
 		result = prime * result + ((expectedPop == null) ? 0 : expectedPop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
-		result = prime * result + ((sectionNum == null) ? 0 : sectionNum.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
@@ -182,11 +170,6 @@ public class CourseSection extends Model{
 				return false;
 		} else if (!instanceId.equals(other.instanceId))
 			return false;
-		if (sectionNum == null) {
-			if (other.sectionNum != null)
-				return false;
-		} else if (!sectionNum.equals(other.sectionNum))
-			return false;
 		if (updatedAt == null) {
 			if (other.updatedAt != null)
 				return false;
@@ -197,10 +180,11 @@ public class CourseSection extends Model{
 
 	@Override
 	public String toString() {
-		return "CourseSection [id=" + id + ", instanceId=" + instanceId + ", sectionNum=" + sectionNum
-				+ ", expectedPop=" + expectedPop + ", deleted=" + deleted + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+		return "CourseSection [id=" + id + ", instanceId=" + instanceId + ", expectedPop=" + expectedPop + ", deleted="
+				+ deleted + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
+
+	
 	
 	
 	

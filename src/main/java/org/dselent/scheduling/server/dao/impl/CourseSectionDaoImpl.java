@@ -180,11 +180,6 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getInstanceId());
     	}
-    	
-    	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getSectionNum());
-    	}
     	else if(insertColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getExpectedPop());
@@ -220,11 +215,6 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
     	{
     		CourseSectionModel.setInstanceId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.SECTION_NUM)))
-    	{
-    		CourseSectionModel.setSectionNum((Integer) keyMap.get(keyHolderColumnName));
-    	}
-
     	else if(keyHolderColumnName.equals(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP)))
     	{
     		CourseSectionModel.setExpectedPop((Integer) keyMap.get(keyHolderColumnName));
