@@ -18,7 +18,9 @@ import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class CourseSectionsHistoryDaoImpl  extends BaseDaoImpl<CourseSectionsHistory> implements CourseSectionsHistoryDao{
 	
 	public int updateCourseSectionsHistory(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {

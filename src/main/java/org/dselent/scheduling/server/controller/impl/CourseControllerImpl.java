@@ -16,24 +16,21 @@ import org.dselent.scheduling.server.requests.CourseInstanceCreate;
 import org.dselent.scheduling.server.requests.CourseInstanceEdit;
 import org.dselent.scheduling.server.requests.CourseSectionCreate;
 import org.dselent.scheduling.server.requests.CourseSectionEdit;
-import org.dselent.scheduling.server.requests.Courses;
-import org.dselent.scheduling.server.requests.Login;
 import org.dselent.scheduling.server.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+@Controller
 public class CourseControllerImpl implements CourseController{
 	
 	@Autowired
 	private CourseService courseService;
 	
 	@Override
-	public ResponseEntity<String> courses(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> courses(@RequestBody Map<String, String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
@@ -45,7 +42,7 @@ public class CourseControllerImpl implements CourseController{
 	}
 	
 	@Override
-	public ResponseEntity<String> courseDetails(Map<String,String> request) throws Exception {
+	public ResponseEntity<String> courseDetails(@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
@@ -58,7 +55,7 @@ public class CourseControllerImpl implements CourseController{
 	}
 	
 	@Override
-	public ResponseEntity<String> courseEdit(Map<String,String> request) throws Exception {
+	public ResponseEntity<String> courseEdit(@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
@@ -84,7 +81,7 @@ public class CourseControllerImpl implements CourseController{
 	}
 	
 	@Override
-	public ResponseEntity<String> instanceEdit(Map<String,String> request) throws Exception {
+	public ResponseEntity<String> instanceEdit(@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
@@ -104,7 +101,7 @@ public class CourseControllerImpl implements CourseController{
 	}
 
 	@Override
-	public ResponseEntity<String> sectionEdit(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> sectionEdit(@RequestBody Map<String, String> request) throws Exception {
 		String response;
 		List<Object> success = new ArrayList<Object>();
 		
@@ -183,7 +180,7 @@ public class CourseControllerImpl implements CourseController{
 	}
 
 	@Override
-	public ResponseEntity<String> courseDetailsAddToCart(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> courseDetailsAddToCart(@RequestBody Map<String, String> request) throws Exception {
 		
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
@@ -196,7 +193,7 @@ public class CourseControllerImpl implements CourseController{
 	}
 
 	@Override
-	public ResponseEntity<String> CourseSearch(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> CourseSearch(@RequestBody Map<String, String> request) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

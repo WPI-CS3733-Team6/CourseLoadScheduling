@@ -18,9 +18,12 @@ import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
-public class CourseInstanceDaoImpl extends BaseDaoImpl<CourseInstance> implements CourseInstanceDao{
-public int updateCourseInstance(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {
+@Repository
+public class CourseInstanceDaoImpl extends BaseDaoImpl<CourseInstance> implements CourseInstanceDao
+{
+	public int updateCourseInstance(List<String> columnNameList, List<Object> newValueList, List<QueryTerm> queryTermList) {
 		
     	List<Integer> typeList = new ArrayList<Integer>();
     	typeList.add(Types.VARCHAR);
