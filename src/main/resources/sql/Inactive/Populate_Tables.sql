@@ -1300,11 +1300,3 @@ INSERT INTO course_frequencies (course_id,req_frequency) VALUES (62,00110);
 INSERT INTO course_frequencies (course_id,req_frequency) VALUES (63,00110);
 INSERT INTO course_frequencies (course_id,req_frequency) VALUES (64,00110);
 INSERT INTO course_frequencies (course_id,req_frequency) VALUES (65,00110);
-
-
---Changelog
---Add: departments
---Add: course_department_link
---Change: Course_information and course_section dont reference department anymore
---Change: req_frequency moved from course_section to its own table course_frequency
---Change: Everything cours erelated lonks back to course information
