@@ -26,4 +26,5 @@ IN(
     WHERE user_id = :userId
   )
 )
+AND se.delete
 ORDER BY se.id ASC;

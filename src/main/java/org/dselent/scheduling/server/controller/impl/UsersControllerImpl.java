@@ -140,7 +140,7 @@ public class UsersControllerImpl implements UsersController
 	}
 
 	@Override
-	public ResponseEntity<String> userAdd(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> userAdd(@RequestBody Map<String, String> request) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

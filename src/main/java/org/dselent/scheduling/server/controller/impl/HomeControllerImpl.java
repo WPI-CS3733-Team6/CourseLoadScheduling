@@ -63,13 +63,13 @@ public class HomeControllerImpl implements HomeController{
 
 	// Added these just to get something compiling
 	@Override
-	public ResponseEntity<String> homeHandleMessage(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> homeHandleMessage(@RequestBody Map<String, String> request) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseEntity<String> reportProblem(Map<String, String> request) throws Exception {
+	public ResponseEntity<String> reportProblem(@RequestBody Map<String, String> request) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
