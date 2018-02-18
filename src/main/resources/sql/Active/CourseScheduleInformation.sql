@@ -12,17 +12,19 @@ dept.dept_name
 FROM course_sections se
 LEFT JOIN course_schedule sc
 ON se.id = sc.section_id
-LEFT JOIN course_information ci
-ON se.course_num = ci.course_num
+LEFT JOIN course_instance cinst
+ON se.instance_id = cinst.id
+LET JOIN course_information cinfo
+ON cinst.course_id = cinfo.id
 LEFT JOIN instructor_course_link_registered cart
-ON se.id = cart.section_id
+ON cinst.id = cart.instance_id
 LEFT JOIN course_department_link cdl
-ON ci.id = cdl.course_id
+ON cinfo.id = cdl.course_id
 LEFT JOIN departments dept
 ON cdl.dept_id = dept.id
-WHERE se.id
+WHERE cinst.id
 IN(
-  SELECT section_id
+  SELECT instance_id
   FROM instructor_course_link_registered
   WHERE instructor_id
   IN(
@@ -31,5 +33,5 @@ IN(
     WHERE user_id = :userId
   )
 )
-AND (ci.course_num = se.course_num)
+AND NOT instructor_course_link_registered.deleted;
 ORDER BY ci.course_name ASC;

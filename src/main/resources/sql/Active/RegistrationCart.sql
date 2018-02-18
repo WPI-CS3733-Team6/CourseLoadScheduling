@@ -5,11 +5,11 @@ SELECT
 ci.course_name
 
 FROM course_information ci
-WHERE ci.course_num = (
-  SELECT cs.course_num
-  FROM course_sections cs
-  WHERE cs.section_num = (
-    SELECT ic.section_id
+WHERE id = (
+  SELECT cinst.course_id
+  FROM course_sections cinst
+  WHERE cinst.id = (
+    SELECT ic.instance_id
     FROM instructor_course_link_cart ic
     WHERE ic.instructor_id
     IN (

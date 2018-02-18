@@ -9,13 +9,15 @@ sc.meeting_days
 FROM course_sections se
 LEFT JOIN course_schedule sc
 ON se.id = sc.section_id
-LEFT JOIN course_information ci
-ON se.course_num = ci.course_num
+LEFT JOIN course_information cinst
+ON se.instance_id = cinst.id
+LEFT JOIN course_information cinfo
+ON cinst.course_id = cinfo.id
 LEFT JOIN instructor_course_link_cart cart
-ON se.id = cart.section_id
-WHERE se.id
+ON cinst.id = cart.instance_id
+WHERE cinst.id
 IN(
-  SELECT section_id
+  SELECT instance_id
   FROM instructor_course_link_cart
   WHERE instructor_id
   IN(

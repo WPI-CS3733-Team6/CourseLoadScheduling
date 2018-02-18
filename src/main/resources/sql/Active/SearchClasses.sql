@@ -5,20 +5,20 @@
 SELECT
 se.expected_pop,
 sc.meeting_days,
-ci.course_num, ci.course_name,
+cinfo.course_num, cinfo.course_name,
 se.deleted
 
 FROM course_sections se
 LEFT JOIN course_schedule sc
 ON se.id = sc.section_id
-LEFT JOIN course_information ci
-ON se.course_num = ci.course_num
-LEFT JOIN instructor_course_link_cart cart
-ON se.id = cart.section_id
+LEFT JOIN course_instance cinst
+ON se.instance_id = cinst.id
+LEFT JOIN course_information cinfo
+ON cinst.course_id = cinfo.id
 LEFT JOIN course_department_link cdl
-ON ci.id = cdl.course_id
+ON cinfo.id = cdl.course_id
 LEFT JOIN departments dept
 ON cdl.dept_id = dept.id
-WHERE ((term = :firstTerm OR term = :secondTerm) OR :firstTerm = 'false') -- need more than 1 for semester
+WHERE ((cinst.term = :firstTerm OR cinst.term = :secondTerm) OR :firstTerm = 'false') -- need more than 1 for semester
 AND (dept.dept_name = :deptName OR :deptTerm = 'false')
 ORDER BY se.id ASC;

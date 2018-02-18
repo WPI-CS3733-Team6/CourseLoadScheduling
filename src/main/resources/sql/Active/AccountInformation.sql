@@ -19,6 +19,7 @@ ON users.id = ins.user_id
 LEFT OUTER JOIN
 (SELECT COUNT(reg.instructor_id) AS registered_req_courses
  FROM instructors ins, instructor_course_link_registered reg
- WHERE ins.user_id = reg.instructor_id) AS registered_req_courses
+ WHERE ins.user_id = reg.instructor_id AND NOT reg.deleted) AS registered_req_courses
+ -- Needs testing to see if the check for deleted works or not
 ON users.id = ins.user_id
 WHERE users.id = :userId
