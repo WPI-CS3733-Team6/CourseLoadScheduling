@@ -47,7 +47,7 @@ public class CourseControllerImpl implements CourseController{
 		List<Object> success = new ArrayList<Object>();
 		
 		Integer courseId = Integer.parseInt(request.get(CourseDetails.getBodyName(CourseDetails.BodyKey.COURSE_ID)));
-		CourseDto course = courseService.findById(courseId);
+		CourseDto course = courseService.findCourseById(courseId);
 		
 		success.add(course);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);

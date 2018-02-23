@@ -14,7 +14,7 @@ public interface CourseService {
 	public ArrayList<CourseDto> courses() throws SQLException, Exception;
 	
 	//Get the details for the specified course
-	public CourseDto findById(Integer courseId) throws Exception;
+	public CourseDto findCourseById(Integer courseId) throws Exception;
 	
 	//Update the specified course with the given information
 	//return the number of changed rows
@@ -33,4 +33,6 @@ public interface CourseService {
 	public void addToCart(Integer user_id, Integer instance_id) throws Exception;
 	
 	public ArrayList<CourseDto> courseSearch(String course_name, String course_num) throws Exception;
+	
+	public ArrayList<CourseInstanceDto> deleteCourseInstance(Integer user_id) throws SQLException;
 }
