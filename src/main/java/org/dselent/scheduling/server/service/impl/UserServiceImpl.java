@@ -63,9 +63,8 @@ public class UserServiceImpl implements UserService
 		user.setLastName(dto.getLastName());
 		user.setEmail(dto.getEmail());
 		user.setEncryptedPassword(encryptedPassword);
-		user.setUserRole(1);
+		user.setUserRole(2);
 		user.setSalt(salt);
-		user.setUserStateId(1);
 		user.setPhoneNum(dto.getPhoneNum());
 
 		List<String> userInsertColumnNameList = new ArrayList<>();
@@ -94,7 +93,7 @@ public class UserServiceImpl implements UserService
 
 		UsersRolesLink usersRolesLink = new UsersRolesLink();
 		usersRolesLink.setUserId(user.getId());
-		usersRolesLink.setRoleId(1); // hard coded as regular user
+		usersRolesLink.setRoleId(2); // hard coded as regular user
 
 		List<String> usersRolesLinksInsertColumnNameList = new ArrayList<>();
 		List<String> usersRolesLinksKeyHolderColumnNameList = new ArrayList<>();
