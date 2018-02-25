@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface CourseController {
 	
 	@RequestMapping(method=RequestMethod.POST, value=Courses.REQUEST_NAME)
-	public ResponseEntity<String> courses (@RequestBody Map<String,String> request) throws Exception;
+	public ResponseEntity<String> courses(@RequestBody Map<String,String> request) throws Exception;
 	
 	@RequestMapping(method=RequestMethod.POST, value=CourseDetails.REQUEST_NAME)
 	public ResponseEntity<String> courseDetails (@RequestBody Map<String,String> request) throws Exception;

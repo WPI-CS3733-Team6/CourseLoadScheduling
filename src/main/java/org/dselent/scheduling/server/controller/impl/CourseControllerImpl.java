@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.dselent.scheduling.server.controller.CourseController;
-import org.dselent.scheduling.server.dto.CourseListDto;
 import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.CourseInstanceListDto;
+import org.dselent.scheduling.server.dto.CourseListDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.CourseCreate;
@@ -39,6 +39,7 @@ public class CourseControllerImpl implements CourseController{
 		CourseListDto courseList = courseService.courses();
 		
 		Map<String, Object> keys = new HashMap<String, Object>();
+		
 		keys.put("id", courseList.getId());
 		keys.put("courseName", courseList.getCourse_name());
 		keys.put("courseNum", courseList.getCourse_num());
@@ -46,7 +47,7 @@ public class CourseControllerImpl implements CourseController{
 		keys.put("level", courseList.getLevel());
 		keys.put("type", courseList.getType());
 		keys.put("instanceNo", courseList.getInstanceNo());
-		
+
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
@@ -89,6 +90,7 @@ public class CourseControllerImpl implements CourseController{
 				.withLevel(courseLevel)
 				.withType(courseType)
 				.withId(courseId)
+				.withInstanceNo(0)
 				.build();
 		
 		Integer changedRows = courseService.editCourse(courseDto);

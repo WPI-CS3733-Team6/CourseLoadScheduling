@@ -26,7 +26,6 @@ public class CourseDetails {
 	
 	public static enum BodyKey
 	{
-		
 		COURSE_ID;
 	}
 	

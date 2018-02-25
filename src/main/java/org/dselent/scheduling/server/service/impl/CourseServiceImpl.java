@@ -59,12 +59,7 @@ public class CourseServiceImpl implements CourseService {
 		//Getting master courses
 		//Get info from database
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
+		columnNameList.addAll(CourseInformation.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		
@@ -93,8 +88,7 @@ public class CourseServiceImpl implements CourseService {
 			
 			//Query all instances bound to this course
 			ArrayList<String> columnNameList2 = new ArrayList<String>();
-			columnNameList2.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-			columnNameList2.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+			columnNameList2.addAll(CourseInstance.getColumnNameList());
 			
 			ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
 			QueryTerm idQueryTerm = new QueryTerm();
@@ -162,7 +156,6 @@ public class CourseServiceImpl implements CourseService {
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
 		
