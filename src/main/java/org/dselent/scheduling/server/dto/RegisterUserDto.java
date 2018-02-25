@@ -16,7 +16,6 @@ public class RegisterUserDto
 	private final String firstName;
 	private final String lastName;
 	private final String email;
-	private final String password;
 	
 	// I added to the auto-generated code
 	@Generated("SparkTools")
@@ -28,7 +27,6 @@ public class RegisterUserDto
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
 		this.email = builder.email;
-		this.password = builder.password;
 		
 		// making claim that none of these can be null
 		// add other state checks here as necessary
@@ -48,10 +46,6 @@ public class RegisterUserDto
 		else if(this.email == null)
 		{
 			throw new IllegalStateException("email cannot be null");
-		}
-		else if(this.password == null)
-		{
-			throw new IllegalStateException("password cannot be null");
 		}
 	}
 	
@@ -75,11 +69,6 @@ public class RegisterUserDto
 		return email;
 	}
 
-	public String getPassword()
-	{
-		return password;
-	}
-
 	@Override
 	public int hashCode()
 	{
@@ -88,7 +77,6 @@ public class RegisterUserDto
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
@@ -142,17 +130,6 @@ public class RegisterUserDto
 		{
 			return false;
 		}
-		if (password == null)
-		{
-			if (other.password != null)
-			{
-				return false;
-			}
-		}
-		else if (!password.equals(other.password))
-		{
-			return false;
-		}
 		if (userName == null)
 		{
 			if (other.userName != null)
@@ -179,8 +156,6 @@ public class RegisterUserDto
 		builder.append(lastName);
 		builder.append(", email=");
 		builder.append(email);
-		builder.append(", password=");
-		builder.append(password);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -205,7 +180,6 @@ public class RegisterUserDto
 		private String firstName;
 		private String lastName;
 		private String email;
-		private String password;
 
 		private Builder()
 		{
@@ -232,12 +206,6 @@ public class RegisterUserDto
 		public Builder withEmail(String email)
 		{
 			this.email = email;
-			return this;
-		}
-
-		public Builder withPassword(String password)
-		{
-			this.password = password;
 			return this;
 		}
 
