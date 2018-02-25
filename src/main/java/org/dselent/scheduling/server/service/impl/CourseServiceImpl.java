@@ -46,7 +46,9 @@ public class CourseServiceImpl implements CourseService {
 	private InstructorsDao instructorsDao;
 	@Autowired
 	private InstructorCourseLinkCartDao instructorCourseLinkCartDao;
+	@Autowired
 	private DepartmentsDao departmentsDao;
+	@Autowired
 	private CourseDepartmentLinkDao courseDeptLinkDao;
 	
 	public CourseServiceImpl() {
@@ -142,11 +144,11 @@ public class CourseServiceImpl implements CourseService {
 		List<String> insertColumnNameList = new ArrayList<>();
     	List<String> keyHolderColumnNameList = new ArrayList<>();
     	
+    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
     	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
-    	insertColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
     	
     	keyHolderColumnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
     	
@@ -160,6 +162,7 @@ public class CourseServiceImpl implements CourseService {
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
 		
@@ -198,10 +201,10 @@ public class CourseServiceImpl implements CourseService {
 	//This method will find a specific course given a course ID
 	public CourseDto getCourse(Integer courseId) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
 		
@@ -233,10 +236,10 @@ public class CourseServiceImpl implements CourseService {
 
 	public CourseDto getCourseByNum(String courseNum) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
 
@@ -345,9 +348,7 @@ public class CourseServiceImpl implements CourseService {
 	public CourseInstanceDto getInstance(Integer instanceId) throws Exception {
 		//Get all instances
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		columnNameList.addAll(CourseInstance.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
@@ -380,9 +381,7 @@ public class CourseServiceImpl implements CourseService {
 	public CourseInstanceListDto getCourseInstances(Integer courseId) throws Exception {
 		//Get all instances
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		columnNameList.addAll(CourseInstance.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
@@ -427,7 +426,7 @@ public class CourseServiceImpl implements CourseService {
 	
 	public CourseInstanceListDto SearchInstances(String subject, String term, String level) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		columnNameList.addAll(CourseInformation.getColumnNameList());
 		
 		//Search through master courses
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
@@ -468,7 +467,7 @@ public class CourseServiceImpl implements CourseService {
 		if (subject != "") {
 			//Search for department key for the given subject
 			ArrayList<String> columnNameList2 = new ArrayList<String>();
-			columnNameList2.add(Departments.getColumnName(Departments.Columns.ID));
+			columnNameList2.addAll(Departments.getColumnNameList());
 			
 			ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
 			
@@ -498,7 +497,7 @@ public class CourseServiceImpl implements CourseService {
 			Integer departmentId = results2.get(0).getId();
 			
 			ArrayList<String> columnNameList3 = new ArrayList<String>();
-			columnNameList3.add(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.COURSE_ID));
+			columnNameList3.addAll(CourseDepartmentLink.getColumnNameList());
 			
 			ArrayList<QueryTerm> queryTermList3 = new ArrayList<QueryTerm>();
 			
@@ -551,9 +550,7 @@ public class CourseServiceImpl implements CourseService {
 		
 		//Search all instances 
 		ArrayList<String> columnNameList4 = new ArrayList<String>();
-		columnNameList4.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-		columnNameList4.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
-		columnNameList4.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		columnNameList4.addAll(CourseInstance.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList4 = new ArrayList<QueryTerm>();
 		
@@ -689,9 +686,7 @@ public class CourseServiceImpl implements CourseService {
 	
 	public CourseSectionDto getSectionById(Integer sectionId) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
+		columnNameList.addAll(CourseSection.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
@@ -720,9 +715,7 @@ public class CourseServiceImpl implements CourseService {
 	
 	public CourseSectionListDto getInstanceSections(Integer instanceId) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
-		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
+		columnNameList.addAll(CourseSection.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
@@ -786,7 +779,7 @@ public class CourseServiceImpl implements CourseService {
 		Integer instructorId = 0;
 		
 		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(Instructor.getColumnName(Instructor.Columns.USER_ID));
+		columnNameList.addAll(Instructor.getColumnNameList());
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm findInstructorQuery = new QueryTerm();
