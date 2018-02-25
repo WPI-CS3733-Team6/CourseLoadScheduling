@@ -45,19 +45,14 @@ public class UserServiceImpl implements UserService
 	 */
 	@Transactional
 	@Override
-	public List<Integer> registerUser(RegisterUserDto dto) throws SQLException
+	public List<Integer> addUser(RegisterUserDto dto) throws SQLException
 	{
 		List<Integer> rowsAffectedList = new ArrayList<>();
 
-		// TODO validate business constraints
-		// ^^students should do this^^
-		// password strength requirements
-		// email requirements
-		// null values
-		// etc...
+		String password = "wpi123";
 
 		String salt = KeyGenerators.string().generateKey();
-		String saltedPassword = dto.getPassword() + salt;
+		String saltedPassword = password + salt;
 		PasswordEncoder passwordEncorder = new BCryptPasswordEncoder();
 		String encryptedPassword = passwordEncorder.encode(saltedPassword);
 
@@ -67,8 +62,10 @@ public class UserServiceImpl implements UserService
 		user.setLastName(dto.getLastName());
 		user.setEmail(dto.getEmail());
 		user.setEncryptedPassword(encryptedPassword);
+		user.setUserRole(1);
 		user.setSalt(salt);
 		user.setUserStateId(1);
+		user.setPhoneNum(dto.getPhoneNum());
 
 		List<String> userInsertColumnNameList = new ArrayList<>();
 		List<String> userKeyHolderColumnNameList = new ArrayList<>();
@@ -77,8 +74,10 @@ public class UserServiceImpl implements UserService
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.FIRST_NAME));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.LAST_NAME));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.EMAIL));
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.PHONE_NUM));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.SALT));
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.USER_ROLE));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.USER_STATE_ID));
 
 		userKeyHolderColumnNameList.add(User.getColumnName(User.Columns.ID));
@@ -104,6 +103,7 @@ public class UserServiceImpl implements UserService
 
 		usersRolesLinksKeyHolderColumnNameList.add(UsersRolesLink.getColumnName(UsersRolesLink.Columns.ID));
 		usersRolesLinksKeyHolderColumnNameList.add(UsersRolesLink.getColumnName(UsersRolesLink.Columns.CREATED_AT));
+		usersRolesLinksKeyHolderColumnNameList.add(UsersRolesLink.getColumnName(UsersRolesLink.Columns.UPDATED_AT));
 		usersRolesLinksKeyHolderColumnNameList.add(UsersRolesLink.getColumnName(UsersRolesLink.Columns.DELETED));
 
 		rowsAffectedList.add(usersRolesLinksDao.insert(usersRolesLink, usersRolesLinksInsertColumnNameList, usersRolesLinksKeyHolderColumnNameList));

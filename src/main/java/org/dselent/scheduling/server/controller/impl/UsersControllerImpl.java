@@ -39,7 +39,7 @@ public class UsersControllerImpl implements UsersController
 	 * @return A ResponseEntity for the response object(s) and the status code
 	 * @throws Exception 
 	 */
-	public ResponseEntity<String> register(@RequestBody Map<String, String> request) throws Exception 
+	public ResponseEntity<String> addUser(@RequestBody Map<String, String> request) throws Exception 
 	{
 		// Print is for testing purposes
 		System.out.println("controller reached");
@@ -47,22 +47,23 @@ public class UsersControllerImpl implements UsersController
 		// add any objects that need to be returned to the success list
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
-
-		String userName = request.get(Register.getBodyName(Register.BodyKey.USER_NAME));
+		
 		String firstName = request.get(Register.getBodyName(Register.BodyKey.FIRST_NAME));
 		String lastName = request.get(Register.getBodyName(Register.BodyKey.LAST_NAME));
 		String email = request.get(Register.getBodyName(Register.BodyKey.EMAIL));
-		String password = request.get(Register.getBodyName(Register.BodyKey.PASSWORD));
+		Long phoneNum = Long.parseLong(request.get(Register.getBodyName(Register.BodyKey.PHONE_NUM)));
+		
+		String userName = email.replace("@wpi.edu", "");
 
 		RegisterUserDto.Builder builder = RegisterUserDto.builder();
 		RegisterUserDto registerUserDto = builder.withUserName(userName)
 				.withFirstName(firstName)
 				.withLastName(lastName)
 				.withEmail(email)
-				.withPassword(password)
+				.withPhoneNum(phoneNum)
 				.build();
 
-		userService.registerUser(registerUserDto);
+		userService.addUser(registerUserDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
@@ -137,12 +138,6 @@ public class UsersControllerImpl implements UsersController
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 
 		return new ResponseEntity<String>(response, HttpStatus.OK);
-	}
-
-	@Override
-	public ResponseEntity<String> userAdd(@RequestBody Map<String, String> request) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

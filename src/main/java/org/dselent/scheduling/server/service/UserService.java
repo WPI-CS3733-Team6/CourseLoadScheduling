@@ -25,7 +25,7 @@ public interface UserService
 	 * @return A list of rows affected for each insert operation
 	 * @throws SQLException
 	 */
-	public List<Integer> registerUser(RegisterUserDto registerUserDto) throws SQLException;
+	public List<Integer> addUser(RegisterUserDto registerUserDto) throws SQLException;
 	
 	public UserInfoDto userInfo(Integer userId) throws Exception;
 
