@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.dselent.scheduling.server.requests.UserAdd;
 import org.dselent.scheduling.server.requests.UserAll;
+import org.dselent.scheduling.server.requests.UserDelete;
 import org.dselent.scheduling.server.requests.UserInfo;
 import org.dselent.scheduling.server.requests.UserInfoUpdate;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,9 @@ public interface UsersController
 
     @RequestMapping(method=RequestMethod.POST, value=UserAll.REQUEST_NAME)
 	ResponseEntity<String> allUsers(Map<String, String> request) throws Exception;
+    
+    @RequestMapping(method=RequestMethod.POST, value=UserDelete.REQUEST_NAME)
+	ResponseEntity<String> deleteUser(Map<String, String> request) throws Exception;
 }
 
 	

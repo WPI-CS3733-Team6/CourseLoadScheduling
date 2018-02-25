@@ -34,6 +34,6 @@ public interface UserService
 
 	public List<UserInfoDto> getAllUserInfo() throws Exception;
 	
-	
+	public void deleteUser(Integer id) throws Exception;
 
 }

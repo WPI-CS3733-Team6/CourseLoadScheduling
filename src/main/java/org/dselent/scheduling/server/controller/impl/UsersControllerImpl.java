@@ -140,5 +140,17 @@ public class UsersControllerImpl implements UsersController
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<String> deleteUser(@RequestBody Map<String, String> request) throws Exception {
+		System.out.println("controller reached");
+		
+		String response = "User Delete";
+		
+		List<Object> success = new ArrayList<Object>();
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+	}
 }
 
