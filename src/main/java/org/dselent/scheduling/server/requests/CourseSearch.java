@@ -25,9 +25,7 @@ public class CourseSearch {
 
 	public static enum BodyKey
 	{
-		COURSE_NAME,
-		COURSE_NUM,
-		TYPE,
+		SUBJECT,
 		TERM,
 		LEVEL
 	}

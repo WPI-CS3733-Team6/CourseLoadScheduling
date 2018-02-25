@@ -6,18 +6,21 @@ import java.util.List;
 
 import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.CourseScheduleDao;
+import org.dselent.scheduling.server.dao.CourseSectionDao;
+import org.dselent.scheduling.server.dao.InstructorCourseLinkRegisteredDao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.CourseScheduleDto;
-import org.dselent.scheduling.server.dto.CourseSectionDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSchedule;
+import org.dselent.scheduling.server.model.CourseSection;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.service.CurrentCoursesService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
+import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,10 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 	private CourseInstanceDao courseInstanceDao;
 	@Autowired
 	private CourseScheduleDao courseScheduleDao;
+	@Autowired
+	private CourseSectionDao courseSectionDao;
+	@Autowired
+	private InstructorCourseLinkRegisteredDao instructorCourseLinkRegisteredDao;
 	
 	public CurrentCoursesServiceImpl() {
 		
@@ -43,9 +50,9 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
-
+		
 		Integer instructorId = findInstructor(user_id);
-
+		
 		QueryTerm idQueryTerm = new QueryTerm();
 		idQueryTerm.setValue(instructorId);
 		idQueryTerm.setColumnName(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID));
@@ -72,12 +79,11 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 
 	
 		
-	public Integer findInstructor(Integer user_id) throws Exception 
-	{
+	public Integer findInstructor(Integer user_id) throws Exception {
 		Integer instructorId = 0;
 		
 		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(Instructor.getColumnName(Instructor.Columns.USER_ID));
+		columnNameList.add(Instructor.getColumnName(Instructor.Columns.ID));
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm findInstructorQuery = new QueryTerm();
@@ -99,37 +105,99 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 	}
 	
 	@Override
-	public ArrayList<CourseScheduleDto> detailedSchedule(ArrayList<CourseInstanceDto> courseInstances) throws SQLException, Exception {
-		ArrayList<CourseSectionDto> courseSections = new ArrayList<>();
-		for(Integer i = 0; i < courseInstances.size() ; i++) {
-			ArrayList<CourseSectionDto> temp = courseInstances.get(i).getSections();
-			for(Integer j = 0; j < temp.size(); j++) {
-				courseSections.add(temp.get(j));
-			}
-		}
-		List<CourseSchedule> courseSchedules = new ArrayList<CourseSchedule>();
-		for (Integer k = 0; k < courseSections.size(); k++) {
-			List<CourseSchedule> temp = getScheduleFromSection(courseSections.get(k).getId());
-			courseSchedules.addAll(temp);
-		}
-		ArrayList<CourseScheduleDto> scheduleDtoList = new ArrayList<CourseScheduleDto>();
-		for(Integer l = 0; l< courseSchedules.size(); l++) {
-			CourseSchedule courseSchedule = courseSchedules.get(l);
-			CourseScheduleDto.Builder builder = CourseScheduleDto.builder();
-			CourseScheduleDto scheduleDto = builder.withId(courseSchedule.getId())
-					.withSection_id(courseSchedule.getSectionId())
-					.withLecture_type(courseSchedule.getType())
-					.withMeeting_days(courseSchedule.getMeetingDays())
-					.withTime_start(courseSchedule.getTimeStart())
-					.withTime_end(courseSchedule.getTimeEnd())
-					.build();
-			scheduleDtoList.add(scheduleDto);
+	public ArrayList<CourseScheduleDto> detailedSchedule(Integer userId) throws SQLException, Exception {
+		Integer instructorId = findInstructor(userId);
+		
+		ArrayList<String> cartColumnNameList = new ArrayList<String>();
+		cartColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID));
+		
+		ArrayList<QueryTerm> cartQueryTermList = new ArrayList<QueryTerm>();
+		QueryTerm userQueryTerm = new QueryTerm();
+		userQueryTerm.setColumnName(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID));
+		userQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		userQueryTerm.setValue(instructorId);
+		cartQueryTermList.add(userQueryTerm);
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<CourseInstance> instances = courseInstanceDao.select(cartColumnNameList, cartQueryTermList, orderByList);
+		
+		ArrayList<Integer> instanceIdList = new ArrayList<Integer>();
+		for (int i = 0; i < instances.size(); i++) {
+			instanceIdList.add(instances.get(i).getId());
 		}
 		
-		return scheduleDtoList;
+		//Get all sections to find the schedule of
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		queryTermList.add(deletedQueryTerm);
+		
+		for (int i = 0; i < instanceIdList.size(); i++) {
+			QueryTerm idQueryTerm = new QueryTerm();
+			idQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
+			idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			idQueryTerm.setValue(instanceIdList.get(i));
+			idQueryTerm.setLogicalOperator(LogicalOperator.AND);
+			queryTermList.add(idQueryTerm);
+		}
+		
+		List<CourseSection> sections = courseSectionDao.select(columnNameList, queryTermList, orderByList);
+		//Get ID of all found sections
+		List<Integer> sectionIdList = new ArrayList<Integer>();
+		for (int i = 0; i < sectionIdList.size(); i++) {
+			sectionIdList.add(sections.get(i).getId());
+		}
+		
+		//Find schedules for specified sections
+		ArrayList<String> columnNameList2 = new ArrayList<String>();
+		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.ID));
+		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.MEETING_DAYS));
+		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.SECTION_ID));
+		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_END));
+		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_START));
+		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE));
+		
+		ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
+		QueryTerm randomQueryTerm = new QueryTerm();
+		randomQueryTerm.setColumnName(CourseSchedule.getColumnName(CourseSchedule.Columns.ID));
+		randomQueryTerm.setComparisonOperator(ComparisonOperator.IS_NOT_NULL);
+		queryTermList2.add(randomQueryTerm);
+		
+		for (int i = 0; i < sectionIdList.size(); i++) {
+			QueryTerm sectionIdQueryTerm = new QueryTerm();
+			sectionIdQueryTerm.setColumnName(CourseSchedule.getColumnName(CourseSchedule.Columns.SECTION_ID));
+			sectionIdQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			sectionIdQueryTerm.setLogicalOperator(LogicalOperator.OR);
+			sectionIdQueryTerm.setValue(sectionIdList.get(i));
+			queryTermList2.add(sectionIdQueryTerm);
+		}
+		
+		List<CourseSchedule> results = courseScheduleDao.select(columnNameList, queryTermList, orderByList);
+		
+		ArrayList<CourseScheduleDto> scheduleDtos = new ArrayList<CourseScheduleDto>();
+		for (int i = 0; i < results.size(); i++) {
+			CourseSchedule schedule = results.get(i);
+			CourseScheduleDto.Builder builder = CourseScheduleDto.builder();
+			CourseScheduleDto scheduleDto = builder.withId(schedule.getId())
+					.withLecture_type(schedule.getType())
+					.withMeeting_days(schedule.getMeetingDays())
+					.withSection_id(schedule.getSectionId())
+					.withTime_end(schedule.getTimeEnd())
+					.withTime_start(schedule.getTimeStart())
+					.build();
+			scheduleDtos.add(scheduleDto);
+		}
+		return scheduleDtos;
 	}
 	
-	public List<CourseSchedule> getScheduleFromSection(Integer section_id) throws Exception {
+	public CourseSchedule getScheduleFromSection(Integer section_id) throws Exception {
 		
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.ID));
@@ -155,7 +223,7 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		if (results.size() != 1)
 			throw new Exception("Testing");
 		
-		return results;
+		return results.get(0);
 	}
 	
 	public ArrayList<CourseInstanceDto> findCourseInstances(Integer instructor_id) throws SQLException{

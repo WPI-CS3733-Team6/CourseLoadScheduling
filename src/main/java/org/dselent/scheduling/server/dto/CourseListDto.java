@@ -1,18 +1,20 @@
 package org.dselent.scheduling.server.dto;
 
+import java.util.ArrayList;
 import javax.annotation.Generated;
 
-public class CourseDto {
-	private final Integer id;
-	private final String course_name;
-	private final String course_num;
-	private final String course_description;
-	private final String type;
-	private final Boolean level;
-	private final Integer instanceNo;
+public class CourseListDto {
+	
+	private final ArrayList<Integer> id;
+	private final ArrayList<String> course_name;
+	private final ArrayList<String> course_num;
+	private final ArrayList<String> course_description;
+	private final ArrayList<String> type;
+	private final ArrayList<Boolean> level;
+	private final ArrayList<Integer> instanceNo;
 	
 	@Generated("SparkTools")
-	private CourseDto(Builder builder) {
+	private CourseListDto(Builder builder) {
 		this.id = builder.id;
 		this.course_name = builder.course_name;
 		this.course_num = builder.course_num;
@@ -22,7 +24,7 @@ public class CourseDto {
 		this.instanceNo = builder.instanceNo;
 	}
 	/**
-	 * Creates builder to build {@link CourseDto}.
+	 * Creates builder to build {@link CourseListDto}.
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -30,79 +32,79 @@ public class CourseDto {
 		return new Builder();
 	}
 	/**
-	 * Builder to build {@link CourseDto}.
+	 * Builder to build {@link CourseListDto}.
 	 */
 	@Generated("SparkTools")
 	public static final class Builder {
-		private Integer id;
-		private String course_name;
-		private String course_num;
-		private String course_description;
-		private String type;
-		private Boolean level;
-		private Integer instanceNo;
+		private ArrayList<Integer> id;
+		private ArrayList<String> course_name;
+		private ArrayList<String> course_num;
+		private ArrayList<String> course_description;
+		private ArrayList<String> type;
+		private ArrayList<Boolean> level;
+		private ArrayList<Integer> instanceNo;
 
 		private Builder() {
 		}
 
-		public Builder withId(Integer id) {
+		public Builder withId(ArrayList<Integer> id) {
 			this.id = id;
 			return this;
 		}
 
-		public Builder withCourse_name(String course_name) {
+		public Builder withCourse_name(ArrayList<String> course_name) {
 			this.course_name = course_name;
 			return this;
 		}
 
-		public Builder withCourse_num(String course_num) {
+		public Builder withCourse_num(ArrayList<String> course_num) {
 			this.course_num = course_num;
 			return this;
 		}
 
-		public Builder withCourse_description(String course_description) {
+		public Builder withCourse_description(ArrayList<String> course_description) {
 			this.course_description = course_description;
 			return this;
 		}
 
-		public Builder withType(String type) {
+		public Builder withType(ArrayList<String> type) {
 			this.type = type;
 			return this;
 		}
 
-		public Builder withLevel(Boolean level) {
+		public Builder withLevel(ArrayList<Boolean> level) {
 			this.level = level;
 			return this;
 		}
 
-		public Builder withInstanceNo(Integer instanceNo) {
+		public Builder withInstanceNo(ArrayList<Integer> instanceNo) {
 			this.instanceNo = instanceNo;
 			return this;
 		}
 
-		public CourseDto build() {
-			return new CourseDto(this);
+		public CourseListDto build() {
+			return new CourseListDto(this);
 		}
 	}
-	public Integer getId() {
+	public ArrayList<Integer> getId() {
 		return id;
 	}
-	public String getCourse_name() {
+	public ArrayList<String> getCourse_name() {
 		return course_name;
 	}
-	public String getCourse_num() {
+	public ArrayList<String> getCourse_num() {
 		return course_num;
 	}
-	public String getCourse_description() {
+	public ArrayList<String> getCourse_description() {
 		return course_description;
 	}
-	public String getType() {
+	public ArrayList<String> getType() {
 		return type;
 	}
-	public Boolean getLevel() {
+	public ArrayList<Boolean> getLevel() {
 		return level;
 	}
-	public Integer getInstanceNo() {
+	public ArrayList<Integer> getInstanceNo() {
 		return instanceNo;
 	}
 	@Override
@@ -126,7 +128,7 @@ public class CourseDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CourseDto other = (CourseDto) obj;
+		CourseListDto other = (CourseListDto) obj;
 		if (course_description == null) {
 			if (other.course_description != null)
 				return false;

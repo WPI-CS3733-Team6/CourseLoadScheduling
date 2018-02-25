@@ -1,23 +1,24 @@
 package org.dselent.scheduling.server.dto;
 
+import java.util.ArrayList;
 import javax.annotation.Generated;
 
-public class CourseInstanceDto {
-	
-	private final Integer id;
-	private final Integer course_id;
-	private final String term;
-	private final Integer sectionNo;
+public class CourseInstanceListDto {
+
+	private final ArrayList<Integer> id;
+	private final ArrayList<Integer> course_id;
+	private final ArrayList<String> term;
+	private final ArrayList<Integer> sectionNo;
 	
 	@Generated("SparkTools")
-	private CourseInstanceDto(Builder builder) {
+	private CourseInstanceListDto(Builder builder) {
 		this.id = builder.id;
 		this.course_id = builder.course_id;
 		this.term = builder.term;
 		this.sectionNo = builder.sectionNo;
 	}
 	/**
-	 * Creates builder to build {@link CourseInstanceDto}.
+	 * Creates builder to build {@link CourseInstanceListDto}.
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -25,52 +26,52 @@ public class CourseInstanceDto {
 		return new Builder();
 	}
 	/**
-	 * Builder to build {@link CourseInstanceDto}.
+	 * Builder to build {@link CourseInstanceListDto}.
 	 */
 	@Generated("SparkTools")
 	public static final class Builder {
-		private Integer id;
-		private Integer course_id;
-		private String term;
-		private Integer sectionNo;
+		private ArrayList<Integer> id;
+		private ArrayList<Integer> course_id;
+		private ArrayList<String> term;
+		private ArrayList<Integer> sectionNo;
 
 		private Builder() {
 		}
 
-		public Builder withId(Integer id) {
+		public Builder withId(ArrayList<Integer> id) {
 			this.id = id;
 			return this;
 		}
 
-		public Builder withCourse_id(Integer course_id) {
+		public Builder withCourse_id(ArrayList<Integer> course_id) {
 			this.course_id = course_id;
 			return this;
 		}
 
-		public Builder withTerm(String term) {
+		public Builder withTerm(ArrayList<String> term) {
 			this.term = term;
 			return this;
 		}
 
-		public Builder withSectionNo(Integer sectionNo) {
+		public Builder withSectionNo(ArrayList<Integer> sectionNo) {
 			this.sectionNo = sectionNo;
 			return this;
 		}
 
-		public CourseInstanceDto build() {
-			return new CourseInstanceDto(this);
+		public CourseInstanceListDto build() {
+			return new CourseInstanceListDto(this);
 		}
 	}
-	public Integer getId() {
+	public ArrayList<Integer> getId() {
 		return id;
 	}
-	public Integer getCourse_id() {
+	public ArrayList<Integer> getCourse_id() {
 		return course_id;
 	}
-	public String getTerm() {
+	public ArrayList<String> getTerm() {
 		return term;
 	}
-	public Integer getSectionNo() {
+	public ArrayList<Integer> getSectionNo() {
 		return sectionNo;
 	}
 	
@@ -93,7 +94,7 @@ public class CourseInstanceDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CourseInstanceDto other = (CourseInstanceDto) obj;
+		CourseInstanceListDto other = (CourseInstanceListDto) obj;
 		if (course_id == null) {
 			if (other.course_id != null)
 				return false;
@@ -119,7 +120,7 @@ public class CourseInstanceDto {
 	
 	@Override
 	public String toString() {
-		return "CourseInstanceDto [id=" + id + ", course_id=" + course_id + ", term=" + term + ", sectionNo="
+		return "CourseInstanceListDto [id=" + id + ", course_id=" + course_id + ", term=" + term + ", sectionNo="
 				+ sectionNo + "]";
 	}
 }

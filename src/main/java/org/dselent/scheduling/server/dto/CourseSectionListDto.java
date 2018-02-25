@@ -1,21 +1,22 @@
 package org.dselent.scheduling.server.dto;
 
+import java.util.ArrayList;
+
 import javax.annotation.Generated;
 
-public class CourseSectionDto {
-	
-	private final Integer id;
-	private final Integer instance_id;
-	private final Integer expected_pop;
+public class CourseSectionListDto {
+	private final ArrayList<Integer> id;
+	private final ArrayList<Integer> instance_id;
+	private final ArrayList<Integer> expected_pop;
 	
 	@Generated("SparkTools")
-	private CourseSectionDto(Builder builder) {
+	private CourseSectionListDto(Builder builder) {
 		this.id = builder.id;
 		this.instance_id = builder.instance_id;
 		this.expected_pop = builder.expected_pop;
 	}
 	/**
-	 * Creates builder to build {@link CourseSectionDto}.
+	 * Creates builder to build {@link CourseSectionListDto}.
 	 * @return created builder
 	 */
 	@Generated("SparkTools")
@@ -23,43 +24,43 @@ public class CourseSectionDto {
 		return new Builder();
 	}
 	/**
-	 * Builder to build {@link CourseSectionDto}.
+	 * Builder to build {@link CourseSectionListDto}.
 	 */
 	@Generated("SparkTools")
 	public static final class Builder {
-		private Integer id;
-		private Integer instance_id;
-		private Integer expected_pop;
+		private ArrayList<Integer> id;
+		private ArrayList<Integer> instance_id;
+		private ArrayList<Integer> expected_pop;
 
 		private Builder() {
 		}
 
-		public Builder withId(Integer id) {
+		public Builder withId(ArrayList<Integer> id) {
 			this.id = id;
 			return this;
 		}
 
-		public Builder withInstance_id(Integer instance_id) {
+		public Builder withInstance_id(ArrayList<Integer> instance_id) {
 			this.instance_id = instance_id;
 			return this;
 		}
 
-		public Builder withExpected_pop(Integer expected_pop) {
+		public Builder withExpected_pop(ArrayList<Integer> expected_pop) {
 			this.expected_pop = expected_pop;
 			return this;
 		}
 
-		public CourseSectionDto build() {
-			return new CourseSectionDto(this);
+		public CourseSectionListDto build() {
+			return new CourseSectionListDto(this);
 		}
 	}
-	public Integer getId() {
+	public ArrayList<Integer> getId() {
 		return id;
 	}
-	public Integer getInstance_id() {
+	public ArrayList<Integer> getInstance_id() {
 		return instance_id;
 	}
-	public Integer getExpected_pop() {
+	public ArrayList<Integer> getExpected_pop() {
 		return expected_pop;
 	}
 	@Override
@@ -79,7 +80,7 @@ public class CourseSectionDto {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CourseSectionDto other = (CourseSectionDto) obj;
+		CourseSectionListDto other = (CourseSectionListDto) obj;
 		if (expected_pop == null) {
 			if (other.expected_pop != null)
 				return false;
@@ -99,7 +100,7 @@ public class CourseSectionDto {
 	}
 	@Override
 	public String toString() {
-		return "CourseSectionDto [id=" + id + ", instance_id=" + instance_id + ", expected_pop=" + expected_pop + "]";
+		return "CourseSectionListDto [id=" + id + ", instance_id=" + instance_id + ", expected_pop=" + expected_pop
+				+ "]";
 	}
-	
 }

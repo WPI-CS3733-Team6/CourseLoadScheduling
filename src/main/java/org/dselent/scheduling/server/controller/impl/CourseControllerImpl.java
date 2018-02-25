@@ -1,19 +1,22 @@
 package org.dselent.scheduling.server.controller.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.dselent.scheduling.server.controller.CourseController;
+import org.dselent.scheduling.server.dto.CourseListDto;
 import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
+import org.dselent.scheduling.server.dto.CourseInstanceListDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.CourseCreate;
 import org.dselent.scheduling.server.requests.CourseDetails;
+import org.dselent.scheduling.server.requests.CourseDetailsAddToCart;
 import org.dselent.scheduling.server.requests.CourseEdit;
 import org.dselent.scheduling.server.requests.CourseInstanceCreate;
 import org.dselent.scheduling.server.requests.CourseInstanceEdit;
+import org.dselent.scheduling.server.requests.CourseSearch;
 import org.dselent.scheduling.server.requests.CourseSectionCreate;
 import org.dselent.scheduling.server.requests.CourseSectionEdit;
 import org.dselent.scheduling.server.service.CourseService;
@@ -32,32 +35,45 @@ public class CourseControllerImpl implements CourseController{
 	@Override
 	public ResponseEntity<String> courses(@RequestBody Map<String, String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
-		List <CourseDto> courseList = courseService.courses();
+		CourseListDto courseList = courseService.courses();
 		
-		success.add(courseList);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Map<String, Object> keys = new HashMap<String, Object>();
+		keys.put("id", courseList.getId());
+		keys.put("courseName", courseList.getCourse_name());
+		keys.put("courseNum", courseList.getCourse_num());
+		keys.put("courseDesc", courseList.getCourse_description());
+		keys.put("level", courseList.getLevel());
+		keys.put("type", courseList.getType());
+		keys.put("instanceNo", courseList.getInstanceNo());
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
 	@Override
 	public ResponseEntity<String> courseDetails(@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		Integer courseId = Integer.parseInt(request.get(CourseDetails.getBodyName(CourseDetails.BodyKey.COURSE_ID)));
-		CourseDto course = courseService.findCourseById(courseId);
+		CourseDto course = courseService.getCourse(courseId);
 		
-		success.add(course);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Map<String, Object> keys = new HashMap<String, Object>();
+		keys.put("id", course.getId());
+		keys.put("courseName", course.getCourse_name());
+		keys.put("courseNum", course.getCourse_num());
+		keys.put("courseDesc", course.getCourse_description());
+		keys.put("level", course.getLevel());
+		keys.put("type", course.getType());
+		keys.put("instanceNo", course.getInstanceNo());
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
 	@Override
 	public ResponseEntity<String> courseEdit(@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		Integer courseId = Integer.parseInt(request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_ID)));
 		String courseName = request.get(CourseEdit.getBodyName(CourseEdit.BodyKey.COURSE_NAME));
@@ -75,15 +91,14 @@ public class CourseControllerImpl implements CourseController{
 				.withId(courseId)
 				.build();
 		
-		courseService.editCourse(courseDto);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer changedRows = courseService.editCourse(courseDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
 	@Override
 	public ResponseEntity<String> instanceEdit(@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		String instanceTerm = request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.TERM));
 		Integer courseId = Integer.parseInt(request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.COURSE_ID)));
@@ -95,15 +110,14 @@ public class CourseControllerImpl implements CourseController{
 				.withTerm(instanceTerm)
 				.build();
 		
-		courseService.editInstance(instanceDto);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer changedRows = courseService.editInstance(instanceDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<String> sectionEdit(@RequestBody Map<String, String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		Integer expected_pop = Integer.parseInt(request.get(CourseSectionEdit.getBodyName(CourseSectionEdit.BodyKey.EXPECTED_POP)));
 		Integer sectionId = Integer.parseInt(request.get(CourseSectionEdit.getBodyName(CourseSectionEdit.BodyKey.ID)));
@@ -115,15 +129,14 @@ public class CourseControllerImpl implements CourseController{
 				.withInstance_id(instanceId)
 				.build();
 		
-		courseService.editSection(sectionDto);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer changedRows = courseService.editSection(sectionDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<String> courseCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		Integer courseId = Integer.parseInt(request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_ID)));
 		String courseName = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_NAME));
@@ -141,15 +154,14 @@ public class CourseControllerImpl implements CourseController{
 				.withId(courseId)
 				.build();
 		
-		courseService.createCourse(courseDto);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer changedRows = courseService.createCourse(courseDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
 	@Override
 	public ResponseEntity<String> courseInstanceCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		Integer courseId = Integer.parseInt(request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.COURSE_ID)));
 		String instanceTerm = request.get(CourseInstanceCreate.getBodyName(CourseInstanceCreate.BodyKey.TERM));
@@ -159,15 +171,14 @@ public class CourseControllerImpl implements CourseController{
 				.withTerm(instanceTerm)
 				.build();
 		
-		courseService.createInstance(instanceDto);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer changedRows = courseService.createInstance(instanceDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 	
 	@Override
 	public ResponseEntity<String> courseSectionCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		List<Object> success = new ArrayList<Object>();
 		
 		Integer instanceId = Integer.parseInt(request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.INSTANCE_ID)));
 		Integer expectedPop = Integer.parseInt(request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.EXPECTED_POP)));
@@ -177,27 +188,42 @@ public class CourseControllerImpl implements CourseController{
 				.withInstance_id(instanceId)
 				.build();
 		
-		courseService.createSection(sectionDto);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer changedRows = courseService.createSection(sectionDto);
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<String> courseDetailsAddToCart(@RequestBody Map<String, String> request) throws Exception {
-		
 		String response = "";
-		List<Object> success = new ArrayList<Object>();
+		Integer filler = 0;
 		
-		List <CourseDto> currentCoursesList = courseService.courses();
-		success.add(currentCoursesList);
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		Integer userId = Integer.parseInt(request.get(CourseDetailsAddToCart.getBodyName(CourseDetailsAddToCart.BodyKey.USER_ID)));
+		Integer instanceId = Integer.parseInt(request.get(CourseDetailsAddToCart.getBodyName(CourseDetailsAddToCart.BodyKey.INSTANCE_ID)));
 		
+		courseService.addToCart(userId, instanceId);
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, filler);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<String> CourseSearch(@RequestBody Map<String, String> request) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		String response = "";
+		
+		String subject = request.get(CourseSearch.getBodyName(CourseSearch.BodyKey.SUBJECT));
+		String term = request.get(CourseSearch.getBodyName(CourseSearch.BodyKey.TERM));
+		String level = request.get(CourseSearch.getBodyName(CourseSearch.BodyKey.LEVEL));
+		
+		CourseInstanceListDto instanceList = courseService.SearchInstances(subject, term, level);
+		
+		Map<String, Object> keys = new HashMap<String, Object>();
+		keys.put("id", instanceList.getId());
+		keys.put("courseId", instanceList.getCourse_id());
+		keys.put("term", instanceList.getTerm());
+		keys.put("sectionNum", instanceList.getSectionNo());
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
 }

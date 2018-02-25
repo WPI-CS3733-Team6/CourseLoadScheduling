@@ -4,18 +4,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dselent.scheduling.server.dao.CourseDepartmentLinkDao;
 import org.dselent.scheduling.server.dao.CourseInformationDao;
 import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.CourseSectionDao;
+import org.dselent.scheduling.server.dao.DepartmentsDao;
 import org.dselent.scheduling.server.dao.InstructorCourseLinkCartDao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
 import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
+import org.dselent.scheduling.server.dto.CourseInstanceListDto;
+import org.dselent.scheduling.server.dto.CourseListDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
+import org.dselent.scheduling.server.dto.CourseSectionListDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
+import org.dselent.scheduling.server.model.CourseDepartmentLink;
 import org.dselent.scheduling.server.model.CourseInformation;
 import org.dselent.scheduling.server.model.CourseInstance;
 import org.dselent.scheduling.server.model.CourseSection;
+import org.dselent.scheduling.server.model.Departments;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
 import org.dselent.scheduling.server.service.CourseService;
@@ -39,12 +46,14 @@ public class CourseServiceImpl implements CourseService {
 	private InstructorsDao instructorsDao;
 	@Autowired
 	private InstructorCourseLinkCartDao instructorCourseLinkCartDao;
+	private DepartmentsDao departmentsDao;
+	private CourseDepartmentLinkDao courseDeptLinkDao;
 	
 	public CourseServiceImpl() {
 		
 	}
 	
-	public ArrayList<CourseDto> courses() throws SQLException, Exception {
+	public CourseListDto courses() throws SQLException, Exception {
 		//Getting master courses
 		//Get info from database
 		ArrayList<String> columnNameList = new ArrayList<String>();
@@ -60,30 +69,69 @@ public class CourseServiceImpl implements CourseService {
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
 		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
-		//Reformat databse info into Dto format
-		ArrayList<CourseDto> courseDtoList = new ArrayList<CourseDto>();
-		for (int i = 0; i < results.size(); i++) {
+		
+		//Reformat database info into Dto format
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		ArrayList<String> courseNameList = new ArrayList<String>();
+		ArrayList<String> courseNumList = new ArrayList<String>();
+		ArrayList<String> courseDescList = new ArrayList<String>();
+		ArrayList<String> typeList = new ArrayList<String>();
+		ArrayList<Boolean> levelList = new ArrayList<Boolean>();
+		ArrayList<Integer> instanceNoList = new ArrayList<Integer>();
+		
+		for(int i = 0; i < results.size(); i++) {
+			//General info
 			CourseInformation course = results.get(i);
-			CourseDto.Builder builder = CourseDto.builder();
-			CourseDto courseDto = builder.withCourse_description(course.getCourseDescription())
-					.withId(course.getId())
-					.withCourse_name(course.getCourseName())
-					.withCourse_num(course.getCourseNum())
-					.withLevel(course.getLevel())
-					.withType(course.getType())
-					.withCourseInstance(getCourseInstances(course)) //Call helper to get all instances tied to this master class
-					.build();
-			courseDtoList.add(courseDto);
+			idList.add(course.getId());
+			courseNameList.add(course.getCourseName());
+			courseNumList.add(course.getCourseNum());
+			courseDescList.add(course.getCourseDescription());
+			typeList.add(course.getType());
+			levelList.add(course.getLevel());
+			
+			//Query all instances bound to this course
+			ArrayList<String> columnNameList2 = new ArrayList<String>();
+			columnNameList2.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+			columnNameList2.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+			
+			ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
+			QueryTerm idQueryTerm = new QueryTerm();
+			idQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+			idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			idQueryTerm.setValue(course.getId());
+			queryTermList2.add(idQueryTerm);
+			
+			QueryTerm deletedQueryTerm = new QueryTerm();
+			deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+			deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			deletedQueryTerm.setValue(false);
+			deletedQueryTerm.setLogicalOperator(LogicalOperator.AND);
+			queryTermList2.add(deletedQueryTerm);
+			
+			//Get number of instances found and add to list
+			List<CourseInstance> instanceList = courseInstanceDao.select(columnNameList2, queryTermList2, orderByList);
+			Integer instanceNum = instanceList.size(); //Think this is wrong
+			instanceNoList.add(instanceNum);
 		}
+		
+		//Build Dto and return
+		CourseListDto.Builder builder = CourseListDto.builder();
+		CourseListDto courseDto = builder.withCourse_description(courseDescList)
+				.withId(idList)
+				.withCourse_name(courseNameList)
+				.withCourse_num(courseNumList)
+				.withLevel(levelList)
+				.withType(typeList)
+				.withInstanceNo(instanceNoList)
+				.build();
 
-		return courseDtoList;
+		return courseDto;
 	}
-	
 	
 	//-----Courses Stuff-----//
 	
-	
 	public Integer createCourse(CourseDto newCourse) throws Exception {
+		//Only one course will be sent
 		CourseInformation course = new CourseInformation();
 		course.setCourseDescription(newCourse.getCourse_description());
 		course.setCourseName(newCourse.getCourse_name());
@@ -104,7 +152,6 @@ public class CourseServiceImpl implements CourseService {
     	
     	return masterCourseDao.insert(course, insertColumnNameList, keyHolderColumnNameList);
 	}
-	
 	
 	public Integer editCourse(CourseDto newCourse) throws Exception {
 		Integer courseId = newCourse.getId();
@@ -133,76 +180,28 @@ public class CourseServiceImpl implements CourseService {
 		return masterCourseDao.updateCourseInformation(columnNameList, newValueList, queryTermList);
 	}
 	
-	
-	
 	//Delete course with specified ID, along with all instances and sections associated with it
 	//Returns the number of rows changed in the database
 	public Integer deleteCourse(Integer courseId) throws Exception {
-		//Total count of changed rows
-		Integer rowsChanged = 0;
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(courseId);
+		queryTermList.add(idQueryTerm);
 		
-		//Get old master course
-		CourseDto oldCourse = findCourseById(courseId);
-		Integer instanceCount = oldCourse.getCourseInstance().size();
-		
-		//Only value to be changed on all tables is "Deleted" Boolean
-		ArrayList<Object> newValueList = new ArrayList<Object>();
-		boolean isDeleted = true;
-		newValueList.add(isDeleted);
-		
-		//Iterate through course instances
-		for (int i = 0; i < instanceCount; i++) {
-			CourseInstanceDto oldInstance = oldCourse.getCourseInstance().get(i);
-			Integer instanceId = oldInstance.getId();
-			Integer sectionCount = oldInstance.getSections().size();
-			
-			//Iterate through course sections
-			for (int j = 0; i < sectionCount; j++) {
-				CourseSectionDto oldSection = oldInstance.getSections().get(j);
-				Integer sectionId = oldSection.getId();
-				
-				//Virtually delete all sections in this Course Instance
-				ArrayList<String> columnNameList3 = new ArrayList<String>();
-				columnNameList3.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
-				
-				ArrayList<QueryTerm> queryTermList3 = new ArrayList<QueryTerm>();
-				QueryTerm sectionQueryTerm = new QueryTerm();
-				sectionQueryTerm.setValue(sectionId);
-				sectionQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.ID));
-				sectionQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-				queryTermList3.add(sectionQueryTerm);
-				
-				rowsChanged = rowsChanged + courseSectionsDao.updateCourseSection(columnNameList3, newValueList, queryTermList3);
-			}
-			
-			//Virtually delete all Instances in this Master Course
-			ArrayList<String> columnNameList2 = new ArrayList<String>();
-			columnNameList2.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
-			
-			ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
-			QueryTerm instanceQueryTerm = new QueryTerm();
-			instanceQueryTerm.setValue(instanceId);
-			instanceQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-			instanceQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-			queryTermList2.add(instanceQueryTerm);
-			
-			rowsChanged = rowsChanged + courseInstanceDao.updateCourseInstance(columnNameList2, newValueList, queryTermList2);
-		}
-		
-		//Return total of changed rows
-		return rowsChanged;
+		Integer changedRows = deleteCourseInstances(courseId) +
+				masterCourseDao.delete(queryTermList);
+		return changedRows;
 	}
 	
-	
 	//This method will find a specific course given a course ID
-	public CourseDto findCourseById(Integer courseId) throws Exception {
-		//Getting master courses
-		//Get info from database
+	public CourseDto getCourse(Integer courseId) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
 		
@@ -216,83 +215,58 @@ public class CourseServiceImpl implements CourseService {
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
 		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
-		//Reformat databse info into Dto format
-		ArrayList<CourseDto> courseDtoList = new ArrayList<CourseDto>();
-		for (int i = 0; i < results.size(); i++) {
-			CourseInformation course = results.get(i);
-			CourseDto.Builder builder = CourseDto.builder();
-			CourseDto courseDto = builder.withCourse_description(course.getCourseDescription())
-					.withId(course.getId())
-					.withCourse_name(course.getCourseName())
-					.withCourse_num(course.getCourseNum())
-					.withLevel(course.getLevel())
-					.withType(course.getType())
-					.withCourseInstance(getCourseInstances(course)) //Call helper to get all instances tied to this master class
-					.build();
-			courseDtoList.add(courseDto);
-		}
-
-		if (courseDtoList.size() != 1) {
-			//TODO trigger Exception
-			return null;
-		}
-		else return courseDtoList.get(0);
+		CourseInformation course = results.get(0);
+		
+		Integer instanceNum = getCourseInstances(course.getId()).getId().size();
+		
+		CourseDto.Builder builder = CourseDto.builder();
+		CourseDto courseDto = builder.withId(course.getId())
+				.withCourse_description(course.getCourseDescription())
+				.withCourse_name(course.getCourseName())
+				.withCourse_num(course.getCourseNum())
+				.withLevel(course.getLevel())
+				.withType(course.getType())
+				.withInstanceNo(instanceNum)
+				.build();
+		return courseDto;
 	}
-		
-	
-	@Override
-	public ArrayList<CourseDto> courseSearch(String course_name, String course_num) throws Exception {
-		/*
-		This code is incomplete
-		Our plan for implementing both a search of master courses and course instances:
-		- Take search terms and group them into three groups: masterCourse, courseInstance, and courseSchedule
-		- Return list of instance ids when there is a search hit
-		- Take this list of ids, return as a dto of instances
-		- Also change this entire method to take in a dto, so that you don't take in like a million different params
-		 */
-		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
-		
-		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 
-		if (!course_name.equals(null)){
-			QueryTerm nameQueryTerm = new QueryTerm();
-			nameQueryTerm.setValue(course_name);
-			nameQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-			nameQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-			queryTermList.add(nameQueryTerm);
-		}
-		
-		if (!course_num.equals(null)){
-			QueryTerm numQueryTerm = new QueryTerm();
-			numQueryTerm.setValue(course_name);
-			numQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
-			numQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-			queryTermList.add(numQueryTerm);
-		}
+	public CourseDto getCourseByNum(String courseNum) throws Exception {
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_DESCRIPTION));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NAME));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.TYPE));
+
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm courseNumQueryTerm = new QueryTerm();
+		courseNumQueryTerm.setValue(courseNum);
+		courseNumQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
+		courseNumQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(courseNumQueryTerm);
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
 		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
+		CourseInformation course = results.get(0);
 		
-		ArrayList<CourseDto> CourseDtoList = new ArrayList<CourseDto>();
-		for(Integer l = 0; l< results.size(); l++) {
-			CourseInformation courseInformation = results.get(l);
-			CourseDto.Builder builder = CourseDto.builder();
-			CourseDto informationDto = builder.withCourse_name(courseInformation.getCourseName())
-					.withCourse_num(courseInformation.getCourseNum())
-					.build();
-			CourseDtoList.add(informationDto);
-		}
+		Integer instanceNum = getCourseInstances(course.getId()).getId().size();
 		
-		return CourseDtoList;
-		
+		CourseDto.Builder builder = CourseDto.builder();
+		CourseDto courseDto = builder.withId(course.getId())
+				.withCourse_description(course.getCourseDescription())
+				.withCourse_name(course.getCourseName())
+				.withCourse_num(course.getCourseNum())
+				.withLevel(course.getLevel())
+				.withType(course.getType())
+				.withInstanceNo(instanceNum)
+				.build();
+		return courseDto;
 	}
 	
-	
 	//-----Instance Stuff-----//
-	
 	
 	public Integer createInstance(CourseInstanceDto newInstance) throws Exception {
 		CourseInstance instance = new CourseInstance();
@@ -312,8 +286,6 @@ public class CourseServiceImpl implements CourseService {
 		
     	return courseInstanceDao.insert(instance, insertColumnNameList, keyHolderColumnNameList);
 	}
-	
-	
 	
 	public Integer editInstance(CourseInstanceDto newInstance) throws Exception {
 		Integer instanceId = newInstance.getId();
@@ -341,52 +313,72 @@ public class CourseServiceImpl implements CourseService {
 		return courseInstanceDao.updateCourseInstance(columnNameList, newValueList, queryTermList);
 	}
 	
-	//TODO: I grabbed this from CurrentCourseServicesImpl
-	public ArrayList<CourseInstanceDto> deleteCourseInstance(Integer userId) throws SQLException
-	{
+	public Integer deleteInstance(Integer instanceId) throws Exception{
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
 		
-		Integer instructor_id = 0;
-		try {
-			instructor_id = findInstructor(userId);
-		} catch (Exception e) {
-			e.printStackTrace();
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		newValueList.add(true);
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setValue(instanceId);
+		idQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(idQueryTerm);
+		
+		Integer changedRows = deleteInstanceSections(instanceId) +
+				courseInstanceDao.updateCourseInstance(columnNameList, newValueList, queryTermList);
+		return changedRows;
+	}
+	
+	public Integer deleteCourseInstances(Integer courseId) throws Exception {
+		ArrayList<Integer> instanceIdList = getCourseInstances(courseId).getId();
+		Integer changedRows = 0;
+		for (int i = 0; i < instanceIdList.size(); i++) {
+			changedRows = changedRows + deleteInstanceSections(instanceIdList.get(i));
 		}
-		
+		return changedRows;
+	}
+	
+	public CourseInstanceDto getInstance(Integer instanceId) throws Exception {
+		//Get all instances
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
-
 		QueryTerm idQueryTerm = new QueryTerm();
-		idQueryTerm.setValue(instructor_id);
-		idQueryTerm.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
+		idQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
 		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(instanceId);
 		queryTermList.add(idQueryTerm);
 		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		deletedQueryTerm.setLogicalOperator(LogicalOperator.AND);
+		queryTermList.add(deletedQueryTerm);
+		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+
+		CourseInstance result = courseInstanceDao.select(columnNameList, queryTermList, orderByList).get(0);
+		Integer sectionNum = getInstanceSections(instanceId).getId().size();
 		
-		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
-		
-		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
-		for(Integer l = 0; l< results.size(); l++) {
-			CourseInstance courseInstance = results.get(l);
-			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
-			CourseInstanceDto instanceDto = builder.withId(courseInstance.getId())
-					.withTerm(courseInstance.getTerm())
-					.withCourse_id(courseInstance.getCourseId())
-					.build();
-			courseInstanceDtoList.add(instanceDto);
-		}
-		
-		return courseInstanceDtoList;
+		CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
+		CourseInstanceDto courseInstanceDto = builder.withId(result.getId())
+				.withCourse_id(result.getCourseId())
+				.withTerm(result.getTerm())
+				.withSectionNo(sectionNum)
+				.build();
+		return courseInstanceDto;
 	}
 	
-	
-	// This method will return a list of all course instances under a master course
-	public ArrayList<CourseInstanceDto> getCourseInstances(CourseInformation masterCourse) throws Exception {
-		//Get all instances 
+	public CourseInstanceListDto getCourseInstances(Integer courseId) throws Exception {
+		//Get all instances
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
@@ -396,29 +388,225 @@ public class CourseServiceImpl implements CourseService {
 		QueryTerm idQueryTerm = new QueryTerm();
 		idQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
 		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-		idQueryTerm.setValue(masterCourse.getId());
+		idQueryTerm.setValue(courseId);
 		queryTermList.add(idQueryTerm);
+		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		deletedQueryTerm.setLogicalOperator(LogicalOperator.AND);
+		queryTermList.add(deletedQueryTerm);
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 
 		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
-		ArrayList<CourseInstanceDto> courseInstanceList = new ArrayList<CourseInstanceDto>();
-		for (int i = 0; i < results.size(); i++) {
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		ArrayList<Integer> courseIdList = new ArrayList<Integer>();
+		ArrayList<String> termList = new ArrayList<String>();
+		ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
+		
+		for(int i = 0; i < results.size(); i++) {
 			CourseInstance instance = results.get(i);
-			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
-			CourseInstanceDto courseInstanceDto = builder.withId(instance.getId())
-					.withCourse_id(instance.getCourseId())
-					.withTerm(instance.getTerm())
-					.withSections(getCourseSections(instance))	//Call helper function to get sections tied to this instance
-					.build();
-			courseInstanceList.add(courseInstanceDto);
+			idList.add(instance.getId());
+			courseIdList.add(instance.getCourseId());
+			termList.add(instance.getTerm());
+			
+			Integer sectionNum = getInstanceSections(instance.getId()).getId().size();
+			sectionNumList.add(sectionNum);
 		}
-		return courseInstanceList;
+		
+		CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
+		CourseInstanceListDto courseInstanceListDto = builder.withId(idList)
+				.withCourse_id(courseIdList)
+				.withTerm(termList)
+				.withSectionNo(sectionNumList)
+				.build();
+		return courseInstanceListDto;
 	}
 	
+	public CourseInstanceListDto SearchInstances(String subject, String term, String level) throws Exception {
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		
+		//Search through master courses
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		
+		if (level != "") {
+			QueryTerm levelQueryTerm = new QueryTerm();
+			levelQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
+			levelQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			if (level == "Undergraduate")
+				levelQueryTerm.setValue(false);
+			else levelQueryTerm.setValue(true);
+			queryTermList.add(levelQueryTerm);
+		}
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<CourseInformation> results = masterCourseDao.select(columnNameList, queryTermList, orderByList);
+		if (results.size() == 0) {
+			ArrayList<Integer> idList = new ArrayList<Integer>();
+			ArrayList<Integer> courseIdList = new ArrayList<Integer>();
+			ArrayList<String> termList = new ArrayList<String>();
+			ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
+			
+			CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
+			CourseInstanceListDto courseInstanceListDto = builder.withId(idList)
+					.withCourse_id(courseIdList)
+					.withTerm(termList)
+					.withSectionNo(sectionNumList)
+					.build();
+			return courseInstanceListDto;
+		}
+		
+		ArrayList<Integer> masterCourseIdList = new ArrayList<Integer>();
+		for (int i = 0; i < masterCourseIdList.size(); i++) {
+			masterCourseIdList.add(results.get(i).getId());
+		}
+		
+		if (subject != "") {
+			//Search for department key for the given subject
+			ArrayList<String> columnNameList2 = new ArrayList<String>();
+			columnNameList2.add(Departments.getColumnName(Departments.Columns.ID));
+			
+			ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
+			
+			QueryTerm deptNameQueryTerm = new QueryTerm();
+			deptNameQueryTerm.setColumnName(Departments.getColumnName(Departments.Columns.DEPT_NAME));
+			deptNameQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			deptNameQueryTerm.setValue(subject);
+			queryTermList2.add(deptNameQueryTerm);
+			
+			List<Departments> results2 = departmentsDao.select(columnNameList2, queryTermList2, orderByList);
+			//If no results, return empty
+			if (results2.size() != 1) {
+				ArrayList<Integer> idList = new ArrayList<Integer>();
+				ArrayList<Integer> courseIdList = new ArrayList<Integer>();
+				ArrayList<String> termList = new ArrayList<String>();
+				ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
+				
+				CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
+				CourseInstanceListDto courseInstanceListDto = builder.withId(idList)
+						.withCourse_id(courseIdList)
+						.withTerm(termList)
+						.withSectionNo(sectionNumList)
+						.build();
+				return courseInstanceListDto;
+			}
+			//Else, get department id and search courses bound to it
+			Integer departmentId = results2.get(0).getId();
+			
+			ArrayList<String> columnNameList3 = new ArrayList<String>();
+			columnNameList3.add(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.COURSE_ID));
+			
+			ArrayList<QueryTerm> queryTermList3 = new ArrayList<QueryTerm>();
+			
+			QueryTerm deptIdQuery = new QueryTerm();
+			deptIdQuery.setColumnName(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.DEPT_ID));
+			deptIdQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+			deptIdQuery.setValue(departmentId);
+			queryTermList3.add(deptIdQuery);
+			
+			List<CourseDepartmentLink> results3 = courseDeptLinkDao.select(columnNameList3, queryTermList3, orderByList);
+			//If no results, return empty
+			if (results3.size() <= 0) {
+				ArrayList<Integer> idList = new ArrayList<Integer>();
+				ArrayList<Integer> courseIdList = new ArrayList<Integer>();
+				ArrayList<String> termList = new ArrayList<String>();
+				ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
+				
+				CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
+				CourseInstanceListDto courseInstanceListDto = builder.withId(idList)
+						.withCourse_id(courseIdList)
+						.withTerm(termList)
+						.withSectionNo(sectionNumList)
+						.build();
+				return courseInstanceListDto;
+			}
+			//Else, grab found courses and narrow down search
+			ArrayList<Integer> tempCourseIdList = new ArrayList<Integer>();
+			for(int i = 0; i < results3.size(); i++) {
+				tempCourseIdList.add(results3.get(i).getCourseId());
+			}
+			//masterCourseIdList now contains elements in both lists
+			masterCourseIdList.retainAll(tempCourseIdList);
+		}
+		
+		//Check that masterCoursesIds remain
+		if (masterCourseIdList.size() <= 0 ) {
+			ArrayList<Integer> idList = new ArrayList<Integer>();
+			ArrayList<Integer> courseIdList = new ArrayList<Integer>();
+			ArrayList<String> termList = new ArrayList<String>();
+			ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
+			
+			CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
+			CourseInstanceListDto courseInstanceListDto = builder.withId(idList)
+					.withCourse_id(courseIdList)
+					.withTerm(termList)
+					.withSectionNo(sectionNumList)
+					.build();
+			return courseInstanceListDto;
+		}
+		
+		//Search all instances 
+		ArrayList<String> columnNameList4 = new ArrayList<String>();
+		columnNameList4.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		columnNameList4.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+		columnNameList4.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		
+		ArrayList<QueryTerm> queryTermList4 = new ArrayList<QueryTerm>();
+		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		queryTermList4.add(deletedQueryTerm);
+		//If specified, search for given term
+		if (term != "") {
+			QueryTerm termQueryTerm = new QueryTerm();
+			termQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+			termQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			termQueryTerm.setValue(term);
+			termQueryTerm.setLogicalOperator(LogicalOperator.AND);
+			queryTermList4.add(termQueryTerm);
+		}
+		//Add an OR operator for every courseId
+		for (int i = 0; i < masterCourseIdList.size(); i ++) {
+			QueryTerm courseIdQueryTerm = new QueryTerm();
+			courseIdQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+			courseIdQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			courseIdQueryTerm.setValue(masterCourseIdList.get(i));
+			courseIdQueryTerm.setLogicalOperator(LogicalOperator.OR);
+			queryTermList4.add(courseIdQueryTerm);
+		}
+		
+		List<CourseInstance> finalResults = courseInstanceDao.select(columnNameList4, queryTermList4, orderByList);
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		ArrayList<Integer> courseIdList = new ArrayList<Integer>();
+		ArrayList<String> termList = new ArrayList<String>();
+		ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
+		
+		for(int i = 0; i < finalResults.size(); i++) {
+			CourseInstance instance = finalResults.get(i);
+			idList.add(instance.getId());
+			courseIdList.add(instance.getCourseId());
+			termList.add(instance.getTerm());
+			
+			Integer sectionNum = getInstanceSections(instance.getId()).getId().size();
+			sectionNumList.add(sectionNum);
+		}
+		
+		CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
+		CourseInstanceListDto courseInstanceListDto = builder.withId(idList)
+				.withCourse_id(courseIdList)
+				.withTerm(termList)
+				.withSectionNo(sectionNumList)
+				.build();
+		return courseInstanceListDto;
+	}
 	
 	//-----Section Stuff-----//
-	
 	
 	public Integer createSection(CourseSectionDto newSection) throws Exception {
 		CourseSection section = new CourseSection();
@@ -438,7 +626,6 @@ public class CourseServiceImpl implements CourseService {
     	
     	return courseSectionsDao.insert(section, insertColumnNameList, keyHolderColumnNameList);
 	}
-	
 	
 	public Integer editSection(CourseSectionDto newSection) throws Exception {
 		Integer sectionId = newSection.getId();
@@ -466,13 +653,72 @@ public class CourseServiceImpl implements CourseService {
 		return courseSectionsDao.updateCourseSection(columnNameList, newValueList, queryTermList);
 	}
 	
+	public Integer deleteSection(Integer sectionId) throws Exception {
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
+		
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		newValueList.add(true);
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(sectionId);
+		queryTermList.add(idQueryTerm);
+		
+		return courseSectionsDao.updateCourseSection(columnNameList, newValueList, queryTermList);
+	}
+
+	public Integer deleteInstanceSections(Integer instanceId) throws Exception{
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.DELETED));
+		
+		ArrayList<Object> newValueList = new ArrayList<Object>();
+		newValueList.add(true);
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(instanceId);
+		queryTermList.add(idQueryTerm);
+		
+		return courseSectionsDao.updateCourseSection(columnNameList, newValueList, queryTermList);
+	}
 	
-	// TODO: We need a delete section
-	// TODO: We need a getSection method to get a single section
+	public CourseSectionDto getSectionById(Integer sectionId) throws Exception {
+		ArrayList<String> columnNameList = new ArrayList<String>();
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm idQueryTerm = new QueryTerm();
+		idQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		idQueryTerm.setValue(sectionId);
+		queryTermList.add(idQueryTerm);
+		
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		deletedQueryTerm.setLogicalOperator(LogicalOperator.AND);
+		queryTermList.add(deletedQueryTerm);
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		CourseSection section = courseSectionsDao.select(columnNameList, queryTermList, orderByList).get(0);
+		CourseSectionDto.Builder builder = CourseSectionDto.builder();
+		CourseSectionDto sectionDto = builder.withExpected_pop(section.getExpectedPop())
+				.withId(section.getId())
+				.withInstance_id(section.getInstanceId())
+				.build();
+		return sectionDto;
+	}
 	
-	// TODO: I moved this from CurrentCoursesServiceImpl
-	// This method will return a list of all the sections under a course instance
-	public ArrayList<CourseSectionDto> getCourseSections(CourseInstance courseInstance) throws Exception {
+	public CourseSectionListDto getInstanceSections(Integer instanceId) throws Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
 		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
@@ -482,28 +728,33 @@ public class CourseServiceImpl implements CourseService {
 		QueryTerm idQueryTerm = new QueryTerm();
 		idQueryTerm.setColumnName(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
 		idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-		idQueryTerm.setValue(courseInstance.getId());
+		idQueryTerm.setValue(instanceId);
 		queryTermList.add(idQueryTerm);
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 
 		List<CourseSection> results = courseSectionsDao.select(columnNameList, queryTermList, orderByList);
-		ArrayList<CourseSectionDto> courseSectionsList = new ArrayList<CourseSectionDto>();
-		for (int i = 0; i < results.size(); i++) {
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		ArrayList<Integer> instanceIdList = new ArrayList<Integer>();
+		ArrayList<Integer> expectedPopList = new ArrayList<Integer>();
+		
+		for(int i = 0; i < results.size(); i++) {
 			CourseSection section = results.get(i);
-			CourseSectionDto.Builder builder = CourseSectionDto.builder();
-			CourseSectionDto courseSectionDto = builder.withExpected_pop(section.getExpectedPop())
-					.withId(section.getId())
-					.withInstance_id(section.getInstanceId())
-					.build();
-			courseSectionsList.add(courseSectionDto);
+			idList.add(section.getId());
+			instanceIdList.add(section.getInstanceId());
+			expectedPopList.add(section.getExpectedPop());
 		}
-		return courseSectionsList;
+		
+		CourseSectionListDto.Builder builder = CourseSectionListDto.builder();
+		CourseSectionListDto courseSectionListDto = builder.withExpected_pop(expectedPopList)
+				.withId(idList)
+				.withInstance_id(expectedPopList)
+				.build();
+		return courseSectionListDto;
 	}
 	
-	
 	//-----Misc.-----//
-	
+
 	
 	@Override
 	public void addToCart(Integer user_id, Integer instance_id) throws Exception {
@@ -512,7 +763,6 @@ public class CourseServiceImpl implements CourseService {
 		InstructorCourseLinkCart cartModel = new InstructorCourseLinkCart();
 		cartModel.setInstructorId(instructor_id);
 		cartModel.setInstanceId(instance_id);;
-		cartModel.setStatus(0); 
 		
 		List<String> insertColumnNameList = new ArrayList<String>();
 		insertColumnNameList.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
@@ -527,10 +777,9 @@ public class CourseServiceImpl implements CourseService {
 		
     	instructorCourseLinkCartDao.insert(cartModel, insertColumnNameList, keyHolderColumnNameList);
 	}
-	
+
 	
 	//-----Helpers-----//
-	
 	
 	public Integer findInstructor(Integer user_id) throws Exception 
 	{
@@ -556,5 +805,5 @@ public class CourseServiceImpl implements CourseService {
 		instructorId = results.get(0).getId();
 		
 		return instructorId;
-	}	
+	}
 }
