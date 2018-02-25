@@ -37,7 +37,8 @@ public class Register
 		FIRST_NAME,
 		LAST_NAME,
 		EMAIL,
-		PASSWORD;
+		PASSWORD, 
+		PHONE_NUM;
 	}
 	
 

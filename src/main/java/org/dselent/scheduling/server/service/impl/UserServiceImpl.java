@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService
 		user.setUserRole(1);
 		user.setSalt(salt);
 		user.setUserStateId(1);
+		user.setPhoneNum(dto.getPhoneNum());
 
 		List<String> userInsertColumnNameList = new ArrayList<>();
 		List<String> userKeyHolderColumnNameList = new ArrayList<>();
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.FIRST_NAME));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.LAST_NAME));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.EMAIL));
+		userInsertColumnNameList.add(User.getColumnName(User.Columns.PHONE_NUM));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.SALT));
 		userInsertColumnNameList.add(User.getColumnName(User.Columns.USER_ROLE));

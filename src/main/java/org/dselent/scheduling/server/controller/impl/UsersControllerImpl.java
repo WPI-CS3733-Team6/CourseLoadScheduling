@@ -51,6 +51,7 @@ public class UsersControllerImpl implements UsersController
 		String firstName = request.get(Register.getBodyName(Register.BodyKey.FIRST_NAME));
 		String lastName = request.get(Register.getBodyName(Register.BodyKey.LAST_NAME));
 		String email = request.get(Register.getBodyName(Register.BodyKey.EMAIL));
+		Long phoneNum = Long.parseLong(request.get(Register.getBodyName(Register.BodyKey.PHONE_NUM)));
 		
 		String userName = email.replace("@wpi.edu", "");
 
@@ -59,6 +60,7 @@ public class UsersControllerImpl implements UsersController
 				.withFirstName(firstName)
 				.withLastName(lastName)
 				.withEmail(email)
+				.withPhoneNum(phoneNum)
 				.build();
 
 		userService.addUser(registerUserDto);
