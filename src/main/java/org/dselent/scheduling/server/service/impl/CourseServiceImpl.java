@@ -431,11 +431,11 @@ public class CourseServiceImpl implements CourseService {
 		//Search through master courses
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		
-		if (level != "") {
+		if (!level.contentEquals("")) {
 			QueryTerm levelQueryTerm = new QueryTerm();
 			levelQueryTerm.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.LEVEL));
 			levelQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
-			if (level == "Undergraduate")
+			if (level.contentEquals("Undergraduate"))
 				levelQueryTerm.setValue(false);
 			else levelQueryTerm.setValue(true);
 			queryTermList.add(levelQueryTerm);
@@ -460,11 +460,11 @@ public class CourseServiceImpl implements CourseService {
 		}
 		
 		ArrayList<Integer> masterCourseIdList = new ArrayList<Integer>();
-		for (int i = 0; i < masterCourseIdList.size(); i++) {
+		for (int i = 0; i < results.size(); i++) {
 			masterCourseIdList.add(results.get(i).getId());
 		}
 		
-		if (subject != "") {
+		if (!subject.contentEquals("")) {
 			//Search for department key for the given subject
 			ArrayList<String> columnNameList2 = new ArrayList<String>();
 			columnNameList2.addAll(Departments.getColumnNameList());
@@ -508,6 +508,7 @@ public class CourseServiceImpl implements CourseService {
 			queryTermList3.add(deptIdQuery);
 			
 			List<CourseDepartmentLink> results3 = courseDeptLinkDao.select(columnNameList3, queryTermList3, orderByList);
+			
 			//If no results, return empty
 			if (results3.size() <= 0) {
 				ArrayList<Integer> idList = new ArrayList<Integer>();
@@ -560,7 +561,7 @@ public class CourseServiceImpl implements CourseService {
 		deletedQueryTerm.setValue(false);
 		queryTermList4.add(deletedQueryTerm);
 		//If specified, search for given term
-		if (term != "") {
+		if (!term.contentEquals("")) {
 			QueryTerm termQueryTerm = new QueryTerm();
 			termQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
 			termQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);

@@ -21,15 +21,13 @@ public class DepartmentsExtractor extends Extractor<List<Departments>> {
 			
 			result.setId(rs.getInt(Departments.getColumnName(Departments.Columns.ID)));
 			
-			if(rs.wasNull())
-			{
-				result.setId(null);
-			}
+			result.setCreatedAt(rs.getTimestamp(Departments.getColumnName(Departments.Columns.CREATED_AT)));
 			
-			result.setCreatedAt(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.CREATED_AT)));
-			result.setUpdatedAt(rs.getTimestamp(UserRoles.getColumnName(UserRoles.Columns.UPDATED_AT)));
+			result.setUpdatedAt(rs.getTimestamp(Departments.getColumnName(Departments.Columns.UPDATED_AT)));
 			
 			result.setDeptName(rs.getString(Departments.getColumnName(Departments.Columns.DEPT_NAME)));
+			
+			resultList.add(result);
 		}
 		
 		return resultList;

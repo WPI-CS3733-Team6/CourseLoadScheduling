@@ -102,8 +102,8 @@ public class CourseInformation extends Model {
 		return courseName;
 	}
 
-	public void setCourseDescription(String courseName) {
-		this.courseName = courseName;
+	public void setCourseDescription(String courseDesc) {
+		this.courseDescription = courseDesc;
 	}
 
 	public String getType() {
