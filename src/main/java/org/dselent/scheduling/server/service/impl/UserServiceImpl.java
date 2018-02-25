@@ -13,6 +13,7 @@ import org.dselent.scheduling.server.model.User;
 import org.dselent.scheduling.server.model.UsersRolesLink;
 import org.dselent.scheduling.server.model.ViewAccountInformation;
 import org.dselent.scheduling.server.service.UserService;
+import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -110,6 +111,25 @@ public class UserServiceImpl implements UserService
 
 		return rowsAffectedList;
 	} 
+	
+	
+
+
+	@Override
+	public void deleteUser(Integer id) throws Exception {
+		String columnName = User.getColumnName(User.Columns.USER_STATE_ID);
+		
+		Integer newValue = 2;
+		
+		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+			QueryTerm idQueryTerm = new QueryTerm();
+			idQueryTerm.setColumnName(User.getColumnName(User.Columns.ID));
+			idQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			idQueryTerm.setValue(id);
+			queryTermList.add(idQueryTerm);
+			
+		usersDao.update(columnName, newValue, queryTermList);
+	}
 
 /*	public UserInfoDto userInfo(Integer user_id) throws Exception{
 
