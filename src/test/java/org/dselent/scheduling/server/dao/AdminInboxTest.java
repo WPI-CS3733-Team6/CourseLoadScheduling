@@ -26,7 +26,6 @@ public class AdminInboxTest {
 	public void testAdminInboxDao() throws SQLException {
 		AdminInbox message1 = new AdminInbox();
 		message1.setContent("This is a message");
-		message1.setInboxUser(13);
 		message1.setSender(43);
 		message1.setStatus(0);
 		message1.setSubjectLine("Derperino");
