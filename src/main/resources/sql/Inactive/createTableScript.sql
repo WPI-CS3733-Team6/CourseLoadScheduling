@@ -66,7 +66,7 @@ CREATE TABLE users
 	encrypted_password varchar(255) NOT NULL,
 	salt varchar(255) UNIQUE NOT NULL,
 	user_role integer NOT NULL REFERENCES user_roles(id),
-	user_state_id integer NOT NULL REFERENCES user_states(id),
+	user_state_id integer NOT NULL REFERENCES user_states(id) DEFAULT(0),
 	created_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP),
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
