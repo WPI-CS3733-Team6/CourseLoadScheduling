@@ -15,7 +15,6 @@ public class AdminInbox extends Model{
 	public static enum Columns
 	{
 		ID,
-		INBOX_USER,
 		SENDER,
 		SUBJECT_LINE,
 		CONTENT,
@@ -38,7 +37,6 @@ public class AdminInbox extends Model{
 		}
 
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.INBOX_USER, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.SENDER, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.SUBJECT_LINE, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.CONTENT, JDBCType.VARCHAR);
@@ -50,7 +48,6 @@ public class AdminInbox extends Model{
 	// attributes
 
 	private Integer id;
-	private Integer inboxUser;
 	private Integer sender;
 	private String subjectLine;
 	private String content;
@@ -88,12 +85,6 @@ public class AdminInbox extends Model{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getInboxUser() {
-		return inboxUser;
-	}
-	public void setInboxUser(Integer inboxUser) {
-		this.inboxUser = inboxUser;
-	}
 	public Integer getSender() {
 		return sender;
 	}
@@ -130,6 +121,7 @@ public class AdminInbox extends Model{
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -137,13 +129,13 @@ public class AdminInbox extends Model{
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((inboxUser == null) ? 0 : inboxUser.hashCode());
 		result = prime * result + ((sender == null) ? 0 : sender.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((subjectLine == null) ? 0 : subjectLine.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -168,11 +160,6 @@ public class AdminInbox extends Model{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (inboxUser == null) {
-			if (other.inboxUser != null)
-				return false;
-		} else if (!inboxUser.equals(other.inboxUser))
-			return false;
 		if (sender == null) {
 			if (other.sender != null)
 				return false;
@@ -195,12 +182,12 @@ public class AdminInbox extends Model{
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
-		return "AdminInbox [id=" + id + ", inboxUser=" + inboxUser + ", sender=" + sender + ", subjectLine="
-				+ subjectLine + ", content=" + content + ", status=" + status + ", createdAt=" + createdAt
-				+ ", updatedAt=" + updatedAt + "]";
+		return "AdminInbox [id=" + id + ", sender=" + sender + ", subjectLine=" + subjectLine + ", content=" + content
+				+ ", status=" + status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
-	
+
 	
 }

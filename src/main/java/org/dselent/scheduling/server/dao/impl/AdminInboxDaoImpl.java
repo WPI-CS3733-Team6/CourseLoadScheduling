@@ -209,10 +209,6 @@ public class AdminInboxDaoImpl extends BaseDaoImpl<AdminInbox> implements AdminI
     	{
     		parameters.addValue(parameterName, adminInboxModel.getContent());
     	}
-    	else if(insertColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.INBOX_USER)))
-    	{
-    		parameters.addValue(parameterName, adminInboxModel.getInboxUser());
-    	}
     	else if(insertColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.SENDER)))
     	{
     		parameters.addValue(parameterName, adminInboxModel.getSender());
@@ -250,10 +246,6 @@ public class AdminInboxDaoImpl extends BaseDaoImpl<AdminInbox> implements AdminI
     	else if(keyHolderColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT)))
     	{
     		adminInboxModel.setContent((String) keyMap.get(keyHolderColumnName));
-    	}
-    	else if(keyHolderColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.INBOX_USER)))
-    	{
-    		adminInboxModel.setInboxUser((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(AdminInbox.getColumnName(AdminInbox.Columns.SENDER)))
     	{

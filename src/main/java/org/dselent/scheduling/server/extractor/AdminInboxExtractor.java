@@ -19,28 +19,12 @@ public class AdminInboxExtractor extends Extractor<List<AdminInbox>>
 			AdminInbox result = new AdminInbox();
 			
 			result.setId(rs.getInt(AdminInbox.getColumnName(AdminInbox.Columns.ID)));
-			result.setId(rs.getInt(AdminInbox.getColumnName(AdminInbox.Columns.INBOX_USER)));
 			result.setId(rs.getInt(AdminInbox.getColumnName(AdminInbox.Columns.SENDER)));
-			
-			if(rs.wasNull())
-			{
-				result.setId(null);
-				result.setInboxUser(null);
-				result.setSender(null);
-			}
-			
 			result.setSubjectLine(rs.getString(AdminInbox.getColumnName(AdminInbox.Columns.SUBJECT_LINE)));
 			result.setContent(rs.getString(AdminInbox.getColumnName(AdminInbox.Columns.CONTENT)));
 			result.setStatus(rs.getInt(AdminInbox.getColumnName(AdminInbox.Columns.STATUS)));
-			
-			if(rs.wasNull())
-			{
-				result.setStatus(null);
-			}
-			
 			result.setCreatedAt(rs.getTimestamp(AdminInbox.getColumnName(AdminInbox.Columns.CREATED_AT)));
 			result.setUpdatedAt(rs.getTimestamp(AdminInbox.getColumnName(AdminInbox.Columns.UPDATED_AT)));
-		
 			resultList.add(result);
 		}
 			
