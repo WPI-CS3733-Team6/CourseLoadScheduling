@@ -25,7 +25,7 @@ public class HomeHandleMessage {
 	
 	public static enum BodyKey
 	{
-		SENDER_ID, //this is the id of the user attempting to register for a course
+		MESSAGE_ID,
 		DECISION;
 	}
 	

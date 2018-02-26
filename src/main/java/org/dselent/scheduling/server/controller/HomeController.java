@@ -15,8 +15,7 @@ public interface HomeController {
 
 	
 	@RequestMapping(method=RequestMethod.POST, value=Home.REQUEST_NAME)
-	public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws Exception;
-	
+	public ResponseEntity<String> home (@RequestBody Map<String,String> request) throws Exception;
 	
 	@RequestMapping(method=RequestMethod.POST, value=HomeHandleMessage.REQUEST_NAME)
 	public ResponseEntity<String> homeHandleMessage (@RequestBody Map<String,String> request) throws Exception;

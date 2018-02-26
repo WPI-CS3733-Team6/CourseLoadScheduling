@@ -25,7 +25,10 @@ public class ReportProblem {
 	
 	public static enum BodyKey
 	{
-		DESCRIPTION;
+		DESCRIPTION,
+		SUBJECT,
+		SENDER_ID;
+		
 	}
 	
 
