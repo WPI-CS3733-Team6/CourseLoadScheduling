@@ -101,7 +101,6 @@ public class CourseControllerImpl implements CourseController{
 	@Override
 	public ResponseEntity<String> instanceEdit(@RequestBody Map<String,String> request) throws Exception {
 		String response;
-		String placeholder = "derp";
 		
 		String instanceTerm = request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.TERM));
 		Integer courseId = Integer.parseInt(request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.COURSE_ID)));

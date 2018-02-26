@@ -488,6 +488,7 @@ public class CourseServiceImpl implements CourseService {
 						.build();
 				return courseInstanceListDto;
 			}
+			
 			//Else, get department id and search courses bound to it
 			Integer departmentId = results2.get(0).getId();
 			
@@ -574,20 +575,38 @@ public class CourseServiceImpl implements CourseService {
 			queryTermList4.add(courseIdQueryTerm);
 		}
 		
-		List<CourseInstance> finalResults = courseInstanceDao.select(columnNameList4, queryTermList4, orderByList);
+		List<CourseInstance> instanceIdList = courseInstanceDao.select(columnNameList4, queryTermList4, orderByList);
+		
 		ArrayList<Integer> idList = new ArrayList<Integer>();
 		ArrayList<Integer> courseIdList = new ArrayList<Integer>();
 		ArrayList<String> termList = new ArrayList<String>();
 		ArrayList<Integer> sectionNumList = new ArrayList<Integer>();
 		
-		for(int i = 0; i < finalResults.size(); i++) {
-			CourseInstance instance = finalResults.get(i);
-			idList.add(instance.getId());
-			courseIdList.add(instance.getCourseId());
-			termList.add(instance.getTerm());
-			
-			Integer sectionNum = getInstanceSections(instance.getId()).getId().size();
-			sectionNumList.add(sectionNum);
+		//Get all ID of all instances in registration cart
+		ArrayList<String> columnNameList5 = new ArrayList<String>();
+		columnNameList5.addAll(InstructorCourseLinkCart.getColumnNameList());
+		
+		ArrayList<QueryTerm> queryTermList5 = new ArrayList<QueryTerm>();
+		
+		List<InstructorCourseLinkCart> cartInstances = instructorCourseLinkCartDao.select(columnNameList5, queryTermList5, orderByList);
+		List<Integer> cartInstanceIdList = new ArrayList<Integer>();
+		//get id of all instances in cart
+		for (int i = 0; i < cartInstances.size(); i++) {
+			cartInstanceIdList.add(cartInstances.get(i).getInstanceId());
+		}
+		
+		//Add all found instances except the ones already in the registration cart
+		for(int i = 0; i < instanceIdList.size(); i++) {
+			//If instance is in cart, skip it
+			CourseInstance instance = instanceIdList.get(i);
+			if (!cartInstanceIdList.contains(instance.getId())) {
+				idList.add(instance.getId());
+				courseIdList.add(instance.getCourseId());
+				termList.add(instance.getTerm());
+				
+				Integer sectionNum = getInstanceSections(instance.getId()).getId().size();
+				sectionNumList.add(sectionNum);
+			}
 		}
 		
 		CourseInstanceListDto.Builder builder = CourseInstanceListDto.builder();
