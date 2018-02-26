@@ -3,7 +3,6 @@ package org.dselent.scheduling.server.service;
 import java.sql.SQLException;
 
 import org.dselent.scheduling.server.dto.UserInfoDto;
-import org.dselent.scheduling.server.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
