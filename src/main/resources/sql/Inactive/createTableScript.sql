@@ -379,9 +379,8 @@ CREATE TABLE admin_inbox
 CREATE TABLE course_sections_history
 (
 	id serial PRIMARY KEY,
-	section_id integer NOT NULL REFERENCES course_sections(id)
+	section_id integer NOT NULL REFERENCES course_sections(id),
 	instance_id integer NOT NULL REFERENCES course_instance(id) ON DELETE CASCADE,
-	section_num integer NOT NULL,
 	expected_pop integer NOT NULL,
 	updated_at timestamp with time zone NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
@@ -406,8 +405,8 @@ EXECUTE PROCEDURE insert_users_history();
 CREATE FUNCTION insert_course_history() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-INSERT INTO course_sections_history(section_id, instance_id, section_num, expected_pop)
-VALUES(OLD.section_id, OLD.instance_id, OLD.section_num, OLD.expected_pop);
+INSERT INTO course_sections_history(section_id, instance_id, expected_pop)
+VALUES(OLD.id, OLD.instance_id, OLD.expected_pop);
 RETURN NEW;
 END;
 $BODY$

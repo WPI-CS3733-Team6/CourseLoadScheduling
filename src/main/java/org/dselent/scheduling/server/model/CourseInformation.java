@@ -99,7 +99,7 @@ public class CourseInformation extends Model {
 	}
 	
 	public String getCourseDescription() {
-		return courseName;
+		return courseDescription;
 	}
 
 	public void setCourseDescription(String courseDesc) {

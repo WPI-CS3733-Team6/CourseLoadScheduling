@@ -101,6 +101,7 @@ public class CourseControllerImpl implements CourseController{
 	@Override
 	public ResponseEntity<String> instanceEdit(@RequestBody Map<String,String> request) throws Exception {
 		String response;
+		String placeholder = "derp";
 		
 		String instanceTerm = request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.TERM));
 		Integer courseId = Integer.parseInt(request.get(CourseInstanceEdit.getBodyName(CourseInstanceEdit.BodyKey.COURSE_ID)));
@@ -140,7 +141,6 @@ public class CourseControllerImpl implements CourseController{
 	public ResponseEntity<String> courseCreate (@RequestBody Map<String,String> request) throws Exception {
 		String response;
 		
-		Integer courseId = Integer.parseInt(request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_ID)));
 		String courseName = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_NAME));
 		String courseNum = request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.COURSE_NUM));
 		Boolean courseLevel = Boolean.parseBoolean(request.get(CourseCreate.getBodyName(CourseCreate.BodyKey.LEVEL)));
@@ -153,7 +153,6 @@ public class CourseControllerImpl implements CourseController{
 				.withCourse_num(courseNum)
 				.withLevel(courseLevel)
 				.withType(courseType)
-				.withId(courseId)
 				.build();
 		
 		Integer changedRows = courseService.createCourse(courseDto);

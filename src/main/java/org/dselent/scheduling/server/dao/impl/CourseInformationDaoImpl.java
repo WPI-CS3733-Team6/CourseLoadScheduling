@@ -49,10 +49,9 @@ public class CourseInformationDaoImpl extends BaseDaoImpl<CourseInformation> imp
 	@Override
 	public int insert(CourseInformation courseInformationModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
 	{
-		
 		validateColumnNames(insertColumnNameList);
 		validateColumnNames(keyHolderColumnNameList);
-
+		
 		String queryTemplate = QueryStringBuilder.generateInsertString(CourseInformation.TABLE_NAME, insertColumnNameList);
 	    MapSqlParameterSource parameters = new MapSqlParameterSource();
 	    

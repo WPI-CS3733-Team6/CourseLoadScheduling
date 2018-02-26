@@ -285,12 +285,14 @@ public class CourseServiceImpl implements CourseService {
 	
 	public Integer editInstance(CourseInstanceDto newInstance) throws Exception {
 		Integer instanceId = newInstance.getId();
-
+		
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
 		
 		ArrayList<Object> newValueList = new ArrayList<Object>();
 		newValueList.add(newInstance.getTerm());
+		newValueList.add(newInstance.getCourse_id());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
@@ -623,9 +625,13 @@ public class CourseServiceImpl implements CourseService {
 
 		ArrayList<String> columnNameList = new ArrayList<String>();
 		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.EXPECTED_POP));
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.ID));
+		columnNameList.add(CourseSection.getColumnName(CourseSection.Columns.INSTANCE_ID));
 		
 		ArrayList<Object> newValueList = new ArrayList<Object>();
 		newValueList.add(newSection.getExpected_pop());
+		newValueList.add(newSection.getId());
+		newValueList.add(newSection.getInstance_id());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		QueryTerm idQueryTerm = new QueryTerm();
