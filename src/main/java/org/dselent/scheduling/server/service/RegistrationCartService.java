@@ -16,8 +16,8 @@ public interface RegistrationCartService {
 	 * @return A list of the necessary information from referenced courses
 	 * @throws SQLException
 	 */
-	public List<RegistrationCartDto> registrationCart(String user_id) throws SQLException;
+	public List<RegistrationCartDto> registrationCart(Integer user_id) throws SQLException, Exception;
 	
-	public void removeCourse(String user_id, String course_num) throws SQLException;
+	public void removeCourse(Integer user_id, String course_num) throws SQLException;
 
 }
