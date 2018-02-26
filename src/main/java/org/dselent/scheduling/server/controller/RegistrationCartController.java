@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.dselent.scheduling.server.requests.RegistrationCart;
 import org.dselent.scheduling.server.requests.RegistrationCartRemoveCourse;
+import org.dselent.scheduling.server.requests.SubmitCart;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public interface RegistrationCartController {
 	 @RequestMapping(method=RequestMethod.POST, value=RegistrationCartRemoveCourse.REQUEST_NAME)
 	 public ResponseEntity<String> removeCourse (@RequestBody Map<String,String> request) throws Exception;
 	 
-	 @RequestMapping(method=RequestMethod.POST, value=RegistrationCartRemoveCourse.REQUEST_NAME)
+	 @RequestMapping(method=RequestMethod.POST, value=SubmitCart.REQUEST_NAME)
 	 public ResponseEntity<String> submitCart (@RequestBody Map<String,String> request) throws Exception;
 	
 }
