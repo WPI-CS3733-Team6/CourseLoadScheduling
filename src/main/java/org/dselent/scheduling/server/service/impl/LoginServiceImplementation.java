@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dselent.scheduling.server.dao.InstructorsDao;
+import org.dselent.scheduling.server.dao.UserStateDao;
 import org.dselent.scheduling.server.dao.UsersDao;
 import org.dselent.scheduling.server.dto.UserInfoDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
 import org.dselent.scheduling.server.model.Instructor;
 import org.dselent.scheduling.server.model.User;
+import org.dselent.scheduling.server.model.UserState;
 import org.dselent.scheduling.server.service.LoginService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
@@ -27,6 +29,8 @@ public class LoginServiceImplementation implements LoginService{
 	private UsersDao usersDao;
 	@Autowired
 	private InstructorsDao instructorDao;
+	@Autowired
+	private UserStateDao userStateDao;
 	
 	public LoginServiceImplementation() {
 		//
@@ -39,30 +43,65 @@ public class LoginServiceImplementation implements LoginService{
 	public UserInfoDto login(String username, String password) throws Exception {
 		//Confirm that user exists
 		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(User.getColumnName(User.Columns.ENCRYPTED_PASSWORD));
-		columnNameList.add(User.getColumnName(User.Columns.SALT));
+		columnNameList.addAll(User.getColumnNameList());
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
-		QueryTerm userStateQuery = new QueryTerm();
-		userStateQuery.setValue(0);
-		userStateQuery.setColumnName(User.getColumnName(User.Columns.USER_STATE_ID));
-		userStateQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList.add(userStateQuery);
 		
 		QueryTerm usernameQuery = new QueryTerm();
 		usernameQuery.setValue(username);
 		usernameQuery.setColumnName(User.getColumnName(User.Columns.USER_NAME));
 		usernameQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		usernameQuery.setLogicalOperator(LogicalOperator.AND);
 		queryTermList.add(usernameQuery);
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
 		List<User> results = usersDao.select(columnNameList, queryTermList, orderByList);
 		
-		//Check if we only get one user back
-		if (results.size() != 1)
-			throw new Exception("Invalid username");
+		//Check if list is empty
+		//Else return empty
+		if (results.size() == 0) {
+			UserInfoDto.Builder builder = UserInfoDto.builder();
+			UserInfoDto userDto = builder.withUserId(0)
+					.build();
+			return userDto;
+		}
+		
+		//Rule out deleted users
+		List<String> userStateColumnNameList = new ArrayList<String>();
+		userStateColumnNameList.addAll(UserState.getColumnNameList());
+		
+		List<QueryTerm> userStateQueryTermList = new ArrayList<QueryTerm>();
+		QueryTerm deletedQueryTerm = new QueryTerm();
+		deletedQueryTerm.setColumnName(UserState.getColumnName(UserState.Columns.DELETED));
+		deletedQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		deletedQueryTerm.setValue(false);
+		userStateQueryTermList.add(deletedQueryTerm);
+	
+		QueryTerm userStateQueryTerm = new QueryTerm();
+		userStateQueryTerm.setColumnName(UserState.getColumnName(UserState.Columns.ID));
+		userStateQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		userStateQueryTerm.setValue(results.get(0).getUserStateId());
+		userStateQueryTerm.setLogicalOperator(LogicalOperator.AND);
+		userStateQueryTermList.add(userStateQueryTerm);
+		
+		for(int i = 1; i < results.size(); i++) {
+			QueryTerm userStateQueryTerm2 = new QueryTerm();
+			userStateQueryTerm2.setColumnName(UserState.getColumnName(UserState.Columns.ID));
+			userStateQueryTerm2.setComparisonOperator(ComparisonOperator.EQUAL);
+			userStateQueryTerm2.setValue(results.get(i).getUserStateId());
+			userStateQueryTerm2.setLogicalOperator(LogicalOperator.OR);
+			userStateQueryTermList.add(userStateQueryTerm2);
+		}
+		
+		List<UserState> userStateList = userStateDao.select(userStateColumnNameList, userStateQueryTermList, orderByList);
+		//confirm only one user remains
+		//else continue authentication
+		if(userStateList.size() != 1) {
+			UserInfoDto.Builder builder = UserInfoDto.builder();
+			UserInfoDto userDto = builder.withUserId(0)
+					.build();
+			return userDto;
+		}
 		
 		//Get user's encrypted credentials
 		User user = results.get(0);
@@ -72,11 +111,14 @@ public class LoginServiceImplementation implements LoginService{
 		//Encrypt entered password
 		String saltedPassword = password + salt;
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String enteredPassword = passwordEncoder.encode(saltedPassword);
 		
-		//If passwordsdont match throw exception
-		if (!correctPassword.equals(enteredPassword))
-			throw new Exception("Invalid password");
+		//If passwords dont match, return empty
+		if (!passwordEncoder.matches(saltedPassword, correctPassword)) {
+			UserInfoDto.Builder builder = UserInfoDto.builder();
+			UserInfoDto userDto = builder.withUserId(0)
+					.build();
+			return userDto;
+		}
 		
 		//Else, get course requirement and return user info
 		List<String> columnNameList2 = new ArrayList<String>();

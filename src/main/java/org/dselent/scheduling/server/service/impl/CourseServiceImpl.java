@@ -565,8 +565,18 @@ public class CourseServiceImpl implements CourseService {
 			termQueryTerm.setLogicalOperator(LogicalOperator.AND);
 			queryTermList4.add(termQueryTerm);
 		}
-		//Add an OR operator for every courseId
-		for (int i = 0; i < masterCourseIdList.size(); i ++) {
+		
+		//and search for all section IDs
+		if(masterCourseIdList.size() > 0) {
+			QueryTerm courseIdQueryTerm = new QueryTerm();
+			courseIdQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
+			courseIdQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+			courseIdQueryTerm.setValue(masterCourseIdList.get(0));
+			courseIdQueryTerm.setLogicalOperator(LogicalOperator.AND);
+			queryTermList4.add(courseIdQueryTerm);
+		}
+		
+		for (int i = 1; i < masterCourseIdList.size(); i ++) {
 			QueryTerm courseIdQueryTerm = new QueryTerm();
 			courseIdQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
 			courseIdQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
