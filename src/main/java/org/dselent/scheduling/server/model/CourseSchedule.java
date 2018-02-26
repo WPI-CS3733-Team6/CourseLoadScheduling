@@ -16,7 +16,7 @@ public class CourseSchedule extends Model{
 	{
 		ID,
 		SECTION_ID,
-		TYPE,
+		LECTURE_TYPE,
 		MEETING_DAYS,
 		TIME_START,
 		TIME_END,
@@ -39,7 +39,7 @@ public class CourseSchedule extends Model{
 
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.SECTION_ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.TYPE, JDBCType.VARCHAR);
+		COLUMN_TYPE_MAP.put(Columns.LECTURE_TYPE, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.MEETING_DAYS, JDBCType.VARCHAR);
 		COLUMN_TYPE_MAP.put(Columns.TIME_START, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.TIME_END, JDBCType.INTEGER);
@@ -48,7 +48,7 @@ public class CourseSchedule extends Model{
 	};
 
 	// attributes
-	private String type;
+	private String lectureType;
 	private String meetingDays;
 	private Integer timeStart;
 	private Integer timeEnd;
@@ -93,10 +93,10 @@ public class CourseSchedule extends Model{
 		this.sectionId = sectionId;
 	}
 	public String getType() {
-		return type;
+		return lectureType;
 	}
 	public void setType(String type) {
-		this.type = type;
+		this.lectureType = type;
 	}
 	public String getMeetingDays() {
 		return meetingDays;

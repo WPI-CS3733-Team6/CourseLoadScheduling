@@ -190,7 +190,7 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		
 		//Get ID of all found sections-------------------------------------------------------------
 		List<Integer> sectionIdList = new ArrayList<Integer>();
-		for (int i = 0; i < sectionIdList.size(); i++) {
+		for (int i = 0; i < sections.size(); i++) {
 			sectionIdList.add(sections.get(i).getId());
 		}
 		
@@ -234,12 +234,7 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 	public CourseSchedule getScheduleFromSection(Integer section_id) throws Exception {
 		
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.ID));
-		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.SECTION_ID));
-		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE));
-		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.MEETING_DAYS));
-		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_START));
-		columnNameList.add(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_END));
+		columnNameList.addAll(CourseSchedule.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		

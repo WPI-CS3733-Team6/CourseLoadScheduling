@@ -182,7 +182,7 @@ public class CourseScheduleDaoImpl extends BaseDaoImpl<CourseSchedule> implement
     		parameters.addValue(parameterName, courseScheduleModel.getSectionId());
     	}
     	
-    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE)))
+    	else if(insertColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.LECTURE_TYPE)))
     	{
     		parameters.addValue(parameterName, courseScheduleModel.getType());
     	}
@@ -225,7 +225,7 @@ public class CourseScheduleDaoImpl extends BaseDaoImpl<CourseSchedule> implement
     	{
     		courseScheduleModel.setSectionId((Integer) keyMap.get(keyHolderColumnName));
     	}
-    	else if(keyHolderColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE)))
+    	else if(keyHolderColumnName.equals(CourseSchedule.getColumnName(CourseSchedule.Columns.LECTURE_TYPE)))
     	{
     		courseScheduleModel.setType((String) keyMap.get(keyHolderColumnName));
     	}

@@ -26,7 +26,7 @@ public class CourseScheduleExtractor extends Extractor<List<CourseSchedule>> {
 				result.setSectionId(null);
 			}
 			
-			result.setType(rs.getString(CourseSchedule.getColumnName(CourseSchedule.Columns.TYPE)));
+			result.setType(rs.getString(CourseSchedule.getColumnName(CourseSchedule.Columns.LECTURE_TYPE)));
 			result.setMeetingDays(rs.getString(CourseSchedule.getColumnName(CourseSchedule.Columns.MEETING_DAYS)));
 			result.setTimeStart(rs.getInt(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_START)));
 			result.setTimeEnd(rs.getInt(CourseSchedule.getColumnName(CourseSchedule.Columns.TIME_END)));
