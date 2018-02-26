@@ -41,7 +41,7 @@ public class Instructor extends Model{
 	
 	private Integer id;
 	private Integer userId;
-	private Integer reqCourses;
+	private Float reqCourses;
 	
 	// methods
 	
@@ -66,111 +66,71 @@ public class Instructor extends Model{
 		
 		return columnNameList;
 	}
-	
-	public int getId()
-	{
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Integer id)
-	{
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public Integer getUserId()
-	{
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId)
-	{
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
-	public Integer getReqCourses()
-	{
+	public Float getReqCourses() {
 		return reqCourses;
 	}
 
-	public void setReqCourses(Integer reqCourses)
-	{
+	public void setReqCourses(Float reqCourses) {
 		this.reqCourses = reqCourses;
 	}
-	
+
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((reqCourses == null) ? 0 : reqCourses.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((reqCourses == null) ? 0 : reqCourses.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
-	
+
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
-		{
 			return true;
-		}
 		if (obj == null)
-		{
 			return false;
-		}
-		if (!(obj instanceof Instructor))
-		{
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Instructor other = (Instructor) obj;
-		if (userId == null)
-		{
-			if (other.userId != null)
-			{
-				return false;
-			}
-		}
-		else if (!userId.equals(other.userId))
-		{
-			return false;
-		}
-		if (id == null)
-		{
+		if (id == null) {
 			if (other.id != null)
-			{
 				return false;
-			}
-		}
-		else if (!id.equals(other.id))
-		{
+		} else if (!id.equals(other.id))
 			return false;
-		}
-		if (reqCourses == null)
-		{
+		if (reqCourses == null) {
 			if (other.reqCourses != null)
-			{
 				return false;
-			}
-		}
-		else if (!reqCourses.equals(other.reqCourses))
-		{
+		} else if (!reqCourses.equals(other.reqCourses))
 			return false;
-		}
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
 		return true;
 	}
-	
+
 	@Override
-	public String toString()
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("UserStates [id=");
-		builder.append(id);
-		builder.append(", userId=");
-		builder.append(userId);
-		builder.append(", reqCourses=");
-		builder.append(reqCourses);
-		builder.append("]");
-		return builder.toString();
+	public String toString() {
+		return "Instructor [id=" + id + ", userId=" + userId + ", reqCourses=" + reqCourses + "]";
 	}
+
 }

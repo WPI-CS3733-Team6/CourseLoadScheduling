@@ -20,14 +20,7 @@ public class InstructorExtractor extends Extractor<List<Instructor>>
 			
 			result.setId(rs.getInt(Instructor.getColumnName(Instructor.Columns.ID)));
 			result.setUserId(rs.getInt(Instructor.getColumnName(Instructor.Columns.USER_ID)));
-			result.setReqCourses(rs.getInt(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)));
-			
-			if(rs.wasNull())
-			{
-				result.setId(null);
-				result.setUserId(null);
-				result.setReqCourses(null);
-			}
+			result.setReqCourses(rs.getFloat(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)));
 		
 			resultList.add(result);
 		}
