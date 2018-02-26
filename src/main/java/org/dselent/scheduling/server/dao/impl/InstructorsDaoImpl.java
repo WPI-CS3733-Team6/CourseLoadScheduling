@@ -215,7 +215,7 @@ public class InstructorsDaoImpl extends BaseDaoImpl<Instructor> implements Instr
     	}
     	if(keyHolderColumnName.equals(Instructor.getColumnName(Instructor.Columns.REQ_COURSES)))
     	{
-    		instructorModel.setReqCourses((Integer) keyMap.get(keyHolderColumnName));
+    		instructorModel.setReqCourses((Float) keyMap.get(keyHolderColumnName));
     	}
     	else
     	{
