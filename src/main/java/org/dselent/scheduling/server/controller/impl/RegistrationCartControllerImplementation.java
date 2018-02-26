@@ -1,18 +1,19 @@
 package org.dselent.scheduling.server.controller.impl;
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.controller.RegistrationCartController;
 import org.dselent.scheduling.server.dto.RegistrationCartDto;
-import org.springframework.http.ResponseEntity;
+import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.RegistrationCart;
 import org.dselent.scheduling.server.requests.RegistrationCartRemoveCourse;
+import org.dselent.scheduling.server.requests.SubmitCart;
 import org.dselent.scheduling.server.service.RegistrationCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -53,4 +54,18 @@ public class RegistrationCartControllerImplementation implements RegistrationCar
 		
 	}
 
+	@Override
+	public ResponseEntity<String> submitCart (@RequestBody Map<String,String> request) throws Exception {
+		
+		String response = "";
+		List<Object> success = new ArrayList<Object>();
+		
+		Integer userId = Integer.parseInt(request.get(SubmitCart.getBodyName(SubmitCart.BodyKey.USER_ID)));
+		
+		registrationCartService.removeCourse(userId);
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
+		return new ResponseEntity<String>(response, HttpStatus.OK);
+		
+	}
 }

@@ -17,5 +17,8 @@ public interface RegistrationCartController {
 	 
 	 @RequestMapping(method=RequestMethod.POST, value=RegistrationCartRemoveCourse.REQUEST_NAME)
 	 public ResponseEntity<String> removeCourse (@RequestBody Map<String,String> request) throws Exception;
+	 
+	 @RequestMapping(method=RequestMethod.POST, value=RegistrationCartRemoveCourse.REQUEST_NAME)
+	 public ResponseEntity<String> submitCart (@RequestBody Map<String,String> request) throws Exception;
 	
 }

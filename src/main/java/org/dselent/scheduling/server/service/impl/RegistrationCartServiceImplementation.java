@@ -1,6 +1,5 @@
 package org.dselent.scheduling.server.service.impl;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,22 +8,22 @@ import org.dselent.scheduling.server.dao.CourseInformationDao;
 import org.dselent.scheduling.server.dao.CourseInstanceDao;
 import org.dselent.scheduling.server.dao.DepartmentsDao;
 import org.dselent.scheduling.server.dao.InstructorCourseLinkCartDao;
+import org.dselent.scheduling.server.dao.InstructorCourseLinkRegisteredDao;
 import org.dselent.scheduling.server.dao.InstructorsDao;
 import org.dselent.scheduling.server.dto.RegistrationCartDto;
 import org.dselent.scheduling.server.miscellaneous.Pair;
+import org.dselent.scheduling.server.model.CourseInformation;
+import org.dselent.scheduling.server.model.CourseInstance;
+import org.dselent.scheduling.server.model.Instructor;
+import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
+import org.dselent.scheduling.server.model.InstructorCourseLinkRegistered;
 import org.dselent.scheduling.server.service.RegistrationCartService;
 import org.dselent.scheduling.server.sqlutils.ColumnOrder;
 import org.dselent.scheduling.server.sqlutils.ComparisonOperator;
 import org.dselent.scheduling.server.sqlutils.LogicalOperator;
 import org.dselent.scheduling.server.sqlutils.QueryTerm;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.dselent.scheduling.server.model.CourseDepartmentLink;
-import org.dselent.scheduling.server.model.CourseInformation;
-import org.dselent.scheduling.server.model.CourseInstance;
-import org.dselent.scheduling.server.model.Departments;
-import org.dselent.scheduling.server.model.Instructor;
-import org.dselent.scheduling.server.model.InstructorCourseLinkCart;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RegistrationCartServiceImplementation implements RegistrationCartService {
@@ -41,6 +40,8 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 	private CourseDepartmentLinkDao courseDepartmentLinkDao;
 	@Autowired
 	private DepartmentsDao departmentsDao;
+	@Autowired
+	private InstructorCourseLinkRegisteredDao instructorCourseLinkRegisteredDao;
 
 	public RegistrationCartServiceImplementation() {
 		//
@@ -167,7 +168,6 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 	}
 
 	public void removeCourse(Integer instanceId) throws Exception {
-
 		String columnName = "";
 		columnName = InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS);
 
@@ -184,6 +184,74 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 
 	}
 
+	public void submitCart(Integer userId) throws Exception {
+		Integer teacherId = findInstructor(userId);
+
+		//find instances
+		List<String> columnNameList2 = new ArrayList<String>();
+		columnNameList2.addAll(InstructorCourseLinkCart.getColumnNameList());
+
+		List<QueryTerm> queryTermList2 = new ArrayList<>();
+		QueryTerm instructorIdQuery = new QueryTerm();
+		instructorIdQuery.setValue(teacherId);
+		instructorIdQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
+		instructorIdQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList2.add(instructorIdQuery);
+
+		List<Pair<String, ColumnOrder>> orderByList2 = new ArrayList<>();
+
+		List<InstructorCourseLinkCart> cart = instructorCourseLinkCartDao.select(columnNameList2, queryTermList2, orderByList2);
+
+		List<Integer> instanceIds = new ArrayList<Integer>();
+		for (int x = 0; x<cart.size();x++) {
+			instanceIds.add(cart.get(x).getInstanceId());
+		}
+		//remove from courseCart
+		String columnName = "";
+		columnName = InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS);
+
+		Integer newValue = 1;
+
+		List<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+
+		QueryTerm initialCartQuery = new QueryTerm();
+		initialCartQuery.setValue(instanceIds.get(0));
+		initialCartQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID));
+		initialCartQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(initialCartQuery);
+
+		for (int x = 1; x<instanceIds.size()-1;x++) {
+			QueryTerm cartQuery = new QueryTerm();
+			cartQuery.setValue(instanceIds.get(x));
+			cartQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
+			cartQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+			cartQuery.setLogicalOperator(LogicalOperator.OR);
+			queryTermList.add(cartQuery);
+		}
+
+		instructorCourseLinkCartDao.update(columnName, newValue, queryTermList);
+
+		//add to registered
+
+
+		List<String> insertColumnNameList = new ArrayList<>();
+		insertColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTRUCTOR_ID));
+		insertColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.INSTANCE_ID));
+
+		List<String> keyHolderColumnNameList = new ArrayList<>();
+
+		keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.ID));
+		keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.DELETED));
+		keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.CREATED_AT));
+		keyHolderColumnNameList.add(InstructorCourseLinkRegistered.getColumnName(InstructorCourseLinkRegistered.Columns.UPDATED_AT));
+
+		for (int x = 0; x < instanceIds.size(); x++) {
+			InstructorCourseLinkRegistered submission = new InstructorCourseLinkRegistered();
+			submission.setInstanceId(instanceIds.get(x));
+			submission.setInstructorId(teacherId);
+			instructorCourseLinkRegisteredDao.insert(submission, insertColumnNameList, keyHolderColumnNameList);
+		}
+	}
 	//-----Helpers---------------------------------------------------------------------------------
 	public Integer findInstructor(Integer user_id) throws Exception {
 		Integer instructorId = 0;
