@@ -41,28 +41,29 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 	}
 
 	@Override
-	public List<RegistrationCartDto> registrationCart(String user_id) throws SQLException {
+	public List<RegistrationCartDto> registrationCart(Integer user_id) throws Exception {
 		
 		List<RegistrationCartDto> results = new ArrayList<RegistrationCartDto>();
+//		
+//		//find instructor_id of user
+//		List<String> columnNameList = new ArrayList<String>();
+//		columnNameList.add(Instructor.getColumnName(Instructor.Columns.ID));
+//		
+//		List<QueryTerm> queryTermList = new ArrayList<>();
+//		QueryTerm user_idQuery = new QueryTerm();
+//		user_idQuery.setValue(user_id);
+//		user_idQuery.setColumnName(Instructor.getColumnName(Instructor.Columns.USER_ID));
+//		user_idQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+//		queryTermList.add(user_idQuery);
+//		
+//		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+//		
+//		List<Instructor> instructorId = instructorsDao.select(columnNameList, queryTermList, orderByList);
+//		
+//		Instructor clientTeacher = instructorId.get(0);
+//		Integer teacherId = clientTeacher.getId();
 		
-		//find instructor_id of user
-		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(Instructor.getColumnName(Instructor.Columns.ID));
-		
-		List<QueryTerm> queryTermList = new ArrayList<>();
-		QueryTerm user_idQuery = new QueryTerm();
-		user_idQuery.setValue(user_id);
-		user_idQuery.setColumnName(Instructor.getColumnName(Instructor.Columns.USER_ID));
-		user_idQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList.add(user_idQuery);
-		
-		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
-		
-		List<Instructor> instructorId = instructorsDao.select(columnNameList, queryTermList, orderByList);
-		
-		Instructor clientTeacher = instructorId.get(0);
-		Integer teacherId = clientTeacher.getId();
-		
+		Integer teacherId = findInstructor(user_id);
 		//find course cart of user
 		
 		List<String> columnNameList2 = new ArrayList<String>();
@@ -200,7 +201,7 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		return results;
 	}
 	
-	public void removeCourse(String user_id, String course_num) throws SQLException {
+	public void removeCourse(Integer user_id, String course_num) throws SQLException {
 		
 		//find instructor_id of user
 		List<String> columnNameList = new ArrayList<String>();
@@ -314,6 +315,33 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		
 		instructorCourseLinkCartDao.delete(queryTermList7);
 		
+	}
+	
+	//-----Helpers
+	public Integer findInstructor(Integer user_id) throws Exception 
+	{
+		Integer instructorId = 0;
+		
+		List<String> columnNameList = new ArrayList<String>();
+		columnNameList.addAll(Instructor.getColumnNameList());
+		
+		List<QueryTerm> queryTermList = new ArrayList<>();
+		QueryTerm findInstructorQuery = new QueryTerm();
+		findInstructorQuery.setValue(user_id);
+		findInstructorQuery.setColumnName(Instructor.getColumnName(Instructor.Columns.USER_ID));
+		findInstructorQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(findInstructorQuery);
+		
+		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		
+		List<Instructor> results = instructorsDao.select(columnNameList, queryTermList, orderByList);
+		
+		if (results.size() != 1)
+			throw new Exception("Testing");
+		
+		instructorId = results.get(0).getId();
+		
+		return instructorId;
 	}
 
 }

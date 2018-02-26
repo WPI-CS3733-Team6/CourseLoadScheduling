@@ -28,7 +28,7 @@ public class RegistrationCartControllerImplementation implements RegistrationCar
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
 		
-		String user_id = request.get(RegistrationCart.getBodyName(RegistrationCart.BodyKey.USER_ID));
+		Integer user_id = Integer.parseInt(request.get(RegistrationCart.getBodyName(RegistrationCart.BodyKey.USER_ID)));
 		
 		List<RegistrationCartDto> cartList = registrationCartService.registrationCart(user_id);
 		
@@ -44,7 +44,7 @@ public class RegistrationCartControllerImplementation implements RegistrationCar
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
 		
-		String user_id = request.get(RegistrationCartRemoveCourse.getBodyName(RegistrationCartRemoveCourse.BodyKey.USER_ID));
+		Integer user_id = Integer.parseInt(request.get(RegistrationCartRemoveCourse.getBodyName(RegistrationCartRemoveCourse.BodyKey.USER_ID)));
 		String course_num = request.get(RegistrationCartRemoveCourse.getBodyName(RegistrationCartRemoveCourse.BodyKey.COURSE_NUM));
 		
 		registrationCartService.removeCourse(user_id, course_num);
