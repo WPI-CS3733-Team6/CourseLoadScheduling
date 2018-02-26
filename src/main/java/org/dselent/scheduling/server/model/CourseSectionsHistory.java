@@ -16,6 +16,7 @@ public class CourseSectionsHistory extends Model{
 	public static enum Columns
 	{
 		ID,
+		SECTION_ID,
 		INSTANCE_ID,
 		SECTION_NUM,
 		EXPECTED_POP,
@@ -45,6 +46,7 @@ public class CourseSectionsHistory extends Model{
 	// attributes
 	
 	private Integer id;
+	private Integer sectionId;
 	private Integer instanceId;
 	private Integer sectionNum;
 	private Integer expectedPop;
@@ -78,6 +80,14 @@ public class CourseSectionsHistory extends Model{
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(Integer sectionId) {
+		this.sectionId = sectionId;
 	}
 
 	public Integer getInstanceId() {
@@ -119,6 +129,7 @@ public class CourseSectionsHistory extends Model{
 		result = prime * result + ((expectedPop == null) ? 0 : expectedPop.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
+		result = prime * result + ((sectionId == null) ? 0 : sectionId.hashCode());
 		result = prime * result + ((sectionNum == null) ? 0 : sectionNum.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
@@ -148,6 +159,11 @@ public class CourseSectionsHistory extends Model{
 				return false;
 		} else if (!instanceId.equals(other.instanceId))
 			return false;
+		if (sectionId == null) {
+			if (other.sectionId != null)
+				return false;
+		} else if (!sectionId.equals(other.sectionId))
+			return false;
 		if (sectionNum == null) {
 			if (other.sectionNum != null)
 				return false;
@@ -163,7 +179,9 @@ public class CourseSectionsHistory extends Model{
 
 	@Override
 	public String toString() {
-		return "CourseSectionsHistory [id=" + id + ", instanceId=" + instanceId + ", sectionNum=" + sectionNum
-				+ ", expectedPop=" + expectedPop + ", updatedAt=" + updatedAt + "]";
+		return "CourseSectionsHistory [id=" + id + ", sectionId=" + sectionId + ", instanceId=" + instanceId
+				+ ", sectionNum=" + sectionNum + ", expectedPop=" + expectedPop + ", updatedAt=" + updatedAt + "]";
 	}
+
+	
 }
