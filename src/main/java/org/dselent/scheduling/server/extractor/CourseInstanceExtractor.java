@@ -19,10 +19,6 @@ public class CourseInstanceExtractor extends Extractor<List<CourseInstance>>{
 			
 			result.setId(rs.getInt(CourseInstance.getColumnName(CourseInstance.Columns.ID)));
 			
-			if(rs.wasNull()) {
-				result.setId(null);
-			}
-			
 			result.setCourseId(rs.getInt(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID)));
 			result.setTerm(rs.getString(CourseInstance.getColumnName(CourseInstance.Columns.TERM)));
 			

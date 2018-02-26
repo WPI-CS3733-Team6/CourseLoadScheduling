@@ -45,9 +45,7 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 	
 	public ArrayList<CourseInstanceDto> currentCourses(Integer user_id) throws SQLException, Exception {
 		ArrayList<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
-		columnNameList.add(CourseInstance.getColumnName(CourseInstance.Columns.TERM));
+		columnNameList.addAll(InstructorCourseLinkRegistered.getColumnNameList());
 		
 		ArrayList<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
 		
@@ -61,11 +59,40 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		
 		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
 		
-		List<CourseInstance> results = courseInstanceDao.select(columnNameList, queryTermList, orderByList);
+		List<InstructorCourseLinkRegistered> idResults = instructorCourseLinkRegisteredDao.select(columnNameList, queryTermList, orderByList);
+		
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		
+		for (int x = 0; x<idResults.size(); x++) {
+			idList.add(idResults.get(x).getInstanceId());
+		}
+		
+		ArrayList<String> columnNameList2 = new ArrayList<String>();
+		columnNameList2.addAll(CourseInstance.getColumnNameList());
+		
+		ArrayList<QueryTerm> queryTermList2 = new ArrayList<QueryTerm>();
+		
+		QueryTerm courseQueryTerm = new QueryTerm();
+		courseQueryTerm.setValue(idList.get(0));
+		courseQueryTerm.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		courseQueryTerm.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList2.add(courseQueryTerm);
+		
+		for (int x = 1; x<idList.size()-1 ;x++) {
+			QueryTerm courseQueryTerm2 = new QueryTerm();
+			courseQueryTerm2.setValue(idList.get(x));
+			courseQueryTerm2.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+			courseQueryTerm2.setComparisonOperator(ComparisonOperator.EQUAL);
+			queryTermList2.add(courseQueryTerm2);
+		}
+		
+		List<Pair<String, ColumnOrder>> orderByList2 = new ArrayList<>();
+		
+		List<CourseInstance> courseResults = courseInstanceDao.select(columnNameList2, queryTermList2, orderByList2);
 		
 		ArrayList<CourseInstanceDto> courseInstanceDtoList = new ArrayList<CourseInstanceDto>();
-		for(Integer l = 0; l< results.size(); l++) {
-			CourseInstance courseInstance = results.get(l);
+		for(Integer l = 0; l< courseResults.size(); l++) {
+			CourseInstance courseInstance = courseResults.get(l);
 			CourseInstanceDto.Builder builder = CourseInstanceDto.builder();
 			CourseInstanceDto instanceDto = builder.withId(courseInstance.getId())
 					.withTerm(courseInstance.getTerm())
@@ -83,7 +110,7 @@ public class CurrentCoursesServiceImpl implements CurrentCoursesService{
 		Integer instructorId = 0;
 		
 		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(Instructor.getColumnName(Instructor.Columns.ID));
+		columnNameList.addAll(Instructor.getColumnNameList());
 		
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm findInstructorQuery = new QueryTerm();
