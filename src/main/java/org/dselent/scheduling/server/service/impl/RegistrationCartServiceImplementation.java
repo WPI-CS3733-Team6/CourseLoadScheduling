@@ -50,24 +50,7 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 	public List<RegistrationCartDto> registrationCart(Integer user_id) throws Exception {
 
 		List<RegistrationCartDto> results = new ArrayList<RegistrationCartDto>();
-		//		
-		//		//find instructor_id of user
-		//		List<String> columnNameList = new ArrayList<String>();
-		//		columnNameList.add(Instructor.getColumnName(Instructor.Columns.ID));
-		//		
-		//		List<QueryTerm> queryTermList = new ArrayList<>();
-		//		QueryTerm user_idQuery = new QueryTerm();
-		//		user_idQuery.setValue(user_id);
-		//		user_idQuery.setColumnName(Instructor.getColumnName(Instructor.Columns.USER_ID));
-		//		user_idQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		//		queryTermList.add(user_idQuery);
-		//		
-		//		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
-		//		
-		//		List<Instructor> instructorId = instructorsDao.select(columnNameList, queryTermList, orderByList);
-		//		
-		//		Instructor clientTeacher = instructorId.get(0);
-		//		Integer teacherId = clientTeacher.getId();
+		//finds all instances in the cart, finds the needed instance information from tables, finds needed courseInformation from tables, stores everything in lists, returns list of dtos
 
 		Integer teacherId = findInstructor(user_id);
 		//find course cart of user
@@ -221,11 +204,11 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		return results;
 	}
 
-	public void removeCourse(Integer user_id, String course_num) throws SQLException {
+	public void removeCourse(Integer user_id, Integer instanceId) throws SQLException {
 
 		//find instructor_id of user
 		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.add(Instructor.getColumnName(Instructor.Columns.ID));
+		columnNameList.addAll(Instructor.getColumnNameList());
 
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		QueryTerm user_idQuery = new QueryTerm();
@@ -244,7 +227,7 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		//find course cart of user
 
 		List<String> columnNameList2 = new ArrayList<String>();
-		columnNameList2.add(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID));
+		columnNameList2.addAll(InstructorCourseLinkCart.getColumnNameList());
 
 		List<QueryTerm> queryTermList2 = new ArrayList<>();
 		QueryTerm instructorIdQuery = new QueryTerm();
@@ -268,12 +251,12 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		//acquire Courses
 
 		List<String> columnNameList4 = new ArrayList<String>();
-		columnNameList4.add(CourseInformation.getColumnName(CourseInformation.Columns.ID));
+		columnNameList4.addAll(CourseInformation.getColumnNameList());
 
 		List<QueryTerm> queryTermList4 = new ArrayList<>();
 
 		QueryTerm courseInfoQuery = new QueryTerm();
-		courseInfoQuery.setValue(course_num);
+		courseInfoQuery.setValue(instanceId);
 		courseInfoQuery.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
 		courseInfoQuery.setComparisonOperator(ComparisonOperator.EQUAL);
 		queryTermList4.add(courseInfoQuery);
@@ -288,7 +271,7 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		//acquire Instance
 
 		List<String> columnNameList3 = new ArrayList<String>();
-		columnNameList3.add(CourseInstance.getColumnName(CourseInstance.Columns.ID));
+		columnNameList3.addAll(CourseInstance.getColumnNameList());
 
 		List<QueryTerm> queryTermList3 = new ArrayList<>();
 		for(int j = 0; j < instanceIds.size(); j++) {

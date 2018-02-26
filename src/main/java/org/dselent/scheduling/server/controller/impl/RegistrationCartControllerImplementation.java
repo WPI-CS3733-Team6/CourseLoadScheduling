@@ -45,9 +45,9 @@ public class RegistrationCartControllerImplementation implements RegistrationCar
 		List<Object> success = new ArrayList<Object>();
 		
 		Integer user_id = Integer.parseInt(request.get(RegistrationCartRemoveCourse.getBodyName(RegistrationCartRemoveCourse.BodyKey.USER_ID)));
-		String course_num = request.get(RegistrationCartRemoveCourse.getBodyName(RegistrationCartRemoveCourse.BodyKey.COURSE_NUM));
+		Integer instanceId = Integer.parseInt(request.get(RegistrationCartRemoveCourse.getBodyName(RegistrationCartRemoveCourse.BodyKey.COURSE_NUM)));
 		
-		registrationCartService.removeCourse(user_id, course_num);
+		registrationCartService.removeCourse(user_id, instanceId);
 		
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, success);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
