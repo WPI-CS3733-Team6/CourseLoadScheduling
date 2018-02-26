@@ -187,11 +187,6 @@ public class CourseSectionsHistoryDaoImpl  extends BaseDaoImpl<CourseSectionsHis
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getInstanceId());
     	}
-    	
-    	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)))
-    	{
-    		parameters.addValue(parameterName, CourseSectionModel.getSectionNum());
-    	}
     	else if(insertColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)))
     	{
     		parameters.addValue(parameterName, CourseSectionModel.getExpectedPop());
@@ -222,10 +217,6 @@ public class CourseSectionsHistoryDaoImpl  extends BaseDaoImpl<CourseSectionsHis
     	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.INSTANCE_ID)))
     	{
     		CourseSectionModel.setInstanceId((Integer) keyMap.get(keyHolderColumnName));
-    	}
-    	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)))
-    	{
-    		CourseSectionModel.setSectionNum((Integer) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)))
     	{

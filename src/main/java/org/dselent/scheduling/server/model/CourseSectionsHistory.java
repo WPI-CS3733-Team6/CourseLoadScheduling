@@ -18,7 +18,6 @@ public class CourseSectionsHistory extends Model{
 		ID,
 		SECTION_ID,
 		INSTANCE_ID,
-		SECTION_NUM,
 		EXPECTED_POP,
 		UPDATED_AT
 	}
@@ -37,8 +36,8 @@ public class CourseSectionsHistory extends Model{
 		}
 
 		COLUMN_TYPE_MAP.put(Columns.ID, JDBCType.INTEGER);
+		COLUMN_TYPE_MAP.put(Columns.SECTION_ID, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.INSTANCE_ID, JDBCType.INTEGER);
-		COLUMN_TYPE_MAP.put(Columns.SECTION_NUM, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.EXPECTED_POP, JDBCType.INTEGER);
 		COLUMN_TYPE_MAP.put(Columns.UPDATED_AT, JDBCType.TIMESTAMP_WITH_TIMEZONE);
 	};
@@ -48,7 +47,6 @@ public class CourseSectionsHistory extends Model{
 	private Integer id;
 	private Integer sectionId;
 	private Integer instanceId;
-	private Integer sectionNum;
 	private Integer expectedPop;
 	private Timestamp updatedAt;
 	
@@ -98,14 +96,6 @@ public class CourseSectionsHistory extends Model{
 		this.instanceId = instanceId;
 	}
 
-	public Integer getSectionNum() {
-		return sectionNum;
-	}
-
-	public void setSectionNum(Integer sectionNum) {
-		this.sectionNum = sectionNum;
-	}
-
 	public Integer getExpectedPop() {
 		return expectedPop;
 	}
@@ -130,7 +120,6 @@ public class CourseSectionsHistory extends Model{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
 		result = prime * result + ((sectionId == null) ? 0 : sectionId.hashCode());
-		result = prime * result + ((sectionNum == null) ? 0 : sectionNum.hashCode());
 		result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
 	}
@@ -164,11 +153,6 @@ public class CourseSectionsHistory extends Model{
 				return false;
 		} else if (!sectionId.equals(other.sectionId))
 			return false;
-		if (sectionNum == null) {
-			if (other.sectionNum != null)
-				return false;
-		} else if (!sectionNum.equals(other.sectionNum))
-			return false;
 		if (updatedAt == null) {
 			if (other.updatedAt != null)
 				return false;
@@ -180,7 +164,7 @@ public class CourseSectionsHistory extends Model{
 	@Override
 	public String toString() {
 		return "CourseSectionsHistory [id=" + id + ", sectionId=" + sectionId + ", instanceId=" + instanceId
-				+ ", sectionNum=" + sectionNum + ", expectedPop=" + expectedPop + ", updatedAt=" + updatedAt + "]";
+				+ ", expectedPop=" + expectedPop + ", updatedAt=" + updatedAt + "]";
 	}
 
 	

@@ -26,11 +26,9 @@ public class CourseSectionsHistoryExtractor extends Extractor<List<CourseSection
 			
 			result.setInstanceId(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_ID)));
 			result.setInstanceId(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.INSTANCE_ID)));
-			result.setSectionNum(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.SECTION_NUM)));
 			result.setExpectedPop(rs.getInt(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.EXPECTED_POP)));
 			
 			if(rs.wasNull()) {
-				result.setSectionNum(null);
 				result.setExpectedPop(null);
 			}
 			result.setUpdatedAt(rs.getTimestamp(CourseSectionsHistory.getColumnName(CourseSectionsHistory.Columns.UPDATED_AT)));
