@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dselent.scheduling.server.dao.CustomDao;
+import org.dselent.scheduling.server.dao.UserStateDao;
 import org.dselent.scheduling.server.dao.UsersDao;
 import org.dselent.scheduling.server.dao.UsersRolesLinksDao;
 import org.dselent.scheduling.server.dto.RegisterUserDto;
 import org.dselent.scheduling.server.dto.UserInfoDto;
 import org.dselent.scheduling.server.model.User;
+import org.dselent.scheduling.server.model.UserState;
 import org.dselent.scheduling.server.model.UsersRolesLink;
 import org.dselent.scheduling.server.model.ViewAccountInformation;
 import org.dselent.scheduling.server.service.UserService;
@@ -35,6 +37,9 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private CustomDao CustomDao;
 	
+	@Autowired
+	private UserStateDao userStateDao;
+	
 	public UserServiceImpl()
 	{
 		//
@@ -48,6 +53,22 @@ public class UserServiceImpl implements UserService
 	@Override
 	public List<Integer> addUser(RegisterUserDto dto) throws SQLException
 	{
+		//Add entry to user_state table
+		UserState userState = new UserState();
+		userState.setState(false);
+		
+		List<String> userStateColumnNameList = new ArrayList<String>();
+		userStateColumnNameList.add(UserState.getColumnName(UserState.Columns.DELETED));
+		
+		List<String> userStateKeyHolderColumnNameList = new ArrayList<String>();
+		userStateKeyHolderColumnNameList.add(UserState.getColumnName(UserState.Columns.CREATED_AT));
+		userStateKeyHolderColumnNameList.add(UserState.getColumnName(UserState.Columns.ID));
+		userStateKeyHolderColumnNameList.add(UserState.getColumnName(UserState.Columns.UPDATED_AT));
+		
+		//Special case: this function returns the ID of the entry created in database
+		Integer userStateId= userStateDao.insert(userState, userStateColumnNameList, userStateKeyHolderColumnNameList);
+		
+		//Add user itself
 		List<Integer> rowsAffectedList = new ArrayList<>();
 
 		String password = "wpi123";
@@ -66,6 +87,7 @@ public class UserServiceImpl implements UserService
 		user.setUserRole(2);
 		user.setSalt(salt);
 		user.setPhoneNum(dto.getPhoneNum());
+		user.setUserStateId(userStateId);
 
 		List<String> userInsertColumnNameList = new ArrayList<>();
 		List<String> userKeyHolderColumnNameList = new ArrayList<>();

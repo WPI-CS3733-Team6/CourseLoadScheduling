@@ -25,7 +25,7 @@ public class UserStateExtractor extends Extractor<List<UserState>>
 				result.setId(null);
 			}
 			
-			result.setState(rs.getString(UserState.getColumnName(UserState.Columns.DELETED)));
+			result.setState(rs.getBoolean(UserState.getColumnName(UserState.Columns.DELETED)));
 			
 			result.setCreatedAt(rs.getTimestamp(UserState.getColumnName(UserState.Columns.CREATED_AT)));
 			result.setUpdatedAt(rs.getTimestamp(UserState.getColumnName(UserState.Columns.UPDATED_AT)));

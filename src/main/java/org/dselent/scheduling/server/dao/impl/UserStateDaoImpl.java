@@ -54,7 +54,7 @@ public class UserStateDaoImpl extends BaseDaoImpl<UserState> implements UserStat
 		return jdbcTemplate.update(queryTemplate, parameters);//, objectTypeList.toArray());
 	}
 	
-	
+	//Special case: this function returns the ID of the entry created in database
 	@Override
 	public int insert(UserState userStateModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
 	{
@@ -84,7 +84,7 @@ public class UserStateDaoImpl extends BaseDaoImpl<UserState> implements UserStat
 	    	addObjectValue(keyMap, keyHolderColumnName, userStateModel);
 	    }
 	    	    
-	    return rowsAffected;
+	    return userStateModel.getId();
 		
 	}
 	
@@ -187,16 +187,16 @@ public class UserStateDaoImpl extends BaseDaoImpl<UserState> implements UserStat
     		parameters.addValue(parameterName, userStateModel.getId());
     	}
     	
-    	if(insertColumnName.equals(UserState.getColumnName(UserState.Columns.DELETED)))
+    	else if(insertColumnName.equals(UserState.getColumnName(UserState.Columns.DELETED)))
     	{
     		parameters.addValue(parameterName, userStateModel.getState());
     	}
     	
-    	if(insertColumnName.equals(UserState.getColumnName(UserState.Columns.CREATED_AT)))
+    	else if(insertColumnName.equals(UserState.getColumnName(UserState.Columns.CREATED_AT)))
     	{
     		parameters.addValue(parameterName, userStateModel.getCreatedAt());
     	}
-     	if(insertColumnName.equals(UserState.getColumnName(UserState.Columns.UPDATED_AT)))
+    	else if(insertColumnName.equals(UserState.getColumnName(UserState.Columns.UPDATED_AT)))
     	{
     		parameters.addValue(parameterName, userStateModel.getUpdatedAt());
     	}
@@ -217,7 +217,7 @@ public class UserStateDaoImpl extends BaseDaoImpl<UserState> implements UserStat
     	}
     	else if(keyHolderColumnName.equals(UserState.getColumnName(UserState.Columns.DELETED)))
     	{
-    		userStateModel.setState((String) keyMap.get(keyHolderColumnName));
+    		userStateModel.setState((Boolean) keyMap.get(keyHolderColumnName));
     	}
     	else if(keyHolderColumnName.equals(UserState.getColumnName(UserState.Columns.CREATED_AT)))
     	{

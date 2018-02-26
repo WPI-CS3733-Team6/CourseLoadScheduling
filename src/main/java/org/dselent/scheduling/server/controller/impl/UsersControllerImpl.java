@@ -9,7 +9,7 @@ import org.dselent.scheduling.server.dto.RegisterUserDto;
 import org.dselent.scheduling.server.dto.UserInfoDto;
 import org.dselent.scheduling.server.dto.UserInfoUpdateDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
-import org.dselent.scheduling.server.requests.Register;
+import org.dselent.scheduling.server.requests.UserAdd;
 import org.dselent.scheduling.server.requests.UserInfo;
 import org.dselent.scheduling.server.requests.UserInfoUpdate;
 import org.dselent.scheduling.server.service.UserService;
@@ -48,10 +48,10 @@ public class UsersControllerImpl implements UsersController
 		String response = "";
 		List<Object> success = new ArrayList<Object>();
 		
-		String firstName = request.get(Register.getBodyName(Register.BodyKey.FIRST_NAME));
-		String lastName = request.get(Register.getBodyName(Register.BodyKey.LAST_NAME));
-		String email = request.get(Register.getBodyName(Register.BodyKey.EMAIL));
-		Long phoneNum = Long.parseLong(request.get(Register.getBodyName(Register.BodyKey.PHONE_NUM)));
+		String firstName = request.get(UserAdd.getBodyName(UserAdd.BodyKey.FIRST_NAME));
+		String lastName = request.get(UserAdd.getBodyName(UserAdd.BodyKey.LAST_NAME));
+		String email = request.get(UserAdd.getBodyName(UserAdd.BodyKey.EMAIL));
+		Long phoneNum = Long.parseLong(request.get(UserAdd.getBodyName(UserAdd.BodyKey.PHONE_NUM)));
 		
 		String userName = email.replace("@wpi.edu", "");
 

@@ -11,7 +11,7 @@ import java.util.Map;
 public class UserState extends Model
 {
 	// table name
-	public static final String TABLE_NAME = "users_states";
+	public static final String TABLE_NAME = "user_states";
 		
 	// column names
 	public static enum Columns
@@ -44,7 +44,7 @@ public class UserState extends Model
 	// attributes
 	
 	private Integer id;
-	private String deleted;
+	private Boolean deleted;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 
@@ -84,12 +84,12 @@ public class UserState extends Model
 		this.id = id;
 	}
 
-	public String getState()
+	public Boolean getState()
 	{
 		return deleted;
 	}
 
-	public void setState(String state)
+	public void setState(Boolean state)
 	{
 		this.deleted = state;
 	}
