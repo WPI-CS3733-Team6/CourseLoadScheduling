@@ -1,76 +1,92 @@
 package org.dselent.scheduling.server.dto;
 
+import javax.annotation.Generated;
+
 public class RegistrationCartDto {
 	
 	private final String course_name;
 	private final String course_num;
-	private final Integer status;
+	private final Integer instanceId;
 	private final String term;
-	private final String dept_name;
-	
+	@Generated("SparkTools")
 	private RegistrationCartDto(Builder builder) {
-		
 		this.course_name = builder.course_name;
 		this.course_num = builder.course_num;
-		this.status = builder.status;
+		this.instanceId = builder.instanceId;
 		this.term = builder.term;
-		this.dept_name = builder.dept_name;
-		
-		if(this.course_name == null)
-		{
-			throw new IllegalStateException("course_name cannot be null");
-		}
-		if(this.course_num == null)
-		{
-			throw new IllegalStateException("course_num cannot be null");
-		}
-		if(this.status == null)
-		{
-			throw new IllegalStateException("status cannot be null");
-		}
-		if(this.term == null)
-		{
-			throw new IllegalStateException("term cannot be null");
-		}
-		if(this.dept_name == null)
-		{
-			throw new IllegalStateException("dept_name cannot be null");
-		}
-		
 	}
+	/**
+	 * Creates builder to build {@link RegistrationCartDto}.
+	 * @return created builder
+	 */
+	@Generated("SparkTools")
+	public static Builder builder() {
+		return new Builder();
+	}
+	/**
+	 * Builder to build {@link RegistrationCartDto}.
+	 */
+	@Generated("SparkTools")
+	public static final class Builder {
+		private String course_name;
+		private String course_num;
+		private Integer instanceId;
+		private String term;
 
+		private Builder() {
+		}
+
+		public Builder withCourse_name(String course_name) {
+			this.course_name = course_name;
+			return this;
+		}
+
+		public Builder withCourse_num(String course_num) {
+			this.course_num = course_num;
+			return this;
+		}
+
+		public Builder withInstanceId(Integer instanceId) {
+			this.instanceId = instanceId;
+			return this;
+		}
+
+		public Builder withTerm(String term) {
+			this.term = term;
+			return this;
+		}
+
+		public RegistrationCartDto build() {
+			return new RegistrationCartDto(this);
+		}
+	}
 	public String getCourse_name() {
 		return course_name;
 	}
-
 	public String getCourse_num() {
 		return course_num;
 	}
-
-	public Integer getStatus() {
-		return status;
+	public Integer getInstanceId() {
+		return instanceId;
 	}
-
 	public String getTerm() {
 		return term;
 	}
-
-	public String getDept_name() {
-		return dept_name;
+	@Override
+	public String toString() {
+		return "RegistrationCartDto [course_name=" + course_name + ", course_num=" + course_num + ", instanceId="
+				+ instanceId + ", term=" + term + "]";
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((course_name == null) ? 0 : course_name.hashCode());
 		result = prime * result + ((course_num == null) ? 0 : course_num.hashCode());
-		result = prime * result + ((dept_name == null) ? 0 : dept_name.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((instanceId == null) ? 0 : instanceId.hashCode());
 		result = prime * result + ((term == null) ? 0 : term.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -90,15 +106,10 @@ public class RegistrationCartDto {
 				return false;
 		} else if (!course_num.equals(other.course_num))
 			return false;
-		if (dept_name == null) {
-			if (other.dept_name != null)
+		if (instanceId == null) {
+			if (other.instanceId != null)
 				return false;
-		} else if (!dept_name.equals(other.dept_name))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
+		} else if (!instanceId.equals(other.instanceId))
 			return false;
 		if (term == null) {
 			if (other.term != null)
@@ -107,72 +118,7 @@ public class RegistrationCartDto {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "RegistrationCartDto [course_name=" + course_name + ", course_num=" + course_num + ", status=" + status
-				+ ", term=" + term + ", dept_name=" + dept_name + "]";
-	}
 	
-	/**
-	 * Creates builder to build {@link RegisterUserDto}.
-	 * @return created builder
-	 */
-
-	public static Builder builder()
-	{
-		return new Builder();
-	}
 	
-	/**
-	 * Builder to build {@link RegisterUserDto}.
-	 */
-	public static final class Builder {
-		
-		private String course_name;
-		private String course_num;
-		private Integer status;
-		private String term;
-		private String dept_name;
-		
-		private Builder() {
-		}
-		
-		public Builder withCourseName(String course_name)
-		{
-			this.course_name = course_name;
-			return this;
-		}
-		
-		public Builder withCourseNum(String course_num)
-		{
-			this.course_num = course_num;
-			return this;
-		}
-		
-		public Builder withStatus(Integer status)
-		{
-			this.status = status;
-			return this;
-		}
-		
-		public Builder withTerm(String term)
-		{
-			this.term = term;
-			return this;
-		}
-		
-		public Builder withDeptName(String dept_name)
-		{
-			this.dept_name = dept_name;
-			return this;
-		}
-		
-		public RegistrationCartDto build()
-		{
-			return new RegistrationCartDto(this);
-		}
-		
-	}
 	
 }
