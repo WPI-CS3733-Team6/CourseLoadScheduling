@@ -153,44 +153,6 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 			courseNums.add(courseInfoElement.getCourseNum());
 		}
 
-//		//Acquire Department IDs
-//
-//		List<String> columnNameList5 = new ArrayList<String>();
-//		columnNameList5.addAll(CourseDepartmentLink.getColumnNameList());
-//
-//		List<QueryTerm> queryTermList5 = new ArrayList<>();
-//		for(int l = 0; l < courseIds.size(); l++) {
-//			QueryTerm courseDeptLinkQuery = new QueryTerm();
-//			courseDeptLinkQuery.setValue(courseIds.get(l));
-//			courseDeptLinkQuery.setColumnName(CourseDepartmentLink.getColumnName(CourseDepartmentLink.Columns.COURSE_ID));
-//			courseDeptLinkQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-//			queryTermList5.add(courseDeptLinkQuery);
-//		}
-//
-//		List<Pair<String, ColumnOrder>> orderByList5 = new ArrayList<>();
-//
-//		List<CourseDepartmentLink> courseDeptLinkList = courseDepartmentLinkDao.select(columnNameList5, queryTermList5, orderByList5);
-//
-//		//Acquire Department names
-//
-//		List<String> columnNameList6 = new ArrayList<String>();
-//		columnNameList6.add(Departments.getColumnName(Departments.Columns.DEPT_NAME));
-//
-//		List<QueryTerm> queryTermList6 = new ArrayList<>();
-//		for(int l = 0; l < courseDeptLinkList.size(); l++) {
-//			QueryTerm deptNameQuery = new QueryTerm();
-//			deptNameQuery.setValue(courseDeptLinkList.get(l).getDeptId());
-//			deptNameQuery.setColumnName(Departments.getColumnName(Departments.Columns.ID));
-//			deptNameQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-//			queryTermList6.add(deptNameQuery);
-//		}
-//
-//		List<Pair<String, ColumnOrder>> orderByList6 = new ArrayList<>();
-//
-//		List<Departments> deptList = departmentsDao.select(columnNameList6, queryTermList6, orderByList6);
-//
-//		//Transfer into results.
-
 		for(int n = 0; n < cart.size(); n++) {
 			RegistrationCartDto.Builder builder = RegistrationCartDto.builder();
 			RegistrationCartDto courseInCart = builder.withCourse_name(courseNames.get(n))
@@ -204,119 +166,21 @@ public class RegistrationCartServiceImplementation implements RegistrationCartSe
 		return results;
 	}
 
-	public void removeCourse(Integer user_id, Integer instanceId) throws SQLException {
+	public void removeCourse(Integer instanceId) throws Exception {
 
-		//find instructor_id of user
-		List<String> columnNameList = new ArrayList<String>();
-		columnNameList.addAll(Instructor.getColumnNameList());
+		String columnName = "";
+		columnName = InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.STATUS);
 
-		List<QueryTerm> queryTermList = new ArrayList<>();
-		QueryTerm user_idQuery = new QueryTerm();
-		user_idQuery.setValue(user_id);
-		user_idQuery.setColumnName(Instructor.getColumnName(Instructor.Columns.USER_ID));
-		user_idQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList.add(user_idQuery);
+		Integer newValue = 2;
 
-		List<Pair<String, ColumnOrder>> orderByList = new ArrayList<>();
+		List<QueryTerm> queryTermList = new ArrayList<QueryTerm>();
+		QueryTerm cartQuery = new QueryTerm();
+		cartQuery.setValue(instanceId);
+		cartQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID));
+		cartQuery.setComparisonOperator(ComparisonOperator.EQUAL);
+		queryTermList.add(cartQuery);
 
-		List<Instructor> instructorId = instructorDao.select(columnNameList, queryTermList, orderByList);
-
-		Instructor clientTeacher = instructorId.get(0);
-		Integer teacherId = clientTeacher.getId();
-
-		//find course cart of user
-
-		List<String> columnNameList2 = new ArrayList<String>();
-		columnNameList2.addAll(InstructorCourseLinkCart.getColumnNameList());
-
-		List<QueryTerm> queryTermList2 = new ArrayList<>();
-		QueryTerm instructorIdQuery = new QueryTerm();
-		instructorIdQuery.setValue(teacherId);
-		instructorIdQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTRUCTOR_ID));
-		instructorIdQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList2.add(instructorIdQuery);
-
-		List<Pair<String, ColumnOrder>> orderByList2 = new ArrayList<>();
-
-		List<InstructorCourseLinkCart> cart = instructorCourseLinkCartDao.select(columnNameList2, queryTermList2, orderByList2);
-
-		//store
-		List<Integer> instanceIds = new ArrayList<Integer>();
-
-		for(int i = 0; i < cart.size(); i++) {
-			InstructorCourseLinkCart cartElement = cart.get(i);
-			instanceIds.add(cartElement.getInstanceId());
-		}
-
-		//acquire Courses
-
-		List<String> columnNameList4 = new ArrayList<String>();
-		columnNameList4.addAll(CourseInformation.getColumnNameList());
-
-		List<QueryTerm> queryTermList4 = new ArrayList<>();
-
-		QueryTerm courseInfoQuery = new QueryTerm();
-		courseInfoQuery.setValue(instanceId);
-		courseInfoQuery.setColumnName(CourseInformation.getColumnName(CourseInformation.Columns.COURSE_NUM));
-		courseInfoQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-		queryTermList4.add(courseInfoQuery);
-
-		List<Pair<String, ColumnOrder>> orderByList4 = new ArrayList<>();
-
-		List<CourseInformation> courseInfoList = courseInformationDao.select(columnNameList4, queryTermList4, orderByList4);
-
-		//store
-		Integer courseId = courseInfoList.get(0).getId();
-
-		//acquire Instance
-
-		List<String> columnNameList3 = new ArrayList<String>();
-		columnNameList3.addAll(CourseInstance.getColumnNameList());
-
-		List<QueryTerm> queryTermList3 = new ArrayList<>();
-		for(int j = 0; j < instanceIds.size(); j++) {
-			QueryTerm instanceIdQuery = new QueryTerm();
-			instanceIdQuery.setValue(courseId);
-			instanceIdQuery.setColumnName(CourseInstance.getColumnName(CourseInstance.Columns.COURSE_ID));
-			instanceIdQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-			queryTermList3.add(instanceIdQuery);
-		}
-
-		List<Pair<String, ColumnOrder>> orderByList3 = new ArrayList<>();
-
-		List<CourseInstance> instancesList = courseInstanceDao.select(columnNameList3, queryTermList3, orderByList3);
-
-		//store
-		List<Integer> instanceIdsByCourse = new ArrayList<Integer>();
-
-		for(int k = 0; k < instancesList.size(); k++) {
-			CourseInstance instanceElement = instancesList.get(k);
-			instanceIdsByCourse.add(instanceElement.getId());
-		}
-
-		//filter instances
-		List<Integer> filteredInstances = new ArrayList<Integer>();
-		for(int o = 0; o < instanceIdsByCourse.size(); o++) {
-			for(int p = 0; p < instanceIds.size(); p++) {
-				if(instanceIdsByCourse.get(o) == instanceIds.get(p)) {
-					filteredInstances.add(instanceIds.get(p));
-					break;
-				}
-			}
-		}
-
-		//remove courses from cart
-
-		List<QueryTerm> queryTermList7 = new ArrayList<>();
-		for(int q = 0; q < filteredInstances.size(); q++) {
-			QueryTerm filterInstanceQuery = new QueryTerm();
-			filterInstanceQuery.setValue(filteredInstances.get(q));
-			filterInstanceQuery.setColumnName(InstructorCourseLinkCart.getColumnName(InstructorCourseLinkCart.Columns.INSTANCE_ID));
-			filterInstanceQuery.setComparisonOperator(ComparisonOperator.EQUAL);
-			queryTermList7.add(filterInstanceQuery);
-		}
-
-		instructorCourseLinkCartDao.delete(queryTermList7);
+		instructorCourseLinkCartDao.update(columnName, newValue, queryTermList);
 
 	}
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UserAll
 {
 	public static final RequestMethod REQUEST_TYPE = RequestMethod.POST;
-	public static final String REQUEST_NAME = "/info/All";
+	public static final String REQUEST_NAME = "/info/all";
 	private static final List<HeaderKey> HEADER_KEY_LIST;
 	private static final List<ParameterKey> PARAMETER_KEY_LIST;
 	private static final List<BodyKey> BODY_KEY_LIST;

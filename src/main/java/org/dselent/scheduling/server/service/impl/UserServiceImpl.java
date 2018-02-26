@@ -211,8 +211,7 @@ public class UserServiceImpl implements UserService
 	}
 	
 	@Override
-	public List<Integer> userInfoUpdate(Integer userId, String currentPassword, String newPassword, String confirmNewPassword,
-			String preferredEmail, Long phoneNum) throws Exception{
+	public List<Integer> userInfoUpdate(Integer userId, String currentPassword, String newPassword, String confirmNewPassword, String preferredEmail, Long phoneNum) throws Exception{
 		List<Integer> rowsAffectedList = new ArrayList<>();
 		List<QueryTerm> queryTermList = new ArrayList<>();
 		List<Object> newValueList = new ArrayList<>();

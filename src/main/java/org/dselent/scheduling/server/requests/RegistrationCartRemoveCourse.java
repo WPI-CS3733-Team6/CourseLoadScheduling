@@ -29,8 +29,7 @@ public class RegistrationCartRemoveCourse {
 	
 	public static enum BodyKey
 	{
-		USER_ID,
-		COURSE_NUM;
+		INSTANCE_ID;
 	}
 	
 	static

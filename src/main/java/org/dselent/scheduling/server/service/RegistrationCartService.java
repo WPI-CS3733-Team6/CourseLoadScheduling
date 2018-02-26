@@ -18,6 +18,6 @@ public interface RegistrationCartService {
 	 */
 	public List<RegistrationCartDto> registrationCart(Integer user_id) throws SQLException, Exception;
 	
-	public void removeCourse(Integer user_id, Integer instanceId) throws SQLException;
+	public void removeCourse(Integer instanceId) throws SQLException, Exception;
 
 }
