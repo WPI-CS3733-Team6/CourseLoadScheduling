@@ -27,7 +27,11 @@ public class CourseSectionCreate {
 	public static enum BodyKey
 	{
 		INSTANCE_ID,
-		EXPECTED_POP;
+		EXPECTED_POP,
+		LECTURE_TYPE,
+		MEETING_DAYS,
+		TIME_START,
+		TIME_END;
 	}
 	
 	static

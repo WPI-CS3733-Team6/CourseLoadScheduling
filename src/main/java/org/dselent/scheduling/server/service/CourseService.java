@@ -3,8 +3,10 @@ package org.dselent.scheduling.server.service;
 import java.sql.SQLException;
 import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseListDto;
+import org.dselent.scheduling.server.dto.CourseScheduleDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
 import org.dselent.scheduling.server.dto.CourseInstanceListDto;
+import org.dselent.scheduling.server.dto.CourseInstanceSearchResultsDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
 import org.dselent.scheduling.server.dto.CourseSectionListDto;
 import org.springframework.stereotype.Service;
@@ -35,9 +37,9 @@ public interface CourseService {
 	
 	public CourseInstanceListDto getCourseInstances(Integer courseId) throws Exception;
 	
-	public CourseInstanceListDto SearchInstances(String subject, String term, String level) throws Exception;
+	public CourseInstanceSearchResultsDto SearchInstances(String subject, String term, String level) throws Exception;
 	
-	public Integer createSection(CourseSectionDto newSection) throws Exception;
+	public Integer createSection(CourseSectionDto newSection, CourseScheduleDto newSchedule) throws Exception;
 	
 	public Integer editSection(CourseSectionDto newSection) throws Exception;
 	

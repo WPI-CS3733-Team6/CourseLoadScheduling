@@ -6,9 +6,10 @@ import java.util.Map;
 import org.dselent.scheduling.server.controller.CourseController;
 import org.dselent.scheduling.server.dto.CourseDto;
 import org.dselent.scheduling.server.dto.CourseInstanceDto;
-import org.dselent.scheduling.server.dto.CourseInstanceListDto;
 import org.dselent.scheduling.server.dto.CourseListDto;
+import org.dselent.scheduling.server.dto.CourseScheduleDto;
 import org.dselent.scheduling.server.dto.CourseSectionDto;
+import org.dselent.scheduling.server.dto.CourseInstanceSearchResultsDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.CourseCreate;
 import org.dselent.scheduling.server.requests.CourseDetails;
@@ -188,7 +189,19 @@ public class CourseControllerImpl implements CourseController{
 				.withInstance_id(instanceId)
 				.build();
 		
-		Integer changedRows = courseService.createSection(sectionDto);
+		String courseType = request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.LECTURE_TYPE));
+		String meetingDays = request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.MEETING_DAYS));
+		Integer timeStart = Integer.parseInt(request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.TIME_START)));
+		Integer timeEnd = Integer.parseInt (request.get(CourseSectionCreate.getBodyName(CourseSectionCreate.BodyKey.TIME_END)));
+		
+		CourseScheduleDto.Builder builder2 = CourseScheduleDto.builder();
+		CourseScheduleDto scheduleDto = builder2.withLecture_type(courseType)
+				.withMeeting_days(meetingDays)
+				.withTime_start(timeStart)
+				.withTime_end(timeEnd)
+				.build();
+		
+		Integer changedRows = courseService.createSection(sectionDto, scheduleDto);
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, changedRows);
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
@@ -215,13 +228,15 @@ public class CourseControllerImpl implements CourseController{
 		String term = request.get(CourseSearch.getBodyName(CourseSearch.BodyKey.TERM));
 		String level = request.get(CourseSearch.getBodyName(CourseSearch.BodyKey.LEVEL));
 		
-		CourseInstanceListDto instanceList = courseService.SearchInstances(subject, term, level);
+		CourseInstanceSearchResultsDto instanceList = courseService.SearchInstances(subject, term, level);
 		
 		Map<String, Object> keys = new HashMap<String, Object>();
 		keys.put("id", instanceList.getId());
-		keys.put("courseId", instanceList.getCourse_id());
+		keys.put("courseNum", instanceList.getCourse_num());
 		keys.put("term", instanceList.getTerm());
 		keys.put("sectionNum", instanceList.getSectionNo());
+		keys.put("level", instanceList.getLevel());
+		keys.put("subject", instanceList.getSubject());
 		
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
 		return new ResponseEntity<String>(response, HttpStatus.OK);

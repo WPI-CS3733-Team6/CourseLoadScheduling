@@ -45,7 +45,7 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
 		return jdbcTemplate.update(queryTemplate, parameters);//, objectTypeList.toArray());
 	}
 	
-		
+	//Special case: this function returns the ID of the entry created in database
 	@Override
 	public int insert(CourseSection CourseSectionModel, List<String> insertColumnNameList, List<String> keyHolderColumnNameList) throws SQLException
 	{
@@ -74,9 +74,8 @@ public class CourseSectionDaoImpl  extends BaseDaoImpl<CourseSection> implements
 	    {
 	    	addObjectValue(keyMap, keyHolderColumnName, CourseSectionModel);
 	    }
-	    	    
-	    return rowsAffected;
-		
+	    
+	    return CourseSectionModel.getId();
 	}
 	
 	
