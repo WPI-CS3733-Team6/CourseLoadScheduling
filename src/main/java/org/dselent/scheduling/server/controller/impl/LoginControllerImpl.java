@@ -1,6 +1,7 @@
 package org.dselent.scheduling.server.controller.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,16 @@ public class LoginControllerImpl implements LoginController{
 		
 		userInfo = loginService.login(username, password);
 		
+		ArrayList<Object> keys = new ArrayList<Object>();
+		keys.add(userInfo.getFirstName());
+		keys.add(userInfo.getLastName());
+		keys.add(userInfo.getUserName());
+		keys.add(userInfo.getEmail());
+		keys.add(userInfo.getPhoneNum());
+		keys.add(userInfo.getSecondaryEmail());
+		keys.add(userInfo.getReqCourses());
+		
+		/*
 		Map<String, Object> keys = new HashMap<String, Object>();
 		keys.put("userId",userInfo.getUserId());
 		if (userInfo.getUserId() != 0) {
@@ -45,6 +56,7 @@ public class LoginControllerImpl implements LoginController{
 			keys.put("secondaryEmail",userInfo.getSecondaryEmail());
 			keys.put("userName",userInfo.getUserName());
 		}
+		*/
 		
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
 		
