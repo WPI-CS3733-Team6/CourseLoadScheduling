@@ -36,6 +36,7 @@ public class LoginControllerImpl implements LoginController{
 		userInfo = loginService.login(username, password);
 		
 		ArrayList<Object> keys = new ArrayList<Object>();
+		keys.add(userInfo.getUserId());
 		keys.add(userInfo.getFirstName());
 		keys.add(userInfo.getLastName());
 		keys.add(userInfo.getUserName());
