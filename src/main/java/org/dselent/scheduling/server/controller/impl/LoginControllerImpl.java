@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.dselent.scheduling.server.controller.LoginController;
+import org.dselent.scheduling.server.dto.CourseInstanceSearchResultsDto;
 import org.dselent.scheduling.server.dto.UserInfoDto;
 import org.dselent.scheduling.server.miscellaneous.JsonResponseCreator;
 import org.dselent.scheduling.server.requests.Login;
@@ -32,9 +33,7 @@ public class LoginControllerImpl implements LoginController{
 		String username = (request.get(Login.getBodyName(Login.BodyKey.USER_NAME)));
 		String password = (request.get(Login.getBodyName(Login.BodyKey.PASSWORD)));
 		
-		UserInfoDto userInfo;
-		
-		userInfo = loginService.login(username, password);
+		UserInfoDto userInfo = loginService.login(username, password);
 		/*
 		ArrayList<Object> keys = new ArrayList<Object>();
 		keys.add(userInfo.getUserId());
@@ -46,8 +45,9 @@ public class LoginControllerImpl implements LoginController{
 		keys.add(userInfo.getSecondaryEmail());
 		keys.add(userInfo.getReqCourses());
 		*/
-		
+		/*
 		Map<String, Object> keys = new HashMap<String, Object>();
+		
 		keys.put("userId",userInfo.getUserId());
 		if (userInfo.getUserId() != 0) {
 			keys.put("email",userInfo.getEmail());
@@ -58,8 +58,8 @@ public class LoginControllerImpl implements LoginController{
 			keys.put("secondaryEmail",userInfo.getSecondaryEmail());
 			keys.put("userName",userInfo.getUserName());
 		}
-		
-		test.add(keys);
+		*/
+		test.add(userInfo);
 		
 		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, test);
 		
