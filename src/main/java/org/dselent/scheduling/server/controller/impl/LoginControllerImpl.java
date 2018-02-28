@@ -27,6 +27,7 @@ public class LoginControllerImpl implements LoginController{
 	public ResponseEntity<String> login (@RequestBody Map<String,String> request) throws SQLException, Exception {
 		
 		String response = "";
+		ArrayList<Object> test = new ArrayList<Object>();
 		
 		String username = (request.get(Login.getBodyName(Login.BodyKey.USER_NAME)));
 		String password = (request.get(Login.getBodyName(Login.BodyKey.PASSWORD)));
@@ -34,7 +35,7 @@ public class LoginControllerImpl implements LoginController{
 		UserInfoDto userInfo;
 		
 		userInfo = loginService.login(username, password);
-		
+		/*
 		ArrayList<Object> keys = new ArrayList<Object>();
 		keys.add(userInfo.getUserId());
 		keys.add(userInfo.getFirstName());
@@ -44,8 +45,8 @@ public class LoginControllerImpl implements LoginController{
 		keys.add(userInfo.getPhoneNum());
 		keys.add(userInfo.getSecondaryEmail());
 		keys.add(userInfo.getReqCourses());
+		*/
 		
-		/*
 		Map<String, Object> keys = new HashMap<String, Object>();
 		keys.put("userId",userInfo.getUserId());
 		if (userInfo.getUserId() != 0) {
@@ -57,9 +58,10 @@ public class LoginControllerImpl implements LoginController{
 			keys.put("secondaryEmail",userInfo.getSecondaryEmail());
 			keys.put("userName",userInfo.getUserName());
 		}
-		*/
 		
-		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, keys);
+		test.add(keys);
+		
+		response = JsonResponseCreator.getJSONResponse(JsonResponseCreator.ResponseKey.SUCCESS, test);
 		
 		return new ResponseEntity<String>(response, HttpStatus.OK);
 	}
